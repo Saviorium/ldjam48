@@ -1,5 +1,4 @@
 local PlayerController = require "game.player.player_controller"
-
 local log = require "engine.utils.logger" ("drill")
 
 local Drill =
@@ -11,11 +10,14 @@ local Drill =
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
         self.image = image
+        self.image:setTag('dig')
+        self.image:play()
         self.controller = PlayerController(self, UserInputManager)
         self.maxHP = 100
         self.maxFuel = 100
         self.HP = 80
         self.fuel = 80
+        self.gold = 0
         self.circleRange = 4
         self.maxAngles = 45
         self.fuelReduction = 0.01
@@ -28,10 +30,12 @@ function Drill:update(dt)
         self:move(dt)
     end
     self.controller:update(dt)
+    self.image:update(dt)
 end
 
 function Drill:draw()
-    love.graphics.draw(self.image, self.position.x, self.position.y, self.angle, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+    self.image:draw(self.position.x, self.position.y, self.angle, 1, 1, 4, 4)
+    --love.graphics.draw(self.image, self.position.x, self.position.y, self.angle, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
     self:drawDebug()
 end
 
@@ -44,7 +48,7 @@ function Drill:drawDebug()
         love.graphics.setColor(255, 255, 255)
 
         love.graphics.setColor(255, 0, 0)
-        for ind, obj in pairs(self:getCollisionSquares(1, 1)) do
+        for ind, obj in pairs(self:getCollisionSquares(2, 2)) do
             love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
         end
         love.graphics.setColor(255, 255, 255)
@@ -86,7 +90,7 @@ function Drill:getCollisionSquares(searchRadius, searchCellsRadius)
             local qx, qy = i + math.floor(x), j + math.floor(y)
             local len = self.position.dist(Vector(qx, qy), self.position)
             local angle = Vector( math.cos(self.angle) * 10, math.sin(self.angle) * 10):angleTo(Vector(i, j))*180/math.pi
-            if len < self.circleRange + searchRadius and len > self.circleRange and (math.abs(angle) < 90 or math.abs(angle) > 270) then
+            if len < self.circleRange + searchRadius and len > self.circleRange and (math.abs(angle) > 90 and math.abs(angle) < 270) then
                 table.insert(result, Vector(qx, qy))
             end
         end
@@ -95,19 +99,21 @@ function Drill:getCollisionSquares(searchRadius, searchCellsRadius)
 end
 
 function Drill:useVoxels( map )
-    local speedAccum = 0.5
-    local squaresCollidedNum = 1
-    for ind, pos in pairs(self:getCollisionSquares(1, 1)) do
-        local voxel = map:getVoxel(pos)
-        if voxel then
-            speedAccum = speedAccum + voxel.resource.density
-            squaresCollidedNum = squaresCollidedNum + 1
-            map:digVoxel(pos)
+    if self.launched then
+        local sumDensity = 0.5
+        local squaresCollidedNum = 1
+        for ind, pos in pairs(self:getCollisionSquares(2, 2)) do
+            local voxel = map:getVoxel(pos)
+            if voxel then
+                sumDensity = sumDensity + voxel.resource.density
+                squaresCollidedNum = squaresCollidedNum + 1
+                map:digVoxel(pos)
+            end
         end
+        log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)
+        log(3, "Drill density multiplier is " .. (1 - sumDensity / squaresCollidedNum))
+        self.speed = sumDensity > 0 and 0 or self.acceleration
     end
-    log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. speedAccum)
-    log(3, "Drill density multiplier is " .. (1 - speedAccum / squaresCollidedNum))
-    self.speed = self.acceleration * (1 - speedAccum / squaresCollidedNum)
 end
 
 return Drill

@@ -6,11 +6,15 @@ local Label = Class {
     init = function(self, parent, parameters)
         UIobject.init(self, parent, parameters)
         self.text = parameters.text
+        self.getText = parameters.getText
         self.font = parameters.font
     end
 }
 
 function Label:render()
+    if self.getText then
+        self.text = self.getText()
+    end
     if self.font then
         love.graphics.setFont(self.font)
     end

@@ -8,7 +8,7 @@ local World =
     Class {
     init = function(self)
         self.map = Map()
-        self.drill = Drill(100, 100, AssetManager:getImage("drill1"))
+        self.drill = Drill(100, 100, AssetManager:getAnimation("drill"))
         self.voxelSize = config.map.voxelSize
         self.veiwScale = 4
         self.UI = MiningUI(self.drill)

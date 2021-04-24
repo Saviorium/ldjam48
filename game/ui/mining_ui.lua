@@ -19,7 +19,8 @@ local UI =
                     text = "Gold = " .. 0,
                     width = 100,
                     height = 50,
-                    font = font
+                    font = font,
+                    getText = function() return "Gold = " .. (drill.gold > 0 and drill.gold or 0) end,
                 }
             )
         )
@@ -33,7 +34,8 @@ local UI =
                     text = "Fuel = " .. 0,
                     width = 100,
                     height = 50,
-                    font = font
+                    font = font,
+                    getText = function() return "Fuel = " .. (drill.fuel > 0 and math.floor(drill.fuel) or 0) end,
                 }
             )
         )
@@ -63,7 +65,8 @@ local UI =
                     text = "Health = " .. 0,
                     width = 100,
                     height = 50,
-                    font = font
+                    font = font,
+                    getText = function() return "Health = " .. (drill.HP > 0 and drill.HP or 0) end,
                 }
             )
         )
