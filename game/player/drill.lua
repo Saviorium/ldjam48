@@ -100,7 +100,7 @@ end
 
 function Drill:useVoxels( map )
     if self.launched then
-        local sumDensity = 0.5
+        local sumDensity = 0
         local squaresCollidedNum = 1
         for ind, pos in pairs(self:getCollisionSquares(2, 2)) do
             local voxel = map:getVoxel(pos)
