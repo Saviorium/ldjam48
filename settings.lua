@@ -29,4 +29,5 @@ Debug = {
     drawUiDebug = false,
     map = 1,
     chunk = 1,
+    chunkDraw = 0,
 }

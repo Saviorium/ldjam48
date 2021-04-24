@@ -3,24 +3,28 @@ local Resources = {
         id = 1,
         name = "air",
         density = 0,
-        color = { 0, 0, 0, 0 },
+        cost = 0,
+        color = { 0.2, 0.1, 0.0, 1 },
     },
     [2] = {
         id = 2,
         name = "dirt",
-        density = 0.1,
+        density = 0.9,
+        cost = 0,
         color = { 0.5, 0.3, 0.2, 1 },
     },
     [3] = {
         id = 3,
         name = "stone",
-        density = 0.5,
+        density = 0.99,
+        cost = 0,
         color = { 0.7, 0.7, 0.7, 1 },
     },
     [4] = {
         id = 4,
         name = "iron",
-        density = 0.6,
+        density = 0.95,
+        cost = 10,
         color = { 0.8, 0.5, 0.4, 1 },
         generation = {
             frequency = 0.01,
@@ -34,7 +38,8 @@ local Resources = {
     [5] = {
         id = 5,
         name = "gold",
-        density = 0.3,
+        density = 0.8,
+        cost = 1000,
         color = { 1, 0.8, 0.3, 1 },
         generation = {
             frequency = 0.03,
@@ -44,6 +49,13 @@ local Resources = {
                 threshold = 0.95,
             }
         }
+    },
+    [6] = {
+        id = 6,
+        name = "surface",
+        density = 0,
+        cost = 0,
+        color = { 0, 0, 0, 0 },
     },
 }
 

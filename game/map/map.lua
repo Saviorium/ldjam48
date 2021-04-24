@@ -56,7 +56,9 @@ function Map:digVoxel(position)
         log(1, "Error: can't get voxel " .. position:__tostring() .. ", chunk is unloaded")
         return
     end
-    -- chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
+    local voxel = chunk:getVoxel(self:getLocalChunkCoords(position))
+    chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
+    return voxel.quantity * voxel.resource.cost
 end
 
 function Map:getChunk(chunkCoords)
@@ -77,7 +79,7 @@ function Map:getChunkCoords(worldVoxelCoords)
 end
 
 function Map:getLocalChunkCoords(worldVoxelCoords)
-    return Vector(math.floor(worldVoxelCoords.x % self.chunkSize), math.floor(worldVoxelCoords.y % self.chunkSize))
+    return Vector(math.floor(worldVoxelCoords.x % self.chunkSize + 1), math.floor(worldVoxelCoords.y % self.chunkSize + 1))
 end
 
 function Map:update(dt)

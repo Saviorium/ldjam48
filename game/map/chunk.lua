@@ -64,6 +64,26 @@ function Chunk:draw()
         return
     end
     love.graphics.draw(self.image)
+    self.changed:iterateOverVoxels(
+        function(x, y, voxel)
+            love.graphics.setColor(voxel.resource.color)
+            love.graphics.rectangle('fill', x-1, y-1, 1, 1)
+        end
+    )
+    love.graphics.setColor(1,1,1)
+
+    self:debugDraw()
+end
+
+function Chunk:debugDraw()
+    if not Debug or not (Debug.chunkDraw > 0) then
+        return
+    end
+    love.graphics.setColor(0,0,1)
+    love.graphics.setLineWidth(0.1)
+    love.graphics.rectangle('line', 0, 0, self.chunkSize, self.chunkSize)
+    love.graphics.setColor(1,1,1)
+    love.graphics.setLineWidth(1)
 end
 
 return Chunk

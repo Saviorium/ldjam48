@@ -15,7 +15,7 @@ function Mining:draw()
 end
 
 function Mining:update(dt)
-    self.world:update(dt)
+    self.world:update(1/60)
 end
 
 return Mining
