@@ -3,7 +3,7 @@ local PlayerController = require "game.player.player_controller"
 local Drill =
     Class {
     init = function(self, x, y, image)
-        self.speed = 100
+        self.speed = 10
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 0
@@ -13,6 +13,7 @@ local Drill =
         self.maxFuel = 100
         self.HP = 80
         self.fuel = 80
+        self.circleRange = 4
     end
 }
 
@@ -30,8 +31,7 @@ end
 function Drill:drawDebug()
     if Debug.drill > 0 then
         local x, y = self.position.x, self.position.y
-        local cx, cy = self.position.x + math.cos(self.angle)*4, y + math.sin(self.angle)*4
-        love.graphics.circle( 'line', cx, cy, 12)
+        love.graphics.circle( 'line', x, y, self.circleRange)
         love.graphics.setColor(255, 0, 0)
         love.graphics.line(x, y, x + math.cos(self.angle) * 10, y + math.sin(self.angle) * 10)
         love.graphics.setColor(255, 255, 255)
@@ -59,18 +59,25 @@ end
 
 function Drill:getCollisionSquares(searchRadius, searchCellsRadius)
     local result = {}
-    local circleRadius = 3
     local x, y = self.position.x, self.position.y
-    for i = -circleRadius-searchCellsRadius, (circleRadius+searchCellsRadius), 1 do
-        for j = -circleRadius-searchCellsRadius, (circleRadius+searchCellsRadius), 1 do
+    for i = -self.circleRange-searchCellsRadius, (self.circleRange+searchCellsRadius), 1 do
+        for j = -self.circleRange-searchCellsRadius, (self.circleRange+searchCellsRadius), 1 do
             local qx, qy = i + math.floor(x), j + math.floor(y)
             local len = self.position.dist(Vector(qx, qy), self.position)
-            if len < circleRadius + searchRadius and len > circleRadius then
+            if len < self.circleRange + searchRadius and len > self.circleRange then
                 table.insert(result, Vector(qx, qy))
             end
         end
     end
     return result
+end
+
+function Drill:useVoxels( map )
+    self.speed = 0
+    for ind, pos in pairs(self:getCollisionSquares(1, 1)) do
+        self.speed = self.speed + 1 - map:getVoxel(pos)
+        map:digVoxel(pos)
+    end
 end
 
 return Drill

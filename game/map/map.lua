@@ -40,7 +40,7 @@ function Map:setCenter(center)
 end
 
 function Map:getVoxel(position)
-    -- return hardness of that voxel and resources
+    return love.math.random()
 end
 
 function Map:digVoxel(position)

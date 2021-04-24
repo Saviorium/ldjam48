@@ -8,9 +8,9 @@ local World =
     Class {
     init = function(self)
         self.map = Map()
-        self.drill = Drill(100, 100, AssetManager:getImage("drill"))
+        self.drill = Drill(100, 100, AssetManager:getImage("drill1"))
         self.voxelSize = config.map.voxelSize
-        self.veiwScale = 2
+        self.veiwScale = 4
         self.UI = MiningUI(self.drill)
     end
 }
@@ -18,6 +18,7 @@ local World =
 function World:update(dt)
     self.UI:update(dt)
     self.drill:update(dt)
+    self.drill:useVoxels(self.map)
     self.map:setCenter(self.drill:getPosition())
 end
 
