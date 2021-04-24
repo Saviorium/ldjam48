@@ -33,4 +33,28 @@ function ChunkData:iterateOverVoxels(func)
     end
 end
 
+function ChunkData:isEmpty()
+    for i, row in pairs(self.voxels) do
+        for j, voxel in pairs(row) do
+            return false
+        end
+    end
+    return true
+end
+
+function ChunkData:getMerged(newData)
+    local mergedData = ChunkData()
+    self:iterateOverVoxels(
+        function(x, y, voxel)
+            mergedData:setVoxel(Vector(x, y), voxel)
+        end
+    )
+    newData:iterateOverVoxels(
+        function(x, y, voxel)
+            mergedData:setVoxel(Vector(x, y), voxel)
+        end
+    )
+    return mergedData
+end
+
 return ChunkData

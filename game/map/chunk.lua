@@ -53,9 +53,8 @@ function Chunk:generateImage()
     return image
 end
 
-function Chunk:update(dt)
-    -- load/unload chunks here?
-    -- or send/receive chunks to thread?
+function Chunk:destroy()
+    self.image:release()
 end
 
 function Chunk:draw()

@@ -14,7 +14,6 @@ config = {
     map = {
         chunkSize = 64,
         renderRadius = 4, -- in chunks
-        unloadChunksRadius = 7,
     }
 }
 
@@ -28,6 +27,7 @@ Debug = {
     drill = 1,
     drawUiDebug = false,
     map = 1,
+    mapDraw = 0,
     chunk = 1,
     chunkDraw = 0,
 }

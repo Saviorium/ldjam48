@@ -21,12 +21,15 @@ function MapGenerator:getChunk(chunkPosition, chunkDiff)
     if not chunkDiff then
         chunkDiff = ChunkData()
     end
-    local chunk = Chunk(chunkDiff)
+    local chunk = Chunk()
     for i = 1, self.chunkSize, 1 do
         for j = 1, self.chunkSize, 1 do
             local voxelLocalPos = Vector(i, j)
-            if chunkDiff:getVoxel(voxelLocalPos) == nil then
+            local savedVoxel = chunkDiff:getVoxel(voxelLocalPos)
+            if savedVoxel == nil then
                 chunk:setVoxel(voxelLocalPos, self:generateVoxel(self:getGlobalVoxelCoords(chunkPosition, voxelLocalPos)))
+            else
+                chunk:setVoxel(voxelLocalPos, chunkDiff:getVoxel(voxelLocalPos))
             end
         end
     end
