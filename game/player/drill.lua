@@ -25,10 +25,25 @@ end
 function Drill:drawDebug()
     if Debug.drill > 0 then
         local x, y = self.position.x, self.position.y
-        love.graphics.circle( 'line', x, y, 3)
+        local circleRadius = 3
+        local searchRadius = 1
+        love.graphics.circle( 'line', x, y, circleRadius)
         love.graphics.setColor(255, 0, 0)
         love.graphics.line(x, y, x + math.cos(self.angle) * 10, y + math.sin(self.angle) * 10)
         love.graphics.setColor(255, 255, 255)
+
+        love.graphics.setColor(255, 0, 0)
+        for i = -circleRadius-searchRadius, (circleRadius+searchRadius), 1 do
+            for j = -circleRadius-searchRadius, (circleRadius+searchRadius), 1 do
+                local qx, qy = i + math.floor(x), j + math.floor(y)
+                local len = self.position.dist(Vector(qx, qy), self.position)
+                if len < circleRadius + searchRadius and len > circleRadius then
+                    love.graphics.rectangle( 'fill', qx, qy, 1, 1)
+                end
+            end
+        end
+        love.graphics.setColor(255, 255, 255)
+
     end
 end
 

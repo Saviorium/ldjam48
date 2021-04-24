@@ -3,7 +3,7 @@ local World =
     init = function(self)
         self.map = nil
         self.drill = Drill(100, 100, AssetManager:getImage("drill"))
-        self.veiwScale = 2
+        self.veiwScale = 4
     end
 }
 
