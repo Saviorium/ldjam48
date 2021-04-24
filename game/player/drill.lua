@@ -30,8 +30,8 @@ end
 function Drill:drawDebug()
     if Debug.drill > 0 then
         local x, y = self.position.x, self.position.y
-        
-        love.graphics.circle( 'line', x, y, 12)
+        local cx, cy = self.position.x + math.cos(self.angle)*4, y + math.sin(self.angle)*4
+        love.graphics.circle( 'line', cx, cy, 12)
         love.graphics.setColor(255, 0, 0)
         love.graphics.line(x, y, x + math.cos(self.angle) * 10, y + math.sin(self.angle) * 10)
         love.graphics.setColor(255, 255, 255)
