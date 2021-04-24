@@ -21,6 +21,7 @@ globals = {
   "Debug",
   "vardump",
   -- utils
+  "Utils",
   math = {
     fields = {
       "clamp"

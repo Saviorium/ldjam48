@@ -1,5 +1,5 @@
 require "settings"
-require "engine.utils.utils"
+Utils = require "engine.utils.utils"
 Vector = require "lib.hump.vector"
 Class = require "lib.hump.class"
 
