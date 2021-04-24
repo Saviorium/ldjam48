@@ -57,8 +57,12 @@ function Map:digVoxel(position)
         return
     end
     local voxel = chunk:getVoxel(self:getLocalChunkCoords(position))
-    chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
-    return voxel.quantity * voxel.resource.cost
+    local damageToVoxel = math.clamp(0, 1 - voxel.resource.density, 1)
+    voxel.health = voxel.health - damageToVoxel
+    if voxel.health <= 0 then
+        chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
+    end
+    return damageToVoxel * voxel.resource.cost
 end
 
 function Map:getChunk(chunkCoords)

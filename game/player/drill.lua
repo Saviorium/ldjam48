@@ -103,11 +103,11 @@ function Drill:useVoxels( map )
         local sumDensity = 0
         local squaresCollidedNum = 1
         for ind, pos in pairs(self:getCollisionSquares(2, 2)) do
+            map:digVoxel(pos)
             local voxel = map:getVoxel(pos)
             if voxel then
                 sumDensity = sumDensity + voxel.resource.density
                 squaresCollidedNum = squaresCollidedNum + 1
-                map:digVoxel(pos)
             end
         end
         log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)

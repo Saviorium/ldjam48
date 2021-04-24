@@ -1,8 +1,7 @@
 local Voxel = Class {
-    init = function(self, resource, quantity)
+    init = function(self, resource, health)
         self.resource = resource
-        self.quantity = quantity
+        self.health = health
     end
 }
-
 return Voxel
