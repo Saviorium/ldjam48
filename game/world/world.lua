@@ -22,8 +22,6 @@ function World:update(dt)
 end
 
 function World:draw()
-    self.UI:draw()
-
 	local cx,cy = love.graphics.getWidth()/2, love.graphics.getHeight()/2
 	love.graphics.push()
 	love.graphics.translate(cx,cy)
@@ -34,6 +32,7 @@ function World:draw()
 
 	love.graphics.pop()
 
+    self.UI:draw()
 end
 
 function World:keypressed(key)
