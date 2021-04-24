@@ -9,6 +9,12 @@ config = {
         pairs = {
             move = {'left', 'right', 'up', 'down'}
         },
+    },
+    map = {
+        chunkSize = 64,
+        voxelSize = 4,
+        renderRadius = 2, -- in chunks
+        unloadChunksRadius = 7,
     }
 }
 
@@ -21,4 +27,6 @@ Debug = {
     ShowFps = 0,
     drill = 1,
     drawUiDebug = true,
+    map = 3,
+    chunk = 0,
 }

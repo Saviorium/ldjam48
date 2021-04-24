@@ -1,9 +1,9 @@
 local PlayerController = require "game.player.player_controller"
 
-Drill =
+local Drill =
     Class {
     init = function(self, x, y, image)
-        self.speed = 10
+        self.speed = 100
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 0
@@ -58,6 +58,10 @@ end
 
 function Drill:turn( direction )
     self.angle = self.angle + self.rotationSpeed * direction
+end
+
+function Drill:getPosition()
+    return self.position
 end
 
 return Drill

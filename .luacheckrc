@@ -29,4 +29,5 @@ globals = {
   },
 
   -- game
+  "Resources"
 }
