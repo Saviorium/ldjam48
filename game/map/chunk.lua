@@ -3,11 +3,11 @@ local ChunkData = require "game.map.chunk_data"
 local log = require "engine.utils.logger"("chunk")
 
 local Chunk = Class {
-    init = function(self, chunkDiff)
+    init = function(self)
         self.image = nil
         self.data = ChunkData()
         self.chunkSize = config.map.chunkSize
-        self.changed = chunkDiff or ChunkData() -- only changed voxels
+        self.changed = ChunkData() -- only changed voxels
         self.finalized = false
     end
 }

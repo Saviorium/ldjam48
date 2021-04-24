@@ -1,4 +1,5 @@
 local MapGenerator = require "game.map.map_generator"
+local Voxel = require "game.map.voxel"
 
 local log = require "engine.utils.logger"("map")
 
@@ -36,16 +37,32 @@ function Map:setCenter(center)
         end
     end
     -- for each chunk in cache check if it outside self.unloadChunkRadius and unload it
+    -- merge new chunkDiff into saved
     -- save unloaded chunks
 end
 
 function Map:getVoxel(position)
-    return love.math.random()
+    local chunk = self:getChunk(self:getChunkCoords(position))
+    if not chunk then
+        log(1, "Error: can't get voxel " .. position:__tostring() .. ", chunk is unloaded")
+        return
+    end
+    return chunk:getVoxel(self:getLocalChunkCoords(position))
 end
 
 function Map:digVoxel(position)
-    -- mark that voxel as dug out
-    -- prepare to draw that pixel
+    local chunk = self:getChunk(self:getChunkCoords(position))
+    if not chunk then
+        log(1, "Error: can't get voxel " .. position:__tostring() .. ", chunk is unloaded")
+        return
+    end
+    -- chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
+end
+
+function Map:getChunk(chunkCoords)
+    if self.chunkCache[chunkCoords.x] and self.chunkCache[chunkCoords.x][chunkCoords.y] then
+        return self.chunkCache[chunkCoords.x][chunkCoords.y]
+    end
 end
 
 function Map:getChangedChunk(chunkCoords)
@@ -57,6 +74,10 @@ end
 function Map:getChunkCoords(worldVoxelCoords)
     local chunkPos = worldVoxelCoords / self.chunkSize
     return Vector(math.floor(chunkPos.x), math.floor(chunkPos.y))
+end
+
+function Map:getLocalChunkCoords(worldVoxelCoords)
+    return Vector(math.floor(worldVoxelCoords.x % self.chunkSize), math.floor(worldVoxelCoords.y % self.chunkSize))
 end
 
 function Map:update(dt)

@@ -24,8 +24,8 @@ settings = {
 Debug = {
     LogLevel = 3,
     ShowFps = 0,
-    drill = 1,
+    drill = 2,
     drawUiDebug = false,
-    map = 0,
-    chunk = 0,
+    map = 1,
+    chunk = 1,
 }

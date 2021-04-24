@@ -1,10 +1,12 @@
 local PlayerController = require "game.player.player_controller"
 
+local log = require "engine.utils.logger" ("drill")
+
 local Drill =
     Class {
     init = function(self, x, y, image)
         self.speed = 0
-        self.acceleration = 2
+        self.acceleration = 50
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 0
@@ -82,11 +84,19 @@ function Drill:getCollisionSquares(searchRadius, searchCellsRadius)
 end
 
 function Drill:useVoxels( map )
-    self.speed = 0
+    local speedAccum = 0.5
+    local squaresCollidedNum = 1
     for ind, pos in pairs(self:getCollisionSquares(1, 1)) do
-        self.speed = self.speed + self.acceleration - map:getVoxel(pos)
-        map:digVoxel(pos)
+        local voxel = map:getVoxel(pos)
+        if voxel then
+            speedAccum = speedAccum + voxel.resource.density
+            squaresCollidedNum = squaresCollidedNum + 1
+            map:digVoxel(pos)
+        end
     end
+    log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. speedAccum)
+    log(3, "Drill density multiplier is " .. (1 - speedAccum / squaresCollidedNum))
+    self.speed = self.acceleration * (1 - speedAccum / squaresCollidedNum)
 end
 
 return Drill
