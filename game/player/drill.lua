@@ -30,7 +30,7 @@ function Drill:drawDebug()
     if Debug.drill > 0 then
         local x, y = self.position.x, self.position.y
         local circleRadius = 3
-        local searchRadius = 1 
+        local searchRadius = 1
         local searchCellsRadius = 1
         love.graphics.circle( 'line', x, y, circleRadius)
         love.graphics.setColor(255, 0, 0)

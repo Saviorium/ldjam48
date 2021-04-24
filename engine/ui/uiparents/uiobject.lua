@@ -1,7 +1,7 @@
 Class = require "lib.hump.class"
 -- Абстрактный класс любого атомарного объекта для UI, сожержит зародыши умений объектов, такие как DragAndDrop и Кликабельность, также позиционирование
--- 
-UIobject = Class {
+
+local UIobject = Class {
     init = function(self, parent, parameters)
 
         self.parent = parent
@@ -13,22 +13,22 @@ UIobject = Class {
         self.keyInteraction     = parameters.keyInteraction or {}
 
 
-        self:addMousePressedEvent(   'mouspressed', 
+        self:addMousePressedEvent(   'mouspressed',
                                 function (object, x, y) return true end,
                                 self.mousepressed
         )
 
-        self:addMouseReleasedEvent(  'mousereleased', 
+        self:addMouseReleasedEvent(  'mousereleased',
                                 function (object, x, y) return true end,
                                 self.mousereleased
         )
-        
-        self:addWheelMovedEvent(     'wheelmoved', 
+
+        self:addWheelMovedEvent(     'wheelmoved',
                                 function (object, x, y) return true end,
                                 self.wheelmoved
-        )   
-        
-        self:addKeyPressedEvent(     'keypressed', 
+        )
+
+        self:addKeyPressedEvent(     'keypressed',
                                 function (object, x, y) return true end,
                                 self.keypressed
         )
@@ -54,9 +54,9 @@ UIobject = Class {
         if self.columns > 1 or self.rows > 1 then
             for ind = 0, self.columns * self.rows - 1, 1 do
                 local x = (self.cell_width + self.margin) * (ind % self.columns)
-                local y = (self.cell_height + self.margin) * (ind/self.columns - (ind / self.columns)%1) 
+                local y = (self.cell_height + self.margin) * (ind/self.columns - (ind / self.columns)%1)
                 self:registerNewObject(ind, {fixedX = x, fixedY = y}, {width = self.cell_width, height = self.cell_height}, self)
-            end 
+            end
         end
         if parent then
             print(self.height, self.parent.height, self.parent.tag, self.tag)
@@ -70,8 +70,8 @@ function UIobject:registerNewObject(index, position, parameters, parent)
     if (self.rows == 1 and self.columns == 1) or not(position.row and position.column) then
         self:calculateCoordinatesAndWriteToObject(position)
         object.x, object.y = position.x, position.y
-        self.objects[index] = { 
-                                position = position, 
+        self.objects[index] = {
+                                position = position,
                                 parameters = parameters,
                                 entity = object,
                               }
@@ -86,8 +86,8 @@ function UIobject:registerObject(index, position, object)
     if (self.rows == 1 and self.columns == 1) or not(position.row and position.column) then
         self:calculateCoordinatesAndWriteToObject(position)
         object.x, object.y = position.x, position.y
-        self.objects[index] = { 
-                                position = position, 
+        self.objects[index] = {
+                                position = position,
                                 parameters = nil,
                                 entity = object,
                               }
@@ -99,7 +99,7 @@ function UIobject:registerObject(index, position, object)
             self.objects[ind].entity:registerObject(index, position, object)
         else
             local x = (self.cell_width + self.margin) * (ind % self.columns)
-            local y = (self.cell_height + self.margin) * (ind/self.columns - (ind / self.columns)%1) 
+            local y = (self.cell_height + self.margin) * (ind/self.columns - (ind / self.columns)%1)
             self:registerNewObject(ind, {fixedX = x, fixedY = y}, {width = self.cell_width, height = self.cell_height}, self)
             self.objects[ind].entity:registerObject(index, position, object)
         end
@@ -169,7 +169,7 @@ function UIobject:calculatePositionWithAlign(position, x, y)
 end
 
 function UIobject:calculateCoordinatesAndWriteToObject(position)
-    position.x, position.y = 0, 0 
+    position.x, position.y = 0, 0
     for ind, func in pairs(self.calculatePositionMethods) do
         position.x, position.y = func(self, position, position.x, position.y)
     end
@@ -185,8 +185,8 @@ function UIobject:drawCells(color)
     local cell_height = (self.height - self.margin*(self.rows-1))/self.rows
     love.graphics.setColor( color.r, color.g, color.b, 1 )
     for ind = 0, self.columns * self.rows - 1, 1 do
-        x = (cell_width + self.margin) * (ind % self.columns)
-        y = (cell_height + self.margin) * (ind/self.columns - (ind / self.columns)%1) 
+        local x = (cell_width + self.margin) * (ind % self.columns)
+        local y = (cell_height + self.margin) * (ind/self.columns - (ind / self.columns)%1)
         love.graphics.rectangle( 'line', x, y, cell_width, cell_height )
     end
     love.graphics.setColor( 1, 1, 1, 1 )
@@ -236,11 +236,11 @@ function UIobject:draw()
     self:render()
     for _, object in pairs(self.objects) do
         local transform = love.math.newTransform()
-        transform = transform:translate(object.position.x - ( object.position.align and object.entity.width/2 or 0), 
+        transform = transform:translate(object.position.x - ( object.position.align and object.entity.width/2 or 0),
                                         object.position.y - ( object.position.align and object.entity.height/2 or 0))
         love.graphics.applyTransform( transform )
         object.entity:draw()
-        inverse = transform:inverse()
+        local inverse = transform:inverse()
         love.graphics.applyTransform( inverse )
     end
     if Debug.drawUiDebug then
@@ -289,7 +289,7 @@ function UIobject:mousereleased(x, y)
                       object.position.y - ( object.position.align and object.entity.height/2 or 0)
         for funcName, callback in pairs(targetObject.releaseInteraction) do
             if callback.condition(targetObject, x, y) then
-                x, y = gx - lx, gy - ly        
+                x, y = gx - lx, gy - ly
                 callback.func(targetObject, x, y)
             end
         end

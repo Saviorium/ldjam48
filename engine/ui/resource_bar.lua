@@ -9,7 +9,7 @@ Class {
         parameters.width = parameters.width or 20
 
         UIobject.init(self, parent, parameters)
-        
+
         self.height = parent.width
         self.color = parameters.color
         self.bgColor = parameters.bgColor

@@ -1,7 +1,7 @@
 local UIobject = require "engine.ui.uiparents.uiobject"
 
 -- Просто лейбл, для удобства выписывания всякого и для единообразности объектов в UI
-Label = Class {
+local Label = Class {
     __includes = UIobject,
     init = function(self, parent, parameters)
         UIobject.init(self, parent, parameters)

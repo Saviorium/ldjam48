@@ -1,3 +1,4 @@
+local World = require "game.world.world"
 
 local Mining = {}
 

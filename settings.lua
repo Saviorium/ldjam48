@@ -27,6 +27,6 @@ Debug = {
     ShowFps = 0,
     drill = 1,
     drawUiDebug = true,
-    map = 3,
+    map = 0,
     chunk = 0,
 }

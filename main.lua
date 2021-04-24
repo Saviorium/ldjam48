@@ -6,9 +6,6 @@ Class = require "lib.hump.class"
 Debug = require "engine.utils.debug"
 serpent = require "lib.serpent.serpent"
 
-World = require "game.world.world"
-Drill = require "game.player.drill"
-
 StateManager = require "lib.hump.gamestate"
 
 AssetManager = require "engine.utils.asset_manager"

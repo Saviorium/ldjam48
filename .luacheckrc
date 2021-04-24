@@ -16,8 +16,10 @@ globals = {
   -- engine
   "StateManager",
   "AssetManager",
+  "UserInputManager",
   "states",
   "config",
+  "settings",
   "Debug",
   "vardump",
   -- utils
@@ -29,5 +31,6 @@ globals = {
   },
 
   -- game
-  "Resources"
+  "Resources",
+  "fonts",
 }

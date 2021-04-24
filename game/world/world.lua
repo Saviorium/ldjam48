@@ -1,4 +1,5 @@
 Resources = require "game.map.resources" -- yes, global
+local Drill = require "game.player.drill"
 local Map = require "game.map.map"
 
 local MiningUI = require "game.ui.mining_ui"
@@ -10,7 +11,6 @@ local World =
         self.drill = Drill(100, 100, AssetManager:getImage("drill"))
         self.voxelSize = config.map.voxelSize
 
-        local font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
         self.UI = MiningUI(self.drill)
     end
 }
