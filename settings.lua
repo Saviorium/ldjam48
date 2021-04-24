@@ -20,4 +20,5 @@ Debug = {
     LogLevel = 3,
     ShowFps = 0,
     drill = 1,
+    drawUiDebug = true,
 }

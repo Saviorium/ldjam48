@@ -20,6 +20,12 @@ states = {
     mining = require "game.states.mining"
 }
 
+fonts = {
+    smolPixelated = { file = "data/fonts/m3x6.ttf", size = 16},
+    bigPixelated = { file = "data/fonts/m3x6.ttf", size = 32},
+}
+
+
 function love.load()
     AssetManager:load("data")
     StateManager.switch(states.mining)
