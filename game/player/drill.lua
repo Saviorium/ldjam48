@@ -22,6 +22,7 @@ local Drill =
         self.maxAngles = 45
         self.fuelReduction = 0.01
         self.launched = false
+        self.damage = 30
     end
 }
 
@@ -47,8 +48,13 @@ function Drill:drawDebug()
         love.graphics.line(x, y, x + math.cos(self.angle) * 10, y + math.sin(self.angle) * 10)
         love.graphics.setColor(255, 255, 255)
 
+        love.graphics.setColor(255, 255, 0)
+        for ind, obj in pairs(self:getCollisionSquares(1, 1, 0, 0)) do
+            love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
+        end
+        love.graphics.setColor(255, 255, 255)
         love.graphics.setColor(255, 0, 0)
-        for ind, obj in pairs(self:getCollisionSquares(2, 2)) do
+        for ind, obj in pairs(self:getCollisionSquares(1, 1)) do
             love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
         end
         love.graphics.setColor(255, 255, 255)
@@ -82,15 +88,17 @@ function Drill:getPosition()
     return self.position
 end
 
-function Drill:getCollisionSquares(searchRadius, searchCellsRadius)
+function Drill:getCollisionSquares(searchRadius, searchCellsRadius, minRadius, sideDegrees )
     local result = {}
     local x, y = self.position.x, self.position.y
+    local minRad = minRadius or self.circleRange
+    local degrees = sideDegrees or 110
     for i = -self.circleRange-searchCellsRadius, (self.circleRange+searchCellsRadius), 1 do
         for j = -self.circleRange-searchCellsRadius, (self.circleRange+searchCellsRadius), 1 do
             local qx, qy = i + math.floor(x), j + math.floor(y)
             local len = self.position.dist(Vector(qx, qy), self.position)
             local angle = Vector( math.cos(self.angle) * 10, math.sin(self.angle) * 10):angleTo(Vector(i, j))*180/math.pi
-            if len < self.circleRange + searchRadius and len > self.circleRange and (math.abs(angle) > 90 and math.abs(angle) < 270) then
+            if len < self.circleRange + searchRadius and len > minRad and (math.abs(angle) > degrees and math.abs(angle) < (360 - degrees)) then
                 table.insert(result, Vector(qx, qy))
             end
         end
@@ -102,12 +110,17 @@ function Drill:useVoxels( map )
     if self.launched then
         local sumDensity = 0
         local squaresCollidedNum = 1
-        for ind, pos in pairs(self:getCollisionSquares(2, 2)) do
-            map:digVoxel(pos)
+        local frameDamage = self.damage
+        for ind, pos in pairs(self:getCollisionSquares(1, 1, 0, 0)) do
+            while (map:getVoxel(pos).resource.density > 0 and frameDamage > 0) do
+                map:digVoxel(pos)
+                frameDamage = frameDamage - 1
+            end
+        end
+        for ind, pos in pairs(self:getCollisionSquares(1, 1)) do
             local voxel = map:getVoxel(pos)
             if voxel then
                 sumDensity = sumDensity + voxel.resource.density
-                squaresCollidedNum = squaresCollidedNum + 1
             end
         end
         log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)
