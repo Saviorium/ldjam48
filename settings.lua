@@ -12,8 +12,7 @@ config = {
     },
     map = {
         chunkSize = 64,
-        voxelSize = 4,
-        renderRadius = 2, -- in chunks
+        renderRadius = 4, -- in chunks
         unloadChunksRadius = 7,
     }
 }

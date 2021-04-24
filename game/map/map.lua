@@ -11,7 +11,6 @@ local Map = Class {
         self.chunkSize = config.map.chunkSize
         self.renderRadius = config.map.renderRadius
         self.unloadChunkRadius = config.map.unloadChunksRadius
-        self.voxelSize = config.map.voxelSize
     end
 }
 
@@ -55,8 +54,8 @@ function Map:getChangedChunk(chunkCoords)
     end
 end
 
-function Map:getChunkCoords(screenPixelCoords)
-    local chunkPos = screenPixelCoords / self.chunkSize / self.voxelSize
+function Map:getChunkCoords(worldVoxelCoords)
+    local chunkPos = worldVoxelCoords / self.chunkSize
     return Vector(math.floor(chunkPos.x), math.floor(chunkPos.y))
 end
 
@@ -67,7 +66,6 @@ end
 
 function Map:draw() -- pass world origin at (0, 0)
     love.graphics.push()
-    love.graphics.scale(self.voxelSize, self.voxelSize)
     for i = self.centerChunk.x - self.renderRadius, self.centerChunk.x + self.renderRadius, 1 do
         for j = self.centerChunk.y - self.renderRadius, self.centerChunk.y + self.renderRadius, 1 do
             love.graphics.push()
