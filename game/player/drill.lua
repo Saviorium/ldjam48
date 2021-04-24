@@ -15,6 +15,8 @@ local Drill =
         self.HP = 80
         self.fuel = 80
         self.circleRange = 4
+        self.maxAngles = 100
+        self.fuelReduction = 0.01
     end
 }
 
@@ -50,7 +52,13 @@ function Drill:move(dt)
 end
 
 function Drill:turn( direction )
-    self.angle = self.angle + self.rotationSpeed * direction
+    local nextAngle = math.abs(((self.angle + self.rotationSpeed * direction)*180/math.pi) - 90)
+    local rotationSpeed = self.rotationSpeed
+    if nextAngle > self.maxAngles and self.fuel > 0 then
+        rotationSpeed = rotationSpeed * ( 1 - (nextAngle - self.maxAngles)/90 )
+        self.fuel = self.fuel - self.fuelReduction
+    end
+    self.angle = self.angle + rotationSpeed * direction
 end
 
 function Drill:getPosition()

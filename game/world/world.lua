@@ -12,6 +12,7 @@ local World =
         self.voxelSize = config.map.voxelSize
         self.veiwScale = 4
         self.UI = MiningUI(self.drill)
+        self.target = self.drill
     end
 }
 
@@ -27,7 +28,7 @@ function World:draw()
 	love.graphics.push()
 	love.graphics.translate(cx,cy)
     love.graphics.scale(self.veiwScale)
-	love.graphics.translate(-self.drill.position.x, -self.drill.position.y)
+	love.graphics.translate(-self.target.position.x, -self.target.position.y)
 
     self.map:draw()
     self.drill:draw()
@@ -35,6 +36,10 @@ function World:draw()
 	love.graphics.pop()
 
     self.UI:draw()
+end
+
+function World:changeCameraTarget(target)
+    self.target = target
 end
 
 function World:keypressed(key)
