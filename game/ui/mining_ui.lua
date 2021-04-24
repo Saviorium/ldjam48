@@ -39,7 +39,7 @@ local UI =
         )
         self:getObjectByIndex("fuelCounter").entity:registerObject(
             "fuelBar",
-            {left = 0, up = 10},
+            {left = 0, up = 15},
             ResourceBar(
                 self:getObjectByIndex("fuelCounter").entity,
                 {
@@ -48,7 +48,7 @@ local UI =
                     color = {0, 1, 1},
                     bgColor = {1, 1, 1},
                     getValue = function()
-                        return drill.fuel or 0
+                        return drill.fuel > 0 and drill.fuel or 0
                     end
                 }
             )
@@ -70,7 +70,7 @@ local UI =
 
         self:getObjectByIndex("healthCounter").entity:registerObject(
             "healthBar",
-            {left = 0, up = 10},
+            {left = 0, up = 15},
             ResourceBar(
                 self:getObjectByIndex("healthCounter").entity,
                 {
@@ -79,7 +79,7 @@ local UI =
                     color = {1, 0, 0},
                     bgColor = {1, 1, 1},
                     getValue = function()
-                        return drill.HP or 0
+                        return drill.HP > 0 and drill.HP or 0
                     end
                 }
             )

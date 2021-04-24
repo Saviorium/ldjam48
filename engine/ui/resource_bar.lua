@@ -15,6 +15,7 @@ Class {
         self.bgColor = parameters.bgColor
         self.max = parameters.max
         self.getValue = parameters.getValue
+        self.borders = parameters.borders or 3
     end
 }
 
@@ -25,7 +26,7 @@ function ResourceBar:draw()
     love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", self.x, self.y, self.height , self.width)
     love.graphics.setColor(self.bgColor)
-    love.graphics.rectangle("fill", self.x + (self.height - (resultheight > 0 and resultheight - 4 or 0)), self.y + 3, resultheight > 0 and resultheight - 2 or 0 , self.width - 6)
+    love.graphics.rectangle("fill", self.x + (self.height - (resultheight > 0 and resultheight or 0)) +self.borders, self.y + 3, resultheight > 0 and resultheight - self.borders*2 or 0 , self.width - self.borders*2)
     love.graphics.setColor(1, 1, 1)
 
 end

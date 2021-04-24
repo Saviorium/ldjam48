@@ -3,7 +3,8 @@ local PlayerController = require "game.player.player_controller"
 local Drill =
     Class {
     init = function(self, x, y, image)
-        self.speed = 10
+        self.speed = 0
+        self.acceleration = 2
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 0
@@ -20,7 +21,6 @@ local Drill =
 function Drill:update(dt)
     self:move(dt)
     self.controller:update(dt)
-
 end
 
 function Drill:draw()
@@ -64,7 +64,8 @@ function Drill:getCollisionSquares(searchRadius, searchCellsRadius)
         for j = -self.circleRange-searchCellsRadius, (self.circleRange+searchCellsRadius), 1 do
             local qx, qy = i + math.floor(x), j + math.floor(y)
             local len = self.position.dist(Vector(qx, qy), self.position)
-            if len < self.circleRange + searchRadius and len > self.circleRange then
+            local angle = Vector( math.cos(self.angle) * 10, math.sin(self.angle) * 10):angleTo(Vector(i, j))*180/math.pi
+            if len < self.circleRange + searchRadius and len > self.circleRange and (math.abs(angle) < 90 or math.abs(angle) > 270) then
                 table.insert(result, Vector(qx, qy))
             end
         end
@@ -75,7 +76,7 @@ end
 function Drill:useVoxels( map )
     self.speed = 0
     for ind, pos in pairs(self:getCollisionSquares(1, 1)) do
-        self.speed = self.speed + 1 - map:getVoxel(pos)
+        self.speed = self.speed + self.acceleration - map:getVoxel(pos)
         map:digVoxel(pos)
     end
 end
