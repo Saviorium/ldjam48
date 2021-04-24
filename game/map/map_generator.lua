@@ -2,10 +2,17 @@ local Chunk = require "game.map.chunk"
 local ChunkData = require "game.map.chunk_data"
 local Voxel = require "game.map.voxel"
 
+local OreGenerator = require "game.map.ore_generator"
+local GroundGenerator = require "game.map.ground_generator"
+
 local MapGenerator = Class {
-    init = function(self)
-        self.oreGenerators = {} -- different with different parameters
-        self.groundGenerator = nil -- generates layers of dirt
+    init = function(self, seed)
+        self.seed = seed or love.timer.getTime()
+        self.oreGenerators = {
+            iron = OreGenerator(Resources.getByName("iron"), self.seed),
+            gold = OreGenerator(Resources.getByName("gold"), self.seed),
+        } -- different with different parameters
+        self.groundGenerator = GroundGenerator() -- generates layers of dirt
         self.chunkSize = config.map.chunkSize
     end
 }
@@ -32,10 +39,19 @@ function MapGenerator:getGlobalVoxelCoords(chunkPosition, voxelPosition)
 end
 
 function MapGenerator:generateVoxel(voxelGlobalPosition)
-    -- todo: go through generators to get resource by noise
-    local resourceId = love.math.random(4)
-    local quantity = love.math.random()
-    return Voxel(Resources[resourceId], quantity)
+    local resource, value
+    for resourceName, generator in pairs(self.oreGenerators) do
+        value = generator:getValue(voxelGlobalPosition)
+        if value > 0 then
+            resource = Resources.getByName(resourceName)
+            break
+        end
+    end
+    if not resource then
+        value = self.groundGenerator:getValue(voxelGlobalPosition)
+        resource = Resources.getByName(self.groundGenerator:getResource(voxelGlobalPosition))
+    end
+    return Voxel(resource, value)
 end
 
 return MapGenerator

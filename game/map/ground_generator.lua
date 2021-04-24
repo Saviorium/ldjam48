@@ -3,12 +3,14 @@ local GroundGenerator = Class {
     end
 }
 
-function GroundGenerator:getVoxel(x, y)
-    return 1 -- generate with noise
+function GroundGenerator:getValue(position)
+    return 1
 end
 
-function GroundGenerator:getChunkData(coordinates)
-    return {}
+function GroundGenerator:getResource(position)
+    if position.y < 0 then return "air" end
+    if position.y > 2000 then return "stone" end
+    return "dirt"
 end
 
 return GroundGenerator

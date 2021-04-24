@@ -3,7 +3,7 @@ local Resources = {
         id = 1,
         name = "air",
         density = 0,
-        color = { 0.2, 0.1, 0.0, 1 },
+        color = { 0, 0, 0, 0 },
     },
     [2] = {
         id = 2,
@@ -22,13 +22,35 @@ local Resources = {
         name = "iron",
         density = 0.6,
         color = { 0.8, 0.5, 0.4, 1 },
-    }
+        generation = {
+            frequency = 0.01,
+            threshold = 0.97, -- 0 < threshold <= 1
+            subnoise = {
+                frequency = 0.05,
+                threshold = 0.7,
+            }
+        }
+    },
+    [5] = {
+        id = 5,
+        name = "gold",
+        density = 0.3,
+        color = { 1, 0.8, 0.3, 1 },
+        generation = {
+            frequency = 0.03,
+            threshold = 0.98,
+            subnoise = {
+                frequency = 0.1,
+                threshold = 0.95,
+            }
+        }
+    },
 }
 
 Resources.nameToId = Utils.reverseMap(Resources, function(v) return v.name end )
 
-function Resources.getIdByName(name)
-    return Resources.nameToId[name]
+function Resources.getByName(name)
+    return Resources[Resources.nameToId[name]]
 end
 
 return Resources
