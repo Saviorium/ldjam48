@@ -18,14 +18,14 @@ function Drill:update(dt)
 end
 
 function Drill:draw()
+    love.graphics.draw(self.image, self.position.x, self.position.y, self.angle, 1, 1, 4, 4)
     self:drawDebug()
-    -- love.graphics.draw(self.image, self.position.x, self.position.y, self.angle)
 end
 
 function Drill:drawDebug()
     if Debug.drill > 0 then
         local x, y = self.position.x, self.position.y
-        love.graphics.circle( 'line', x, y, 8)
+        love.graphics.circle( 'line', x, y, 3)
         love.graphics.setColor(255, 0, 0)
         love.graphics.line(x, y, x + math.cos(self.angle) * 10, y + math.sin(self.angle) * 10)
         love.graphics.setColor(255, 255, 255)

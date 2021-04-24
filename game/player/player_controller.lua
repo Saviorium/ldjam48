@@ -11,7 +11,6 @@ local PlayerController = Class {
 }
 
 function PlayerController:reactToInputs(inputs)
-    print(inputs.left, inputs.right)
     self.player:turn( inputs.left > 0 and 1 or (inputs.right > 0 and -1 or 0) )
 end
 
