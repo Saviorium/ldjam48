@@ -10,7 +10,7 @@ local World =
         self.map = Map()
         self.drill = Drill(100, 100, AssetManager:getImage("drill"))
         self.voxelSize = config.map.voxelSize
-
+        self.veiwScale = 2
         self.UI = MiningUI(self.drill)
     end
 }
@@ -25,6 +25,7 @@ function World:draw()
 	local cx,cy = love.graphics.getWidth()/2, love.graphics.getHeight()/2
 	love.graphics.push()
 	love.graphics.translate(cx,cy)
+    love.graphics.scale(self.veiwScale)
 	love.graphics.translate(-self.drill.position.x, -self.drill.position.y)
 
     self.map:draw()

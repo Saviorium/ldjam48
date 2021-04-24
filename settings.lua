@@ -26,7 +26,7 @@ Debug = {
     LogLevel = 3,
     ShowFps = 0,
     drill = 1,
-    drawUiDebug = true,
-    map = 0,
+    drawUiDebug = false,
+    map = 3,
     chunk = 0,
 }
