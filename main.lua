@@ -6,17 +6,23 @@ Class = require "lib.hump.class"
 Debug = require "engine.utils.debug"
 serpent = require "lib.serpent.serpent"
 
+World = require "game.world.world"
+Drill = require "game.player.drill"
+
 StateManager = require "lib.hump.gamestate"
 
 AssetManager = require "engine.utils.asset_manager"
 
+UserInputManager = require "engine.controls.user_input_manager" (config.inputs)
+
 states = {
-    game = require "game.states.game"
+    game = require "game.states.game",
+    mining = require "game.states.mining"
 }
 
 function love.load()
     AssetManager:load("data")
-    StateManager.switch(states.game)
+    StateManager.switch(states.mining)
 end
 
 function love.draw()
@@ -24,6 +30,7 @@ function love.draw()
 end
 
 function love.update(dt)
+    UserInputManager:update(dt)
     StateManager.update(dt)
 end
 

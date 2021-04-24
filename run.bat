@@ -1,1 +1,1 @@
-..\love-11.3-win64\lovec.exe .
+"C:\Program Files\LOVE\lovec.exe" .
