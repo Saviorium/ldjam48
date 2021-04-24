@@ -9,7 +9,7 @@ local Drill =
         self.acceleration = 50
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
-        self.angle = 0
+        self.angle = 90*math.pi/180
         self.image = image
         self.controller = PlayerController(self, UserInputManager)
         self.maxHP = 100
@@ -17,13 +17,16 @@ local Drill =
         self.HP = 80
         self.fuel = 80
         self.circleRange = 4
-        self.maxAngles = 100
+        self.maxAngles = 45
         self.fuelReduction = 0.01
+        self.launched = false
     end
 }
 
 function Drill:update(dt)
-    self:move(dt)
+    if self.launched then
+        self:move(dt)
+    end
     self.controller:update(dt)
 end
 
@@ -54,13 +57,21 @@ function Drill:move(dt)
 end
 
 function Drill:turn( direction )
-    local nextAngle = math.abs(((self.angle + self.rotationSpeed * direction)*180/math.pi) - 90)
-    local rotationSpeed = self.rotationSpeed
-    if nextAngle > self.maxAngles and self.fuel > 0 then
-        rotationSpeed = rotationSpeed * ( 1 - (nextAngle - self.maxAngles)/90 )
-        self.fuel = self.fuel - self.fuelReduction
+    if self.launched then
+        local nextAngle = math.abs(((self.angle + self.rotationSpeed * direction)*180/math.pi) - 90)
+        local rotationSpeed = self.rotationSpeed
+        if nextAngle > self.maxAngles and self.fuel > 0 then
+            rotationSpeed = rotationSpeed * ( 1 - (nextAngle - self.maxAngles)/90 )
+            self.fuel = self.fuel - self.fuelReduction
+        end
+        self.angle = self.angle + rotationSpeed * direction
+    else
+        self.position.x = self.position.x + direction
     end
-    self.angle = self.angle + rotationSpeed * direction
+end
+
+function Drill:start()
+    self.launched = true
 end
 
 function Drill:getPosition()

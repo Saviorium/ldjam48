@@ -5,6 +5,7 @@ config = {
             right = {'key:right', 'axis:leftx+', 'button:dpright'},
             up = {'key:up', 'axis:lefty-', 'button:dpup'},
             down = {'key:down', 'axis:lefty+', 'button:dpdown'},
+            action = {'key:space'}
         },
         pairs = {
             move = {'left', 'right', 'up', 'down'}

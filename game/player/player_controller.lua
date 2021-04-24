@@ -12,6 +12,9 @@ local PlayerController = Class {
 
 function PlayerController:reactToInputs(inputs)
     self.player:turn( inputs.move.x )
+    if inputs.action > 0 then
+        self.player:start()
+    end
 end
 
 return PlayerController
