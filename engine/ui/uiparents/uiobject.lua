@@ -3,7 +3,6 @@ Class = require "lib.hump.class"
 
 local UIobject = Class {
     init = function(self, parent, parameters)
-
         self.parent = parent
         self.tag = parameters.tag
 
@@ -36,6 +35,8 @@ local UIobject = Class {
         self.x, self.y = 0, 0
         self.width = parameters.width or (self.parent and self.parent.width or love.graphics.getWidth())
         self.height = parameters.height or (self.parent and self.parent.height or love.graphics.getHeight())
+
+        self.transform = love.math.newTransform()
 
         self.objects = parameters.objects or {}
         self.background = parameters.background
@@ -234,7 +235,7 @@ function UIobject:draw()
     self:drawBackground()
     self:render()
     for _, object in pairs(self.objects) do
-        local transform = love.math.newTransform()
+        local transform = self.transform:reset()
         transform = transform:translate(object.position.x - ( object.position.align and object.entity.width/2 or 0),
                                         object.position.y - ( object.position.align and object.entity.height/2 or 0))
         love.graphics.applyTransform( transform )

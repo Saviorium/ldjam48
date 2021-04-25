@@ -20,7 +20,7 @@ function Label:render()
     end
     love.graphics.printf(self.text, 0, 0, self.width, 'center')
     if self.font then
-        love.graphics.setFont(love.graphics.newFont(12))
+        --love.graphics.setFont(love.graphics.newFont(12))
     end
 end
 
