@@ -2,17 +2,19 @@ local Chunk = require "game.map.chunk"
 local ChunkData = require "game.map.chunk_data"
 local Voxel = require "game.map.voxel"
 
-local OreGenerator = require "game.map.ore_generator"
-local GroundGenerator = require "game.map.ground_generator"
+local ResourceGenerator = require "game.map.resource_generator"
 
 local MapGenerator = Class {
     init = function(self, seed)
         self.seed = seed or love.timer.getTime()
         self.oreGenerators = {
-            iron = OreGenerator(Resources.getByName("iron"), self.seed),
-            gold = OreGenerator(Resources.getByName("gold"), self.seed),
-        } -- different with different parameters
-        self.groundGenerator = GroundGenerator() -- generates layers of dirt
+            ResourceGenerator(Resources.getByName("iron"), self.seed),
+            ResourceGenerator(Resources.getByName("gold"), self.seed),
+            ResourceGenerator(Resources.getByName("stone"), self.seed),
+            ResourceGenerator(Resources.getByName("dirt"), self.seed),
+            ResourceGenerator(Resources.getByName("grass"), self.seed),
+            ResourceGenerator(Resources.getByName("surface"), self.seed),
+        }
         self.chunkSize = config.map.chunkSize
     end
 }
@@ -43,16 +45,12 @@ end
 
 function MapGenerator:generateVoxel(voxelGlobalPosition)
     local resource, value
-    for resourceName, generator in pairs(self.oreGenerators) do
+    for _, generator in pairs(self.oreGenerators) do
         value = generator:getValue(voxelGlobalPosition)
         if value > 0 then
-            resource = Resources.getByName(resourceName)
+            resource = generator:getResource()
             break
         end
-    end
-    if not resource then
-        value = self.groundGenerator:getValue(voxelGlobalPosition)
-        resource = Resources.getByName(self.groundGenerator:getResource(voxelGlobalPosition))
     end
     return Voxel(resource, value)
 end

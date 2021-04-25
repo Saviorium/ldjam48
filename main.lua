@@ -30,6 +30,9 @@ end
 
 function love.draw()
     StateManager.draw()
+    if Debug and Debug.showFps == 1 then
+        love.graphics.print(""..tostring(love.timer.getFPS( )), 2, 2)
+    end
 end
 
 function love.update(dt)

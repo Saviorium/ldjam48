@@ -23,7 +23,7 @@ settings = {
 
 Debug = {
     LogLevel = 3,
-    ShowFps = 0,
+    showFps = 1,
     drill = 0,
     drawUiDebug = true,
     map = 1,
