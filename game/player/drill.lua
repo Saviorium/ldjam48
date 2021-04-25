@@ -6,8 +6,8 @@ local Drill =
     init = function(self, x, y, image)
         self.speed = 0
         self.circleRange = 3
-        self.blocksInFrame = 60
-        self.blocksInMove = 10
+        self.blocksInFrame = 2
+        self.blocksInMove = 1
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
@@ -20,13 +20,15 @@ local Drill =
         self.HP = 80
         self.fuel = 80
         self.gold = 0
+
         self.maxAngles = 45
+        self.startDegree = 60
+
         self.fuelReduction = 0.01
         self.launched = false
         self.onAir = true
         self.damage = 20
         self.width, self.height = 4, 4
-        self.fallRotationSpeed = 0.05
     end
 }
 
@@ -64,13 +66,13 @@ function Drill:drawDebug()
 end
 
 function Drill:move()
-    self.position = self.position + Vector(math.cos(self.angle), math.sin(self.angle)) * self.blocksInMove/60
+    self.position = self.position + Vector(math.cos(self.angle), math.sin(self.angle)) * self.blocksInMove
 end
 
 function Drill:turn( direction )
     if self.launched then
         local angle = self.angle*180/math.pi
-        degradationKoef = angle > 90 and (90 - angle)/(90+self.maxAngles) or (angle-90)/(90+self.maxAngles)
+        degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
         if not self.onAir and direction ~= 0 then
             self.fuel = self.fuel - self.fuelReduction
             self.angle = self.angle + self.rotationSpeed * direction
@@ -117,7 +119,7 @@ function Drill:dig( map )
         self.onAir = true
         while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
             local squaresDiggedNum = 0
-            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)
+            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
                 while (result.health > 0 and frameDamage > 0) do

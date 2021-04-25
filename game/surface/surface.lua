@@ -42,11 +42,6 @@ end
 
 function Surface:draw(drillPos)
     if drillPos.y < 100 then
-        if self.base.draw then
-            self.base:draw(0, 0, self.angle, 1, 1, self.base:getWidth(), self.base:getHeight())
-        else
-            love.graphics.draw(self.base, 0, 0, self.angle, 1, 1, self.base:getWidth()/2, self.base:getHeight())
-        end
 
         for ind, img in pairs(self.treesObjects) do
             love.graphics.draw( img.image,
@@ -76,6 +71,12 @@ function Surface:draw(drillPos)
                     image = AssetManager:getImage('cloud'..math.random(2))
                 }
             end
+        end
+        
+        if self.base.draw then
+            self.base:draw(0, 0, self.angle, 1, 1, self.base:getWidth(), self.base:getHeight())
+        else
+            love.graphics.draw(self.base, 0, 0, self.angle, 1, 1, self.base:getWidth()/2, self.base:getHeight())
         end
     end
 end

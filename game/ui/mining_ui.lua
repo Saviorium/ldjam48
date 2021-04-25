@@ -126,7 +126,7 @@ local UI =
                 {
                     tag = "Speed Up button", height = 50,
                     callback = function()
-                        drill.blocksInFrame = drill.blocksInFrame + 10
+                        drill.blocksInFrame = drill.blocksInFrame + 1
                     end
                 }
             )
@@ -139,7 +139,7 @@ local UI =
                 {
                     tag = "Speed Down button", height = 50,
                     callback = function()
-                        drill.blocksInFrame = drill.blocksInFrame - 10
+                        drill.blocksInFrame = drill.blocksInFrame - 1
                     end
                 }
             )
