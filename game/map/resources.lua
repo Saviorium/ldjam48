@@ -26,7 +26,7 @@ local Resources = {
         name = "surface",
         density = 0,
         cost = 0,
-        color = { 0.2, 0.1, 0.0, 1 },
+        color = { 0, 0, 0, 0 },
         generation = {
             to = 5,
             frequency = {
@@ -48,7 +48,7 @@ local Resources = {
         name = "dirt",
         density = 0.01,
         cost = 0,
-        color = { 0.5, 0.3, 0.2, 1 },
+        color = { 0.3, 0.18, 0.15, 1 },
         generation = {
             from = -5, to = 3000,
             frequency = {
@@ -65,7 +65,7 @@ local Resources = {
         name = "dirt_light",
         density = 0.01,
         cost = 0,
-        color = { 0.5, 0.4, 0.4, 1 } ,
+        color = { 0.37, 0.273, 0.18, 1 } ,
         generation = {
             from = -5, to = 3000,
             frequency = {
@@ -86,7 +86,7 @@ local Resources = {
         name = "dirt_dark",
         density = 0.01,
         cost = 0,
-        color = { 0.5, 0.4, 0.3, 1 },
+        color = { 0.18, 0.114, 0.09, 1 },
         generation = {
             from = -5, to = 3000,
             frequency = {
@@ -138,7 +138,7 @@ local Resources = {
         name = "limestone",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.92, 0.85, 0.76, 1 },
         generation = {
             from = 0, to = 500,
             aspectRatio = 1,
@@ -155,7 +155,7 @@ local Resources = {
         name = "sandstone",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.84, 0.55, 0.45, 1 },
         generation = {
             from = 0, to = 500,
             aspectRatio = 1,
@@ -172,7 +172,7 @@ local Resources = {
         name = "granite1",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.90, 0.83, 0.71, 1 },
         generation = {
             from = 50, to = 4000,
             aspectRatio = 1,
@@ -189,7 +189,7 @@ local Resources = {
         name = "granite2",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.47, 0.22, 0.19, 1 },
         generation = {
             from = 50, to = 4000,
             aspectRatio = 1,
@@ -206,7 +206,7 @@ local Resources = {
         name = "granite3",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.23, 0.21, 0.2, 1 },
         generation = {
             from = 50, to = 4000,
             aspectRatio = 1,
@@ -254,7 +254,7 @@ local Resources = {
         name = "titan",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.77, 0.87, 0.9, 1 },
         generation = {
             from = 2800, to = 7100,
             aspectRatio = 1,
@@ -271,7 +271,7 @@ local Resources = {
         name = "mythril",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.3, 0.66, 0.48, 1 },
         generation = {
             from = 7000, to = 10000,
             aspectRatio = 1,
@@ -288,7 +288,7 @@ local Resources = {
         name = "malachite",
         density = 0.8,
         cost = 0,
-        color = { 0.7, 0.7, 0.7, 1 },
+        color = { 0.27, 0.68, 0.51, 1 },
         generation = {
             from = 500, to = 3000,
             aspectRatio = 1,
@@ -337,7 +337,7 @@ local Resources = {
         name = "diamond",
         density = 0.4,
         cost = 50,
-        color = { 0.3, 0.8, 0.3, 1 },
+        color = { 0.33, 0.93, 0.85, 1 },
         generation = {
             from = 7000, to = 10000,
             aspectRatio = 0.5,
@@ -368,7 +368,7 @@ local Resources = {
         name = "oil",
         density = 0.4,
         cost = 0,
-        color = { 0.02, 0.02, 0.02, 1 },
+        color = { 0.102, 0.1, 0.095, 1 },
         generation = {
             from = 100, to = 3000,
             aspectRatio = 0.5,
@@ -389,7 +389,7 @@ local Resources = {
         name = "coal",
         density = 0.4,
         cost = 0,
-        color = { 0.7, 0.6, 0.4, 1 },
+        color = { 0.1, 0.1, 0.1, 1 },
         generation = {
             from = 2900, to = 7100,
             aspectRatio = 0.5,
@@ -410,7 +410,7 @@ local Resources = {
         name = "uranium",
         density = 0,
         cost = 0,
-        color = { 0, 0, 0, 0 },
+        color = { 0.2, 1, 0.25, 1 },
         generation = {
             from = 6500, to = 10000,
             frequency = {
@@ -426,7 +426,7 @@ local Resources = {
         name = "lava1",
         density = 0.01,
         cost = 0,
-        color = { 0.6, 0.9, 0.3, 1 },
+        color = { 0.8, 0.1, 0.0, 1 },
         generation = {
             from = 3000, to = 10000,
             frequency = {
@@ -445,7 +445,7 @@ local Resources = {
         name = "lava2",
         density = 0.01,
         cost = 0,
-        color = { 0.6, 0.9, 0.3, 1 },
+        color = { 0.4, 0.0, 0.05, 1 },
         generation = {
             from = 3000, to = 10000,
             frequency = {
@@ -464,7 +464,7 @@ local Resources = {
         name = "lava3",
         density = 0.01,
         cost = 0,
-        color = { 0.6, 0.9, 0.3, 1 },
+        color = { 0.96, 0.75, 0.15, 1 },
         generation = {
             from = 3000, to = 10000,
             frequency = {
@@ -483,7 +483,7 @@ local Resources = {
         name = "obsidian",
         density = 0,
         cost = 0,
-        color = { 0.2, 0.1, 0.0, 1 },
+        color = { 0.3, 0.2, 0.3, 1 },
         generation = {
             from = 7000, to = 10000,
             frequency = {
@@ -505,7 +505,7 @@ local Resources = {
         name = "bedrock",
         density = 0,
         cost = 0,
-        color = { 0.2, 0.1, 0.0, 1 },
+        color = { 0, 0, 0, 1 },
         generation = {
             from = 10000,
             frequency = {
@@ -527,7 +527,7 @@ local Resources = {
         name = "grass",
         density = 0,
         cost = 0,
-        color = { 0.2, 0.1, 0.0, 1 },
+        color = { 0.6, 0.9, 0.3, 1 },
         generation = {
             from = -10, to = 10,
             frequency = {
