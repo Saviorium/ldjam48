@@ -54,6 +54,7 @@ function Chunk:getVoxel(position)
 end
 
 function Chunk:generateImage()
+    log(4, "start generating image".. love.timer.getTime( ))
     local imageData = love.image.newImageData(self.chunkSize, self.chunkSize)
     for i = 1, self.chunkSize, 1 do
         for j = 1, self.chunkSize, 1 do
@@ -64,6 +65,7 @@ function Chunk:generateImage()
     end
     local image = love.graphics.newImage(imageData)
     image:setFilter("nearest", "nearest")
+    log(4, "finish generating image".. love.timer.getTime( ))
     return image
 end
 

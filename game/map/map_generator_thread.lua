@@ -78,6 +78,7 @@ while running do
         end
     end
     if not doOneTask() then
-        love.timer.sleep(0.1)
+        log(5, "sleeping")
+        love.timer.sleep(0.001)
     end
 end

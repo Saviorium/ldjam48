@@ -14,12 +14,17 @@ local MapGenerator = Class { -- FIXME: do not instance it more than once
 }
 
 function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
+    local state = self:getChunkState(chunkPosition)
+    if state == "generating" or state == "done" then
+        return false
+    end
     controlChannel:push({
         command = "generate",
         priority = priority,
         chunkPosition = chunkPosition,
         chunkDiff = chunkDiff
     })
+    self:setChunkState(chunkPosition, "generating")
     return true
 end
 
@@ -27,8 +32,10 @@ function MapGenerator:getChunk(chunkPosition, chunkDiff)
     self:getChunksFromWorker()
     local chunk = self:getChunkFromCache(chunkPosition)
     if not chunk then
+        --vardump("Waiting for chunk".. love.timer.getTime( ), chunkPosition)
         self:prepareChunk(chunkPosition, chunkDiff, 0)
         chunk = self:waitForChunk(chunkPosition)
+        --print("done waiting".. love.timer.getTime( ))
     end
     self:removeChunk(chunkPosition)
     chunk = Chunk.__deserialize(chunk)
@@ -36,9 +43,26 @@ function MapGenerator:getChunk(chunkPosition, chunkDiff)
 end
 
 function MapGenerator:getChunkFromCache(chunkCoords)
-    if self.generatedCache[chunkCoords.x] and self.generatedCache[chunkCoords.x][chunkCoords.y] then
-        return self.generatedCache[chunkCoords.x][chunkCoords.y]
+    if self:getChunkState(chunkCoords) == "done" then
+        return self.generatedCache[chunkCoords.x][chunkCoords.y].chunk
     end
+end
+
+function MapGenerator:setChunkState(chunkPosition, state)
+    if not self.generatedCache[chunkPosition.x] then
+        self.generatedCache[chunkPosition.x] = {}
+    end
+    if not self.generatedCache[chunkPosition.x][chunkPosition.y] then
+        self.generatedCache[chunkPosition.x][chunkPosition.y] = {}
+    end
+    self.generatedCache[chunkPosition.x][chunkPosition.y].state = state
+end
+
+function MapGenerator:getChunkState(chunkCoords)
+    if self.generatedCache[chunkCoords.x] and self.generatedCache[chunkCoords.x][chunkCoords.y] then
+        return self.generatedCache[chunkCoords.x][chunkCoords.y].state
+    end
+    return "none"
 end
 
 function MapGenerator:waitForChunk(chunkCoords)
@@ -73,7 +97,11 @@ function MapGenerator:saveChunk(chunkPosition, chunk)
     if not self.generatedCache[chunkPosition.x] then
         self.generatedCache[chunkPosition.x] = {}
     end
-    self.generatedCache[chunkPosition.x][chunkPosition.y] = chunk
+    if not self.generatedCache[chunkPosition.x][chunkPosition.y] then
+        self.generatedCache[chunkPosition.x][chunkPosition.y] = {}
+    end
+    self.generatedCache[chunkPosition.x][chunkPosition.y].chunk = chunk
+    self:setChunkState(chunkPosition, "done")
 end
 
 function MapGenerator:removeChunk(chunkPosition)
