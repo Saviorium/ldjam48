@@ -10,9 +10,12 @@ local MapGeneratorWorker = Class {
     init = function(self, seed)
         self.seed = seed or love.timer.getTime()
         self.oreGenerators = {
+            ResourceGenerator(Resources.getByName("air"), self.seed),
             ResourceGenerator(Resources.getByName("iron"), self.seed),
             ResourceGenerator(Resources.getByName("gold"), self.seed),
             ResourceGenerator(Resources.getByName("stone"), self.seed),
+            ResourceGenerator(Resources.getByName("dirt3"), self.seed),
+            ResourceGenerator(Resources.getByName("dirt2"), self.seed),
             ResourceGenerator(Resources.getByName("dirt"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),

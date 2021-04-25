@@ -8,9 +8,15 @@ local Resources = {
         generation = {
             frequency = {
                 { depth = 0, value = 1 },
+                { depth = 500, value = 0.008 },
             },
             threshold = {
-                { depth = 0, value = 0 },
+                { depth = -2, value = 1 },
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.8 },
+                { depth = 1000, value = 0.7 },
+                { depth = 2000, value = 0.9 },
+                { depth = 3000, value = 1 },
             },
         }
     },
@@ -30,6 +36,36 @@ local Resources = {
             },
         }
     },
+    [8] = {
+        id = 8,
+        name = "dirt2",
+        density = 0.01,
+        cost = 0,
+        color = { 0.5, 0.4, 0.3, 1 },
+        generation = {
+            frequency = {
+                { depth = 0, value = 0.01 },
+            },
+            threshold = {
+                { depth = -2, value = 1 },
+            },
+        }
+    },
+    [9] = {
+        id = 9,
+        name = "dirt3",
+        density = 0.01,
+        cost = 0,
+        color = { 0.5, 0.4, 0.4, 1 },
+        generation = {
+            frequency = {
+                { depth = 0, value = 0.01 },
+            },
+            threshold = {
+                { depth = -2, value = 1 },
+            },
+        }
+    },
     [3] = {
         id = 3,
         name = "stone",
@@ -40,26 +76,18 @@ local Resources = {
             aspectRatio = 3,
             frequency = {
                 { depth = 100, value = 0.03 },
-                { depth = 550, value = 0.02 },
             },
             threshold = {
                 { depth = 0, value = 1 },
-                { depth = 100, value = 0.98 },
-                { depth = 500, value = 0.98 },
-                { depth = 550, value = 1 },
-                { depth = 552, value = 0.97 },
             },
             subnoise = {
-                type = "add",
+                type = "sub",
                 aspectRatio = 0.9,
                 frequency = {
                     { depth = 500, value = 0.01 },
                 },
                 threshold = {
                     { depth = 500, value = 1 },
-                    { depth = 700, value = 0.9 },
-                    { depth = 800, value = 0.4 },
-                    { depth = 1000, value = 0.05 },
                 },
             }
         }
@@ -73,13 +101,9 @@ local Resources = {
         generation = {
             frequency = {
                 { depth = 0, value = 0.1 },
-                { depth = 100, value = 0.02 },
             },
             threshold = {
                 { depth = 0, value = 1 },
-                { depth = 100, value = 0.98 },
-                { depth = 800, value = 0.9 },
-                { depth = 1000, value = 0.99 },
             },
             subnoise = {
                 type = "sub",
@@ -89,7 +113,6 @@ local Resources = {
                 },
                 threshold = {
                     { depth = 0, value = 0.7 },
-                    { depth = 100, value = 0.5 },
                 },
             }
         }
@@ -107,8 +130,6 @@ local Resources = {
             },
             threshold = {
                 { depth = 0, value = 1 },
-                { depth = 500, value = 1 },
-                { depth = 2000, value = 0.98 },
             },
             subnoise = {
                 type = "sub",
@@ -117,7 +138,6 @@ local Resources = {
                 },
                 threshold = {
                     { depth = 0, value = 0 },
-                    { depth = 2000, value = 0.7 },
                 },
             }
         }

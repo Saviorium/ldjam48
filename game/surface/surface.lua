@@ -2,6 +2,8 @@ local Surface =
     Class {
     init = function(self)
         self.base = AssetManager:getImage('base')
+        self.trees = {AssetManager:getImage('tree1'), AssetManager:getImage('tree2') }
+        self.clouds = {AssetManager:getImage('cloud1'), AssetManager:getImage('cloud2') }
         self.treesObjects = {}
         self.cloudObjects = {}
         self.cloudsOnScreen = 100
@@ -18,7 +20,7 @@ function Surface:generateSurface()
                 x = math.random(love.graphics.getWidth()*2) - love.graphics.getWidth(),
                 y = math.random(50) + 50,
                 distance = math.random()/2,
-                image = AssetManager:getImage('cloud'..math.random(2))
+                image = self.clouds[math.random(2)]
             }
         )
     end
@@ -28,7 +30,7 @@ function Surface:generateSurface()
             {
                 x = math.random(love.graphics.getWidth()*2) - love.graphics.getWidth(),
                 distance = math.random()/2,
-                image = AssetManager:getImage('tree'..math.random(2))
+                image = self.trees[math.random(2)]
             }
         )
     end
@@ -53,7 +55,7 @@ function Surface:draw(drillPos)
                 {
                     x = math.random(love.graphics.getWidth()*2 + drillPos.x) - love.graphics.getWidth(),
                     distance = math.random()/2,
-                    image = AssetManager:getImage('tree'..math.random(2))
+                    image = self.trees[math.random(2)]
                 }
             end
         end
@@ -61,18 +63,18 @@ function Surface:draw(drillPos)
         for ind, img in pairs(self.cloudObjects) do
             love.graphics.draw( img.image,
                                 img.x + drillPos.x * img.distance,
-                                img.y)
+                                -img.y)
             if img.x < drillPos.x - love.graphics.getWidth() or img.x > drillPos.x + love.graphics.getWidth()  then
                 self.cloudObjects[ind] = 
                 {
                     x = math.random(love.graphics.getWidth()*2 + drillPos.x) - love.graphics.getWidth(),
                     y = math.random(10) + 50,
                     distance = math.random()/2,
-                    image = AssetManager:getImage('cloud'..math.random(2))
+                    image = self.clouds[math.random(2)]
                 }
             end
         end
-        
+
         if self.base.draw then
             self.base:draw(0, 0, self.angle, 1, 1, self.base:getWidth(), self.base:getHeight())
         else
