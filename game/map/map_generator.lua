@@ -6,6 +6,8 @@ local outputChannel = love.thread.getChannel("mapGeneratorOutput")
 local mapGeneratorThread = love.thread.newThread("game/map/map_generator_thread.lua")
 mapGeneratorThread:start()
 
+local log = require 'engine.utils.logger' ("mapGenerator")
+
 local MapGenerator = Class { -- FIXME: do not instance it more than once
     init = function(self, seed)
         self.seed = seed or love.timer.getTime()
@@ -16,6 +18,9 @@ local MapGenerator = Class { -- FIXME: do not instance it more than once
 function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
     local state = self:getChunkState(chunkPosition)
     if state == "generating" or state == "done" then
+        if priority ~= nil then
+            self:setPriority(chunkPosition, priority)
+        end
         return false
     end
     controlChannel:push({
@@ -28,10 +33,19 @@ function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
     return true
 end
 
+function MapGenerator:setPriority(chunkPosition, priority)
+    controlChannel:push({
+        command = "priority",
+        priority = priority,
+        chunkPosition = chunkPosition
+    })
+end
+
 function MapGenerator:getChunk(chunkPosition, chunkDiff)
     local chunk = self:getChunkFromCache(chunkPosition)
     if not chunk then
         self:prepareChunk(chunkPosition, chunkDiff, 1)
+        log(2, "Waiting for chunk " .. chunkPosition:__tostring())
         chunk = self:waitForChunk(chunkPosition)
     end
     self:removeChunk(chunkPosition)
@@ -124,6 +138,8 @@ function MapGenerator:destroyChunk(chunkPosition)
 end
 
 function MapGenerator:update(dt)
+    self:getOneChunkFromWorker()
+    self:getOneChunkFromWorker()
     self:getOneChunkFromWorker()
 end
 

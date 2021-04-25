@@ -26,7 +26,7 @@ function Surface:generateSurface()
     end
     for i = 1, self.treesOnScreen, 1 do
         table.insert(
-            self.treesObjects, 
+            self.treesObjects,
             {
                 x = math.random(love.graphics.getWidth()*2) - love.graphics.getWidth(),
                 distance = math.random()/2,

@@ -20,27 +20,38 @@ local outputChannel = love.thread.getChannel("mapGeneratorOutput")
 local priorityQueue = {}
 
 local function schedule(priority, task)
-    if not priority then priority = 5 end
+    if priority == nil then priority = 2 end
     if not priorityQueue[priority] then
         priorityQueue[priority] = {}
     end
     table.insert(priorityQueue[priority], task)
 end
 
-local function cancel(task)
+local function cancel(cancelTask)
     for priority, tasks in pairs(priorityQueue) do
         for i, scheduledtask in pairs(tasks) do
-            if scheduledtask.chunkPosition == task.chunkPosition then
+            if scheduledtask.chunkPosition.x == cancelTask.chunkPosition.x and scheduledtask.chunkPosition.y == cancelTask.chunkPosition.y then
                 tasks[i] = nil
-                return true
+                return scheduledtask
             end
         end
     end
     return false
 end
 
+local function setPriority(taskToSetPriority)
+    local cancelledTask = cancel(taskToSetPriority)
+    if cancelledTask ~= false then
+        log(3, "Set priority to " .. taskToSetPriority.priority)
+        schedule(taskToSetPriority.priority, cancelledTask)
+        return cancelledTask
+    end
+    return false
+end
+
 local function popNextTask()
     for priority, tasks in pairs(priorityQueue) do
+        log(5, "Check priority " .. priority)
         for i, task in pairs(tasks) do
             tasks[i] = nil
             return task
@@ -65,6 +76,8 @@ local function handleTask(task)
         schedule(task.priority, task)
     elseif task.command == "cancel" then
         cancel(task)
+    elseif task.command == "priority" then
+        setPriority(task)
     elseif task.command == "terminate" then
         running = false
     end

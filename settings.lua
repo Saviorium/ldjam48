@@ -12,10 +12,10 @@ config = {
         },
     },
     map = {
-        chunkSize = 64,
-        renderRadius = 3, -- in chunks
-        unloadChunksRadius = 7,
-        loadChunksRadius = 4,
+        chunkSize = 32,
+        renderRadius = 6, -- in chunks
+        unloadChunksRadius = 14,
+        loadChunksRadius = 7,
     }
 }
 
