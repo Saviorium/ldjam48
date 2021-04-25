@@ -8,16 +8,14 @@ local Resources = {
         generation = {
             from = 0,
             frequency = {
-                { depth = 0, value = 1 },
-                { depth = 500, value = 0.008 },
+                { depth = 0, value = 0.007 },
             },
             threshold = {
                 { depth = -2, value = 1 },
                 { depth = 0, value = 1 },
-                { depth = 500, value = 0.8 },
-                { depth = 1000, value = 0.7 },
-                { depth = 2000, value = 0.9 },
-                { depth = 3000, value = 1 },
+                { depth = 3000, value = 0.8 },
+                { depth = 7000, value = 0.7 },
+                { depth = 10000, value = 0.9 },
             },
         }
     },
@@ -28,18 +26,11 @@ local Resources = {
         cost = 0,
         color = { 0, 0, 0, 0 },
         generation = {
-            to = 5,
             frequency = {
                 { depth = 0, value = 1 },
-                { depth = 500, value = 0.008 },
             },
             threshold = {
-                { depth = -2, value = 1 },
-                { depth = 0, value = 1 },
-                { depth = 500, value = 0.8 },
-                { depth = 1000, value = 0.7 },
-                { depth = 2000, value = 0.9 },
-                { depth = 3000, value = 1 },
+                { depth = -2, value = 0 },
             },
         }
     },
@@ -52,11 +43,16 @@ local Resources = {
         generation = {
             from = -5, to = 3000,
             frequency = {
-                { depth = 0, value = 0.08 },
+                { depth = 0, value = 0.008 },
             },
             threshold = {
                 { depth = -2, value = 1 },
                 { depth = 0, value = 0 },
+                { depth = 1000, value = 0.1 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -69,15 +65,16 @@ local Resources = {
         generation = {
             from = -5, to = 3000,
             frequency = {
-                { depth = 0, value = 0.98 },
+                { depth = 0, value = 0.98   },
             },
             threshold = {
                 { depth = -2, value = 1 },
                 { depth = 0, value = 0 },
-                { depth = 500, value = 0.5 },
-                { depth = 1000, value = 1 },
-                { depth = 2000, value = 0.5 },
-                { depth = 3000, value = 1 },
+                { depth = 1000, value = 0.1 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -90,15 +87,16 @@ local Resources = {
         generation = {
             from = -5, to = 3000,
             frequency = {
-                { depth = 0, value = 0.009 },
+                { depth = 0, value = 0.01 },
             },
             threshold = {
                 { depth = -2, value = 1 },
                 { depth = 0, value = 0 },
-                { depth = 500, value = 0.9 },
-                { depth = 1000, value = 0.6 },
-                { depth = 2000, value = 1 },
-                { depth = 3000, value = 0.4 },
+                { depth = 1000, value = 0.1 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -112,14 +110,15 @@ local Resources = {
             from = -5,
             aspectRatio = 2,
             frequency = {
-                { depth = 0,   value = 0.03 },
-                { depth = 1000, value = 0.005 },
+                { depth = 0,   value = 0.005 }
             },
             threshold = {
                 { depth = 0,    value = 1 },
-                { depth = 500,  value = 0.8 },
-                { depth = 1000, value = 0.5 },
-                { depth = 2000, value = 0.1 },
+                { depth = 1000, value = 0.7 },
+                { depth = 2000, value = 0.6 },
+                { depth = 3000, value = 0.3 },
+                { depth = 4000, value = 0.6 },
+                { depth = 5000, value = 1   },
             },
             subnoise = {
                 type = "add",
@@ -143,10 +142,15 @@ local Resources = {
             from = 0, to = 500,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.007 },
             },
             threshold = {
-                { depth = 0,    value = 1 },
+                { depth = 3000, value = 1   },
+                { depth = 4000, value = 0.6 },
+                { depth = 5000, value = 0.2 },
+                { depth = 6000, value = 0.4 },
+                { depth = 7000, value = 0.7 },
+                { depth = 8000, value = 1   },
             },
         }
     },
@@ -160,10 +164,15 @@ local Resources = {
             from = 0, to = 500,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.01 },
             },
             threshold = {
                 { depth = 0,    value = 1 },
+                { depth = 1000, value = 0.4 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -177,10 +186,15 @@ local Resources = {
             from = 50, to = 4000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.07 },
             },
             threshold = {
                 { depth = 0,    value = 1 },
+                { depth = 1000, value = 0.4 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -194,10 +208,15 @@ local Resources = {
             from = 50, to = 4000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.97 },
             },
             threshold = {
                 { depth = 0,    value = 1 },
+                { depth = 1000, value = 0.4 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -211,10 +230,15 @@ local Resources = {
             from = 50, to = 4000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.9 },
             },
             threshold = {
                 { depth = 0,    value = 1 },
+                { depth = 1000, value = 0.4 },
+                { depth = 2000, value = 0.3 },
+                { depth = 3000, value = 0.6 },
+                { depth = 4000, value = 0.7 },
+                { depth = 5000, value = 1   },
             },
         }
     },
@@ -225,28 +249,28 @@ local Resources = {
         cost = 10,
         color = { 0.8, 0.5, 0.4, 1 },
         generation = {
-            from = 100, to = 3100,
+            from = 0, to = 3100,
             frequency = {
-                { depth = 0, value = 0.01 },
+                { depth = 0, value = 0.7 },
             },
             threshold = {
                 { depth = 0, value = 1 },
-                { depth = 500, value = 0.98  },
-                { depth = 1000, value = 0.96 },
-                { depth = 1500, value = 0.94 },
-                { depth = 2000, value = 0.92 },
-                { depth = 2500, value = 0.9  },
+                { depth = 1000, value = 0.98 },
+                { depth = 2000, value = 0.97 },
+                { depth = 3000, value = 0.96 },
+                { depth = 4000, value = 0.9 },
+                { depth = 5000, value = 1   },
             },
-            subnoise = {
-                type = "sub",
-                aspectRatio = 1,
-                frequency = {
-                    { depth = 0, value = 0.1 },
-                },
-                threshold = {
-                    { depth = 0, value = 0.7 },
-                },
-            }
+            -- subnoise = {
+            --     type = "sub",
+            --     aspectRatio = 1,
+            --     frequency = {
+            --         { depth = 0, value = 0.1 },
+            --     },
+            --     threshold = {
+            --         { depth = 0, value = 0.7 },
+            --     },
+            -- }
         }
     },
     [13] = {
@@ -259,10 +283,15 @@ local Resources = {
             from = 2800, to = 7100,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.6 },
             },
             threshold = {
-                { depth = 0,    value = 1 },
+                { depth = 3000, value = 1   },
+                { depth = 4000, value = 0.96 },
+                { depth = 5000, value = 0.92 },
+                { depth = 6000, value = 0.94 },
+                { depth = 7000, value = 0.97 },
+                { depth = 8000, value = 1   },
             },
         }
     },
@@ -276,10 +305,14 @@ local Resources = {
             from = 7000, to = 10000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.8 },
             },
             threshold = {
-                { depth = 0,    value = 1 },
+                { depth = 6000, value = 1   },
+                { depth = 7000, value = 0.96 },
+                { depth = 8000, value = 0.92 },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
         }
     },
@@ -293,11 +326,25 @@ local Resources = {
             from = 500, to = 3000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.03 },
+                { depth = 0,   value = 0.3 },
             },
             threshold = {
-                { depth = 0,    value = 1 },
+                { depth = 0, value = 1 },
+                { depth = 1000, value = 0.95 },
+                { depth = 2000, value = 0.85 },
+                { depth = 3000, value = 0.9 },
+                { depth = 4000, value = 1 },
             },
+            subnoise = {
+                type = "sub",
+                aspectRatio = 1,
+                frequency = {
+                    { depth = 0, value = 0.1 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.2 },
+                },
+            }
         }
     },
     [16] = {
@@ -310,15 +357,15 @@ local Resources = {
             from = 300, to = 7100,
             aspectRatio = 0.2,
             frequency = {
-                { depth = 0, value = 0.04 },
+                { depth = 0, value = 0.95 },
             },
             threshold = {
-                { depth = 0, value = 1 },
-                { depth = 1000, value = 0.98 },
-                { depth = 2000, value = 0.96 },
-                { depth = 2500, value = 0.94 },
-                { depth = 3000, value = 0.92 },
+                { depth = 3000, value = 1   },
                 { depth = 4000, value = 0.9 },
+                { depth = 5000, value = 0.85 },
+                { depth = 6000, value = 0.9 },
+                { depth = 7000, value = 0.95 },
+                { depth = 8000, value = 1   },
             },
             subnoise = {
                 type = "sub",
@@ -342,14 +389,14 @@ local Resources = {
             from = 7000, to = 10000,
             aspectRatio = 0.5,
             frequency = {
-                { depth = 0, value = 0.01 },
+                { depth = 0, value = 0.95 },
             },
             threshold = {
-                { depth = 1000, value = 1 },
-                { depth = 2500, value = 0.96 },
-                { depth = 3500, value = 0.94  },
-                { depth = 4500, value = 0.92  },
-                { depth = 5500, value = 0.9  },
+                { depth = 6000, value = 1   },
+                { depth = 7000, value = 0.96 },
+                { depth = 8000, value = 0.92 },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
             subnoise = {
                 type = "sub",
@@ -370,18 +417,28 @@ local Resources = {
         cost = 0,
         color = { 0.102, 0.1, 0.095, 1 },
         generation = {
-            from = 100, to = 3000,
+            from = 0, to = 3000,
             aspectRatio = 0.5,
             frequency = {
-                { depth = 0, value = 0.01 },
+                { depth = 0, value = 0.02 },
             },
             threshold = {
                 { depth = 0, value = 1 },
-                { depth = 1500, value = 0.98 },
-                { depth = 2000, value = 0.97 },
-                { depth = 2500, value = 0.96 },
-                { depth = 3000, value = 0.95  },
-            }
+                { depth = 1000, value = 0.98 },
+                { depth = 2000, value = 0.95 },
+                { depth = 3000, value = 0.97 },
+                { depth = 4000, value = 1 },
+            },
+            -- subnoise = {
+            --     type = "add",
+            --     aspectRatio = 1,
+            --     frequency = {
+            --         { depth = 0, value = 0.1 },
+            --     },
+            --     threshold = {
+            --         { depth = 0, value = 0.7 },
+            --     },
+            -- }
         }
     },
     [19] = {
@@ -394,14 +451,15 @@ local Resources = {
             from = 2900, to = 7100,
             aspectRatio = 0.5,
             frequency = {
-                { depth = 0, value = 0.01 },
+                { depth = 0, value = 0.1 },
             },
             threshold = {
-                { depth = 2500, value = 1 },
-                { depth = 3500, value = 0.98  },
-                { depth = 5000, value = 0.97  },
-                { depth = 6000, value = 0.96  },
-                { depth = 7000, value = 0.95  },
+                { depth = 3000, value = 1   },
+                { depth = 4000, value = 0.9 },
+                { depth = 5000, value = 0.85 },
+                { depth = 6000, value = 0.9 },
+                { depth = 7000, value = 0.95 },
+                { depth = 8000, value = 1   },
             }
         }
     },
@@ -414,10 +472,14 @@ local Resources = {
         generation = {
             from = 6500, to = 10000,
             frequency = {
-                { depth = 0, value = 1 },
+                { depth = 0, value = 0.95 },
             },
             threshold = {
-                { depth = 0, value = 0 },
+                { depth = 6000, value = 1   },
+                { depth = 7000, value = 0.96 },
+                { depth = 8000, value = 0.92 },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
         }
     },
@@ -430,13 +492,17 @@ local Resources = {
         generation = {
             from = 3000, to = 10000,
             frequency = {
-                { depth = 0, value = 0.5 },
+                { depth = 0, value = 0.2 },
             },
             threshold = {
-                { depth = -5, value = 1 },
-                { depth = -2, value = 0 },
-                { depth = 4, value = 0 },
-                { depth = 5, value = 1 },
+                { depth = 3000, value = 1   },
+                { depth = 4000, value = 0.9 },
+                { depth = 5000, value = 0.85 },
+                { depth = 6000, value = 0.9 },
+                { depth = 7000, value = 0.95 },
+                { depth = 8000, value = 0.7   },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
         }
     },
@@ -449,13 +515,17 @@ local Resources = {
         generation = {
             from = 3000, to = 10000,
             frequency = {
-                { depth = 0, value = 0.5 },
+                { depth = 0, value = 0.96 },
             },
             threshold = {
-                { depth = -5, value = 1 },
-                { depth = -2, value = 0 },
-                { depth = 4, value = 0 },
-                { depth = 5, value = 1 },
+                { depth = 3000, value = 1   },
+                { depth = 4000, value = 0.9 },
+                { depth = 5000, value = 0.85 },
+                { depth = 6000, value = 0.9 },
+                { depth = 7000, value = 0.95 },
+                { depth = 8000, value = 0.7   },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
         }
     },
@@ -468,13 +538,17 @@ local Resources = {
         generation = {
             from = 3000, to = 10000,
             frequency = {
-                { depth = 0, value = 0.5 },
+                { depth = 0, value = 0.98 },
             },
             threshold = {
-                { depth = -5, value = 1 },
-                { depth = -2, value = 0 },
-                { depth = 4, value = 0 },
-                { depth = 5, value = 1 },
+                { depth = 3000, value = 1   },
+                { depth = 4000, value = 0.9 },
+                { depth = 5000, value = 0.85 },
+                { depth = 6000, value = 0.9 },
+                { depth = 7000, value = 0.95 },
+                { depth = 8000, value = 0.7   },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
         }
     },
@@ -487,16 +561,13 @@ local Resources = {
         generation = {
             from = 7000, to = 10000,
             frequency = {
-                { depth = 0, value = 1 },
-                { depth = 500, value = 0.008 },
+                { depth = 0, value = 0.08 },
             },
             threshold = {
-                { depth = -2, value = 1 },
-                { depth = 0, value = 1 },
-                { depth = 500, value = 0.8 },
-                { depth = 1000, value = 0.7 },
-                { depth = 2000, value = 0.9 },
-                { depth = 3000, value = 1 },
+                { depth = 7000, value = 1 },
+                { depth = 8000, value = 0.7   },
+                { depth = 9000, value = 0.94 },
+                { depth = 10000, value = 1 },
             },
         }
     },
@@ -510,15 +581,10 @@ local Resources = {
             from = 10000,
             frequency = {
                 { depth = 0, value = 1 },
-                { depth = 500, value = 0.008 },
             },
             threshold = {
-                { depth = -2, value = 1 },
-                { depth = 0, value = 1 },
-                { depth = 500, value = 0.8 },
-                { depth = 1000, value = 0.7 },
-                { depth = 2000, value = 0.9 },
-                { depth = 3000, value = 1 },
+                { depth = 9999, value = 1 },
+                { depth = 10000, value = 0 },
             },
         }
     },
@@ -532,7 +598,6 @@ local Resources = {
             from = -10, to = 10,
             frequency = {
                 { depth = 0, value = 1 },
-                { depth = 500, value = 0.008 },
             },
             threshold = {
                 { depth = -2, value = 1 },
@@ -541,21 +606,6 @@ local Resources = {
                 { depth = 1000, value = 0.7 },
                 { depth = 2000, value = 0.9 },
                 { depth = 3000, value = 1 },
-            },
-        }
-    },
-    [28] = {
-        id = 28,
-        name = "air_fill",
-        density = 0,
-        cost = 0,
-        color = { 0.2, 0.1, 0.0, 1 },
-        generation = {
-            frequency = {
-                { depth = 0, value = 1 },
-            },
-            threshold = {
-                { depth = 0, value = 0 },
             },
         }
     },

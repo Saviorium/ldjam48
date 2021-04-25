@@ -32,7 +32,6 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("granite3"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),
-            ResourceGenerator(Resources.getByName("air_fill"), self.seed),
         }
         self.chunkSize = config.map.chunkSize
     end
