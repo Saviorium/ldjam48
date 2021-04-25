@@ -75,11 +75,15 @@ function Map:digVoxel(position)
     end
     local voxel = chunk:getVoxel(self:getLocalChunkCoords(position))
     local damageToVoxel = math.clamp(0, 1 - voxel.resource.density, 1)
-    voxel.health = voxel.health - damageToVoxel
+    
+    local HP = voxel.health
+    local dens = voxel.resource.density
+
+    voxel.health = HP - damageToVoxel
     if voxel.health <= 0 and voxel.resource.density > 0 then
         chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
     end
-    local result = {damage = damageToVoxel,health = voxel.health, money = damageToVoxel * voxel.resource.cost, damageToDrill = 0}
+    local result = {damage = damageToVoxel, health = HP, density = dens, money = damageToVoxel * voxel.resource.cost, damageToDrill = 0}
     return result
 end
 

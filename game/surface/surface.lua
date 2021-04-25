@@ -67,7 +67,7 @@ function Surface:draw(drillPos)
             love.graphics.draw( img.image,
                                 img.x + drillPos.x * img.distance,
                                 -img.y)
-            if img.x < drillPos.x - love.graphics.getWidth() or img.x > drillPos.x + love.graphics.getWidth()  then
+            if img.x < (drillPos.x - love.graphics.getWidth()) or img.x > (drillPos.x + love.graphics.getWidth())  then
                 local dist = math.random(love.graphics.getWidth()) + drillPos.x + love.graphics.getWidth()/2
                 self.cloudObjects[ind] = 
                 {

@@ -73,7 +73,7 @@ function Drill:turn( direction )
     if self.launched then
         local angle = self.angle*180/math.pi
         degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
-        if not self.onAir and direction ~= 0 then
+        if not self.onAir then
             self.fuel = self.fuel - self.fuelReduction
             self.angle = self.angle + self.rotationSpeed * direction
         end
@@ -116,17 +116,15 @@ function Drill:dig( map )
         local frameDamage = self.damage
         self.blocksMoved = 0
 
-        self.onAir = true
         while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
-                while (result.health > 0 and frameDamage > 0) do
+                while (result.health > 0 and result.density > 0 and frameDamage > 0) do
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   + result.damageToDrill
                     frameDamage = frameDamage - 1
-                    self.onAir = false
                     result = map:digVoxel(pos)
                 end
                 squaresDiggedNum = result.health <= 0 and squaresDiggedNum + 1 or squaresDiggedNum
@@ -136,6 +134,7 @@ function Drill:dig( map )
                 self.blocksMoved = self.blocksMoved + self.blocksInMove
             end
         end
+        self.onAir = frameDamage == self.damage
 
         log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)
         log(3, "Drill density multiplier is " .. (1 - sumDensity / squaresCollidedNum))
