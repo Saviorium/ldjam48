@@ -52,7 +52,7 @@ end
 local function doOneTask()
     local task = popNextTask()
     if not task then log(5, "No tasks in list") return false end
-    log(3, "Starting task", task)
+    log(4, "Starting task", task)
     local chunk = mapGeneratorWorker:generateChunk(task.chunkPosition, task.chunkDiff)
     log(5, "Chunk generated:", chunk)
     outputChannel:push({ type = "chunk", data = { chunk = chunk, position = task.chunkPosition } })
@@ -60,7 +60,7 @@ local function doOneTask()
 end
 
 local function handleTask(task)
-    log(5, "Got task: " .. task.command )
+    log(4, "Got task: " .. task.command )
     if task.command == "generate" then
         schedule(task.priority, task)
     elseif task.command == "cancel" then

@@ -158,6 +158,10 @@ function Map:loopAroundCoords(position, radius, func, args)
     end
 end
 
+function Map:update(dt)
+    self.mapGenerator:update(dt)
+end
+
 function Map:draw() -- pass world origin at (0, 0)
     for i = self.centerChunk.x - self.renderRadius, self.centerChunk.x + self.renderRadius, 1 do
         for j = self.centerChunk.y - self.renderRadius, self.centerChunk.y + self.renderRadius, 1 do

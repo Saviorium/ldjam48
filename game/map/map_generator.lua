@@ -29,13 +29,10 @@ function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
 end
 
 function MapGenerator:getChunk(chunkPosition, chunkDiff)
-    self:getChunksFromWorker()
     local chunk = self:getChunkFromCache(chunkPosition)
     if not chunk then
-        --vardump("Waiting for chunk".. love.timer.getTime( ), chunkPosition)
-        self:prepareChunk(chunkPosition, chunkDiff, 0)
+        self:prepareChunk(chunkPosition, chunkDiff, 1)
         chunk = self:waitForChunk(chunkPosition)
-        --print("done waiting".. love.timer.getTime( ))
     end
     self:removeChunk(chunkPosition)
     chunk = Chunk.__deserialize(chunk)
@@ -68,10 +65,19 @@ end
 function MapGenerator:waitForChunk(chunkCoords)
     local chunk
     while not chunk do
-        self:getChunksFromWorker()
+        self:getOneChunkFromWorker()
         chunk = self:getChunkFromCache(chunkCoords)
     end
     return chunk
+end
+
+function MapGenerator:getOneChunkFromWorker()
+    if outputChannel:peek() then
+        local channelMessage = outputChannel:pop()
+        if channelMessage.type == "chunk" then
+            self:saveChunk(channelMessage.data.position, channelMessage.data.chunk)
+        end
+    end
 end
 
 function MapGenerator:getChunksFromWorker()
@@ -115,6 +121,10 @@ end
 function MapGenerator:destroyChunk(chunkPosition)
     local chunk = self:removeChunk(chunkPosition)
     chunk:destroy()
+end
+
+function MapGenerator:update(dt)
+    self:getOneChunkFromWorker()
 end
 
 return MapGenerator

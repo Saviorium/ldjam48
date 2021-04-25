@@ -4,6 +4,8 @@ local Voxel = require "game.map.voxel"
 
 local ResourceGenerator = require "game.map.resource_generator"
 
+local log = require 'engine.utils.logger' ("mapGenerator", function(msg) return "[MapGeneratorWorker]: " .. msg end)
+
 local MapGeneratorWorker = Class {
     init = function(self, seed)
         self.seed = seed or love.timer.getTime()
@@ -21,6 +23,7 @@ local MapGeneratorWorker = Class {
 
 function MapGeneratorWorker:generateChunk(chunkPosition, chunkDiff)
     chunkPosition = Vector(chunkPosition.x, chunkPosition.y)
+    log(3, "Generating " .. chunkPosition:__tostring())
     chunkDiff = ChunkData.__deserialize(chunkDiff)
 
     if not chunkDiff then
@@ -38,6 +41,7 @@ function MapGeneratorWorker:generateChunk(chunkPosition, chunkDiff)
             end
         end
     end
+    log(3, "Done generating " .. chunkPosition:__tostring())
     return chunk
 end
 
