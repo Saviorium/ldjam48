@@ -19,7 +19,7 @@ local World =
 function World:update(dt)
     self.UI:update(dt)
     self.drill:update(dt)
-    self.drill:useVoxels(self.map)
+    self.drill:dig(self.map)
     self.map:setCenter(self.drill:getPosition())
 end
 

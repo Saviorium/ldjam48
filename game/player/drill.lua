@@ -5,7 +5,9 @@ local Drill =
     Class {
     init = function(self, x, y, image)
         self.speed = 0
-        self.acceleration = 50
+        self.circleRange = 3
+        self.blocksInFrame = 100
+        self.blocksInMove = 4
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
@@ -18,24 +20,21 @@ local Drill =
         self.HP = 80
         self.fuel = 80
         self.gold = 0
-        self.circleRange = 4
         self.maxAngles = 45
         self.fuelReduction = 0.01
         self.launched = false
-        self.damage = 30
+        self.damage = 120
+        self.width, self.height = 4, 4
     end
 }
 
 function Drill:update(dt)
-    if self.launched then
-        self:move(dt)
-    end
     self.controller:update(dt)
     self.image:update(dt)
 end
 
 function Drill:draw()
-    self.image:draw(self.position.x, self.position.y, self.angle, 1, 1, 4, 4)
+    self.image:draw(self.position.x, self.position.y, self.angle, 1, 1, self.width, self.height)
     --love.graphics.draw(self.image, self.position.x, self.position.y, self.angle, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
     self:drawDebug()
 end
@@ -49,7 +48,7 @@ function Drill:drawDebug()
         love.graphics.setColor(255, 255, 255)
 
         love.graphics.setColor(255, 255, 0)
-        for ind, obj in pairs(self:getCollisionSquares(1, 1, 0, 0)) do
+        for ind, obj in pairs(self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)) do
             love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
         end
         love.graphics.setColor(255, 255, 255)
@@ -62,8 +61,8 @@ function Drill:drawDebug()
     end
 end
 
-function Drill:move(dt)
-    self.position = self.position + Vector(math.cos(self.angle), math.sin(self.angle)) * self.speed * dt
+function Drill:move()
+    self.position = self.position + Vector(math.cos(self.angle), math.sin(self.angle)) * self.blocksInMove/60
 end
 
 function Drill:turn( direction )
@@ -106,26 +105,35 @@ function Drill:getCollisionSquares(searchRadius, searchCellsRadius, minRadius, s
     return result
 end
 
-function Drill:useVoxels( map )
+function Drill:dig( map )
     if self.launched then
         local sumDensity = 0
         local squaresCollidedNum = 1
         local frameDamage = self.damage
-        for ind, pos in pairs(self:getCollisionSquares(1, 1, 0, 0)) do
-            while (map:getVoxel(pos).resource.density > 0 and frameDamage > 0) do
-                map:digVoxel(pos)
-                frameDamage = frameDamage - 1
+        local blocksMoved = 0
+
+        while ( frameDamage > 0 and blocksMoved < self.blocksInFrame ) do
+            local squaresDiggedNum = 0
+            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)
+            for ind, pos in pairs(digArea) do
+                local digged = false
+                while (map:getVoxel(pos).resource.density > 0 and frameDamage > 0) do
+                    local result = map:digVoxel(pos)
+                    self.gold = self.gold + result
+                    frameDamage = frameDamage - 1
+                    digged = true
+                end
+                squaresDiggedNum = digged and squaresDiggedNum or squaresDiggedNum + 1
+            end
+
+            if squaresDiggedNum == table.getn(digArea) then
+                self:move()
+                blocksMoved = blocksMoved + self.blocksInMove
             end
         end
-        for ind, pos in pairs(self:getCollisionSquares(1, 1)) do
-            local voxel = map:getVoxel(pos)
-            if voxel then
-                sumDensity = sumDensity + voxel.resource.density
-            end
-        end
+
         log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)
         log(3, "Drill density multiplier is " .. (1 - sumDensity / squaresCollidedNum))
-        self.speed = sumDensity > 0 and 0 or self.acceleration
     end
 end
 
