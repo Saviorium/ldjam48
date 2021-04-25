@@ -24,7 +24,7 @@ function World:update(dt)
     self.drill:dig(self.map)
     self.map:update(dt)
     self.map:setCenter(self.drill:getPosition())
-    self.surface:update(dt)
+    self.surface:update(dt, self.drill.position)
 end
 
 function World:draw()
