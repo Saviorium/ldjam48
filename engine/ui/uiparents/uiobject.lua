@@ -108,7 +108,6 @@ end
 
 -- Всем объектам надо уметь понимать случилась ли коллизия, причем не важно с мышкой или чем-то ещё
 function UIobject:getCollision(x, y)
-    -- print(self.tag, self.x, self.y, x, y)
     return 	self.x < x and
             (self.x + self.width) > x and
             self.y < y and
@@ -270,10 +269,9 @@ function UIobject:mousepressed(x, y)
         local targetObject = object.entity
         local lx,ly = object.position.x - ( object.position.align and object.entity.width/2 or 0),
                       object.position.y - ( object.position.align and object.entity.height/2 or 0)
-
         for funcName, callback in pairs(targetObject.clickInteraction) do
-            if callback.condition(targetObject, x, y) then
-                x, y = gx - lx, gy - ly
+            x, y = gx - lx, gy - ly
+            if callback.condition(targetObject, gx, gy) then
                 callback.func(targetObject, x, y)
             end
         end

@@ -110,9 +110,9 @@ function Drill:dig( map )
         local sumDensity = 0
         local squaresCollidedNum = 1
         local frameDamage = self.damage
-        local blocksMoved = 0
+        self.blocksMoved = 0
 
-        while ( frameDamage > 0 and blocksMoved < self.blocksInFrame ) do
+        while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)
             for ind, pos in pairs(digArea) do
@@ -128,7 +128,7 @@ function Drill:dig( map )
             end
             if squaresDiggedNum == table.getn(digArea) then
                 self:move()
-                blocksMoved = blocksMoved + self.blocksInMove
+                self.blocksMoved = self.blocksMoved + self.blocksInMove
             end
         end
 

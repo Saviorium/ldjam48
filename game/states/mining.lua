@@ -18,4 +18,16 @@ function Mining:update(dt)
     self.world:update(1/60)
 end
 
+function Mining:mousepressed(x, y)
+    self.world:mousepressed(x, y)
+end
+
+function Mining:mousereleased(x, y)
+    self.world:mousereleased(x, y)
+end
+
+function Mining:keypressed(key)
+    self.world:keypressed(key)
+end
+
 return Mining

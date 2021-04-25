@@ -42,7 +42,17 @@ function World:changeCameraTarget(target)
     self.target = target
 end
 
-function World:keypressed(key)
+function World:mousepressed(x, y)
+    self.UI:mousepressed(x, y)
 end
+
+function World:mousereleased(x, y)
+    self.UI:mousereleased(x, y)
+end
+
+function World:keypressed(key)
+    self.UI:keypressed(key)
+end
+
 
 return World

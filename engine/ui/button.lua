@@ -1,4 +1,5 @@
 local UIobject = require "engine.ui.uiparents.uiobject"
+local Label = require "engine.ui.label"
 
 -- Кнопка, умеет нажиматься и писать при этом в лог, все кнопки по хорошему должны наследоваться от этого класса и накидывать кастомные действия и картинки
 Button = Class {
@@ -14,7 +15,7 @@ Button = Class {
         }
         self:registerObject('Label', 
                                { align = 'center' },
-                               Label(self, {tag = 'test_button_label', text = self.tag, width = self.width*0.8, height = self.height*0.8 }))
+                               Label(self, {tag = self.tag..' Label', text = self.tag, width = self.width*0.8, height = self.height*0.8 }))
     end
 }
 
