@@ -23,8 +23,10 @@ local Drill =
         self.maxAngles = 45
         self.fuelReduction = 0.01
         self.launched = false
+        self.onAir = true
         self.damage = 20
         self.width, self.height = 4, 4
+        self.fallRotationSpeed = 0.05
     end
 }
 
@@ -67,13 +69,13 @@ end
 
 function Drill:turn( direction )
     if self.launched then
-        local nextAngle = math.abs(((self.angle + self.rotationSpeed * direction)*180/math.pi) - 90)
-        local rotationSpeed = self.rotationSpeed
-        if nextAngle > self.maxAngles and self.fuel > 0 then
-            rotationSpeed = rotationSpeed * ( 1 - (nextAngle - self.maxAngles)/90 )
+        local angle = self.angle*180/math.pi
+        degradationKoef = angle > 90 and (90 - angle)/(90+self.maxAngles) or (angle-90)/(90+self.maxAngles)
+        if not self.onAir and direction ~= 0 then
             self.fuel = self.fuel - self.fuelReduction
+            self.angle = self.angle + self.rotationSpeed * direction
         end
-        self.angle = self.angle + rotationSpeed * direction
+        self.angle = self.angle + self.rotationSpeed * degradationKoef * (angle > 90 and 1 or -1)
     else
         self.position.x = self.position.x + direction
     end
@@ -112,6 +114,7 @@ function Drill:dig( map )
         local frameDamage = self.damage
         self.blocksMoved = 0
 
+        self.onAir = true
         while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)
@@ -121,7 +124,7 @@ function Drill:dig( map )
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   + result.damageToDrill
                     frameDamage = frameDamage - 1
-
+                    self.onAir = false
                     result = map:digVoxel(pos)
                 end
                 squaresDiggedNum = result.health <= 0 and squaresDiggedNum + 1 or squaresDiggedNum
