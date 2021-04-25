@@ -6,8 +6,8 @@ local Drill =
     init = function(self, x, y, image)
         self.speed = 0
         self.circleRange = 3
-        self.blocksInFrame = 100
-        self.blocksInMove = 4
+        self.blocksInFrame = 60
+        self.blocksInMove = 10
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
@@ -23,7 +23,7 @@ local Drill =
         self.maxAngles = 45
         self.fuelReduction = 0.01
         self.launched = false
-        self.damage = 120
+        self.damage = 20
         self.width, self.height = 4, 4
     end
 }
@@ -116,16 +116,16 @@ function Drill:dig( map )
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)
             for ind, pos in pairs(digArea) do
-                local digged = false
-                while (map:getVoxel(pos).resource.density > 0 and frameDamage > 0) do
-                    local result = map:digVoxel(pos)
-                    self.gold = self.gold + result
+                local result = map:digVoxel(pos)
+                while (result.health > 0 and frameDamage > 0) do
+                    self.gold = self.gold + result.money
+                    self.HP   = self.HP   + result.damageToDrill
                     frameDamage = frameDamage - 1
-                    digged = true
-                end
-                squaresDiggedNum = digged and squaresDiggedNum or squaresDiggedNum + 1
-            end
 
+                    result = map:digVoxel(pos)
+                end
+                squaresDiggedNum = result.health <= 0 and squaresDiggedNum + 1 or squaresDiggedNum
+            end
             if squaresDiggedNum == table.getn(digArea) then
                 self:move()
                 blocksMoved = blocksMoved + self.blocksInMove
