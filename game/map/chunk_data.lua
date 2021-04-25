@@ -57,4 +57,12 @@ function ChunkData:getMerged(newData)
     return mergedData
 end
 
+function ChunkData.__deserialize(data)
+    local result = ChunkData()
+    if data and data.voxels then
+        result.voxels = data.voxels
+    end
+    return result
+end
+
 return ChunkData

@@ -20,15 +20,29 @@ function Chunk:changeVoxel(position, voxel)
     self.changed:setVoxel(position, voxel)
 end
 
-function Chunk:finalize()
+function Chunk.__deserialize(chunkSerialized)
     log(4, "Chunk finalized")
-    log(5, self)
-    if self.finalized == true then
-        vardump(self)
+    log(5, chunkSerialized)
+    local chunk = Chunk()
+    chunk.image = chunkSerialized.image
+    chunk.data = ChunkData.__deserialize(chunkSerialized.data)
+    chunk.chunkSize = chunkSerialized.chunkSize
+    chunk.changed = ChunkData.__deserialize(chunkSerialized.changed)
+    chunk.finalized = chunkSerialized.finalized
+    if chunk.finalized == true then
+        vardump(chunk)
         error("trying to double finalize chunk")
     end
-    self.image = self:generateImage()
-    self.finalized = true
+    for i = 1, chunk.chunkSize, 1 do
+        for j = 1, chunk.chunkSize, 1 do
+            local voxelLocalPos = Vector(i, j)
+            local voxel = chunk:getVoxel(voxelLocalPos)
+            voxel.resource = Resources[voxel.resource]
+        end
+    end
+    chunk.image = chunk:generateImage()
+    chunk.finalized = true
+    return chunk
 end
 
 function Chunk:save()

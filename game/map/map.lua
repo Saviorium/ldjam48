@@ -11,7 +11,8 @@ local Map = Class {
         self.centerChunk = nil
         self.chunkSize = config.map.chunkSize
         self.renderRadius = config.map.renderRadius
-        self.unloadChunkRadius = config.map.renderRadius * config.map.renderRadius * 1.1
+        self.loadRadius = config.map.loadChunksRadius
+        self.unloadRadius = config.map.unloadChunksRadius
     end
 }
 
@@ -22,30 +23,39 @@ function Map:setCenter(center)
     end
     self.centerChunk = newCenter
     log(3, "Set center to", self.centerChunk)
-    for i = self.centerChunk.x - self.renderRadius, self.centerChunk.x + self.renderRadius, 1 do
-        for j = self.centerChunk.y - self.renderRadius, self.centerChunk.y + self.renderRadius, 1 do -- square of size self.renderRadius*2+1 around center
-            local position = Vector(i, j)
-            if not self.chunkCache[i] then
-                self.chunkCache[i] = {}
+    for i = 0, self.renderRadius, 1 do
+        self:loopAroundCoords(self.centerChunk, i,
+            function(position, args)
+                if not self.chunkCache[position.x] then
+                    self.chunkCache[position.x] = {}
+                end
+                if not self.chunkCache[position.x][position.y] then
+                    local chunkDiff = self:getChunkChangedData(position)
+                    self.chunkCache[position.x][position.y] = self.mapGenerator:getChunk(position, chunkDiff)
+                end
             end
-            if not self.chunkCache[i][j] then
-                local chunkDiff = self:getChunkChangedData(position)
-                self.chunkCache[i][j] = self.mapGenerator:getChunk(position, chunkDiff)
-                log(3, "Genrated new chunk at" .. i .. ", " .. j)
-                log(5, self.chunkCache[i][j])
+        )
+    end
+    for i = self.renderRadius, self.loadRadius, 1 do
+        self:loopAroundCoords(self.centerChunk, i,
+            function(position, args)
+                if not self.chunkCache[position.x] then
+                    self.chunkCache[position.x] = {}
+                end
+                if not self.chunkCache[position.x][position.y] then
+                    local chunkDiff = self:getChunkChangedData(position)
+                    self.mapGenerator:prepareChunk(position, chunkDiff)
+                end
             end
-        end
+        )
     end
     for i, row in pairs(self.chunkCache) do
         for j, chunk in pairs(row) do
-            if math.abs(self.centerChunk.x - i) + math.abs(self.centerChunk.y - j) > self.unloadChunkRadius then
+            if math.abs(self.centerChunk.x - i) > self.unloadRadius or math.abs(self.centerChunk.y - j) > self.unloadRadius then
                 self:unloadChunk(Vector(i, j))
             end
         end
     end
-    -- for each chunk in cache check if it outside self.unloadChunkRadius and unload it
-    -- merge new chunkDiff into saved
-    -- save unloaded chunks
 end
 
 function Map:getVoxel(position)
@@ -119,6 +129,33 @@ end
 
 function Map:getLocalChunkCoords(worldVoxelCoords)
     return Vector(math.floor(worldVoxelCoords.x % self.chunkSize + 1), math.floor(worldVoxelCoords.y % self.chunkSize + 1))
+end
+
+function Map:loopAroundCoords(position, radius, func, args)
+    if radius == 0 then
+        func(position, args)
+    end
+    local currentPos = position:clone()
+    currentPos.y = position.y - radius
+    for i = position.x - radius, position.x + radius - 1, 1 do
+        currentPos.x = i
+        func(currentPos, args)
+    end
+    currentPos.x = position.x + radius
+    for i = position.y - radius, position.y + radius - 1, 1 do
+        currentPos.y = i
+        func(currentPos, args)
+    end
+    currentPos.y = position.y + radius
+    for i = position.x + radius, position.x - (radius - 1), -1 do
+        currentPos.x = i
+        func(currentPos, args)
+    end
+    currentPos.x = position.x - radius
+    for i = position.y + radius, position.y - (radius - 1), -1 do
+        currentPos.y = i
+        func(currentPos, args)
+    end
 end
 
 function Map:draw() -- pass world origin at (0, 0)

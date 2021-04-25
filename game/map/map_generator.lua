@@ -1,58 +1,92 @@
 local Chunk = require "game.map.chunk"
-local ChunkData = require "game.map.chunk_data"
-local Voxel = require "game.map.voxel"
 
-local ResourceGenerator = require "game.map.resource_generator"
+local controlChannel = love.thread.getChannel("mapGeneratorControl")
+local outputChannel = love.thread.getChannel("mapGeneratorOutput")
 
-local MapGenerator = Class {
+local mapGeneratorThread = love.thread.newThread("game/map/map_generator_thread.lua")
+mapGeneratorThread:start()
+
+local MapGenerator = Class { -- FIXME: do not instance it more than once
     init = function(self, seed)
         self.seed = seed or love.timer.getTime()
-        self.oreGenerators = {
-            ResourceGenerator(Resources.getByName("iron"), self.seed),
-            ResourceGenerator(Resources.getByName("gold"), self.seed),
-            ResourceGenerator(Resources.getByName("stone"), self.seed),
-            ResourceGenerator(Resources.getByName("dirt"), self.seed),
-            ResourceGenerator(Resources.getByName("grass"), self.seed),
-            ResourceGenerator(Resources.getByName("surface"), self.seed),
-        }
-        self.chunkSize = config.map.chunkSize
+        self.generatedCache = {}
     end
 }
 
+function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
+    controlChannel:push({
+        command = "generate",
+        priority = priority,
+        chunkPosition = chunkPosition,
+        chunkDiff = chunkDiff
+    })
+    return true
+end
+
 function MapGenerator:getChunk(chunkPosition, chunkDiff)
-    if not chunkDiff then
-        chunkDiff = ChunkData()
+    self:getChunksFromWorker()
+    local chunk = self:getChunkFromCache(chunkPosition)
+    if not chunk then
+        self:prepareChunk(chunkPosition, chunkDiff, 0)
+        chunk = self:waitForChunk(chunkPosition)
     end
-    local chunk = Chunk()
-    for i = 1, self.chunkSize, 1 do
-        for j = 1, self.chunkSize, 1 do
-            local voxelLocalPos = Vector(i, j)
-            local savedVoxel = chunkDiff:getVoxel(voxelLocalPos)
-            if savedVoxel == nil then
-                chunk:setVoxel(voxelLocalPos, self:generateVoxel(self:getGlobalVoxelCoords(chunkPosition, voxelLocalPos)))
-            else
-                chunk:setVoxel(voxelLocalPos, chunkDiff:getVoxel(voxelLocalPos))
-            end
-        end
-    end
-    chunk:finalize()
+    self:removeChunk(chunkPosition)
+    chunk = Chunk.__deserialize(chunk)
     return chunk
 end
 
-function MapGenerator:getGlobalVoxelCoords(chunkPosition, voxelPosition)
-    return chunkPosition * self.chunkSize + voxelPosition
+function MapGenerator:getChunkFromCache(chunkCoords)
+    if self.generatedCache[chunkCoords.x] and self.generatedCache[chunkCoords.x][chunkCoords.y] then
+        return self.generatedCache[chunkCoords.x][chunkCoords.y]
+    end
 end
 
-function MapGenerator:generateVoxel(voxelGlobalPosition)
-    local resource, value
-    for _, generator in pairs(self.oreGenerators) do
-        value = generator:getValue(voxelGlobalPosition)
-        if value > 0 then
-            resource = generator:getResource()
-            break
+function MapGenerator:waitForChunk(chunkCoords)
+    local chunk
+    while not chunk do
+        self:getChunksFromWorker()
+        chunk = self:getChunkFromCache(chunkCoords)
+    end
+    return chunk
+end
+
+function MapGenerator:getChunksFromWorker()
+    while outputChannel:peek() do
+        local channelMessage = outputChannel:pop()
+        if channelMessage.type == "chunk" then
+            self:saveChunk(channelMessage.data.position, channelMessage.data.chunk)
         end
     end
-    return Voxel(resource, value)
+end
+
+function MapGenerator:cleanOutsideRadius(chunkPosition, radius)
+    for i, row in pairs(self.generatedCache) do
+        for j, chunk in pairs(row) do
+            if math.abs(self.centerChunk.x - i) > radius or math.abs(self.centerChunk.y - j) > radius then
+                self:destroyChunk(Vector(i, j))
+            end
+        end
+    end
+end
+
+function MapGenerator:saveChunk(chunkPosition, chunk)
+    if not self.generatedCache[chunkPosition.x] then
+        self.generatedCache[chunkPosition.x] = {}
+    end
+    self.generatedCache[chunkPosition.x][chunkPosition.y] = chunk
+end
+
+function MapGenerator:removeChunk(chunkPosition)
+    if self.generatedCache[chunkPosition.x] and self.generatedCache[chunkPosition.x][chunkPosition.y] then
+        local chunk = self.generatedCache[chunkPosition.x][chunkPosition.y]
+        self.generatedCache[chunkPosition.x][chunkPosition.y] = nil
+        return chunk
+    end
+end
+
+function MapGenerator:destroyChunk(chunkPosition)
+    local chunk = self:removeChunk(chunkPosition)
+    chunk:destroy()
 end
 
 return MapGenerator

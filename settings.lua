@@ -13,7 +13,9 @@ config = {
     },
     map = {
         chunkSize = 64,
-        renderRadius = 4, -- in chunks
+        renderRadius = 3, -- in chunks
+        unloadChunksRadius = 8,
+        loadChunksRadius = 6,
     }
 }
 
@@ -28,6 +30,7 @@ Debug = {
     drawUiDebug = true,
     map = 1,
     mapDraw = 0,
+    mapGenerator = 1,
     chunk = 1,
     chunkDraw = 0,
 }

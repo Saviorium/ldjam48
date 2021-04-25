@@ -4,4 +4,5 @@ local Voxel = Class {
         self.health = health
     end
 }
+
 return Voxel
