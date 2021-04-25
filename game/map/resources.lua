@@ -6,6 +6,7 @@ local Resources = {
         cost = 0,
         color = { 0.2, 0.1, 0.0, 1 },
         generation = {
+            from = 0,
             frequency = {
                 { depth = 0, value = 1 },
                 { depth = 500, value = 0.008 },
@@ -22,11 +23,34 @@ local Resources = {
     },
     [2] = {
         id = 2,
+        name = "surface",
+        density = 0,
+        cost = 0,
+        color = { 0.2, 0.1, 0.0, 1 },
+        generation = {
+            to = 5,
+            frequency = {
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.008 },
+            },
+            threshold = {
+                { depth = -2, value = 1 },
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.8 },
+                { depth = 1000, value = 0.7 },
+                { depth = 2000, value = 0.9 },
+                { depth = 3000, value = 1 },
+            },
+        }
+    },
+    [3] = {
+        id = 3,
         name = "dirt",
         density = 0.01,
         cost = 0,
         color = { 0.5, 0.3, 0.2, 1 },
         generation = {
+            from = -5, to = 3000,
             frequency = {
                 { depth = 0, value = 0.08 },
             },
@@ -36,13 +60,14 @@ local Resources = {
             },
         }
     },
-    [8] = {
-        id = 8,
-        name = "dirt2",
+    [4] = {
+        id = 4,
+        name = "dirt_light",
         density = 0.01,
         cost = 0,
         color = { 0.5, 0.4, 0.4, 1 } ,
         generation = {
+            from = -5, to = 3000,
             frequency = {
                 { depth = 0, value = 0.98 },
             },
@@ -56,13 +81,14 @@ local Resources = {
             },
         }
     },
-    [9] = {
-        id = 9,
-        name = "dirt3",
+    [5] = {
+        id = 5,
+        name = "dirt_dark",
         density = 0.01,
         cost = 0,
         color = { 0.5, 0.4, 0.3, 1 },
         generation = {
+            from = -5, to = 3000,
             frequency = {
                 { depth = 0, value = 0.009 },
             },
@@ -76,13 +102,14 @@ local Resources = {
             },
         }
     },
-    [3] = {
-        id = 3,
-        name = "stone",
+    [6] = {
+        id = 6,
+        name = "stone_gray",
         density = 0.8,
         cost = 0,
         color = { 0.7, 0.7, 0.7, 1 },
         generation = {
+            from = -5,
             aspectRatio = 2,
             frequency = {
                 { depth = 0,   value = 0.03 },
@@ -106,13 +133,99 @@ local Resources = {
             }
         }
     },
-    [4] = {
-        id = 4,
+    [7] = {
+        id = 7,
+        name = "limestone",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 0, to = 500,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [8] = {
+        id = 8,
+        name = "sandstone",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 0, to = 500,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [9] = {
+        id = 9,
+        name = "granite1",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 50, to = 4000,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [10] = {
+        id = 10,
+        name = "granite2",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 50, to = 4000,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [11] = {
+        id = 11,
+        name = "granite3",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 50, to = 4000,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [12] = {
+        id = 12,
         name = "iron",
         density = 0.9,
         cost = 10,
         color = { 0.8, 0.5, 0.4, 1 },
         generation = {
+            from = 100, to = 3100,
             frequency = {
                 { depth = 0, value = 0.01 },
             },
@@ -136,13 +249,65 @@ local Resources = {
             }
         }
     },
-    [5] = {
-        id = 5,
+    [13] = {
+        id = 13,
+        name = "titan",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 2800, to = 7100,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [14] = {
+        id = 14,
+        name = "mythril",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 7000, to = 10000,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [15] = {
+        id = 15,
+        name = "malachite",
+        density = 0.8,
+        cost = 0,
+        color = { 0.7, 0.7, 0.7, 1 },
+        generation = {
+            from = 500, to = 3000,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.03 },
+            },
+            threshold = {
+                { depth = 0,    value = 1 },
+            },
+        }
+    },
+    [16] = {
+        id = 16,
         name = "gold",
         density = 0.4,
         cost = 1000,
         color = { 1, 0.8, 0.3, 1 },
         generation = {
+            from = 300, to = 7100,
             aspectRatio = 0.2,
             frequency = {
                 { depth = 0, value = 0.04 },
@@ -167,44 +332,14 @@ local Resources = {
             }
         }
     },
-    [10] = {
-        id = 10,
-        name = "malachite",
+    [17] = {
+        id = 17,
+        name = "diamond",
         density = 0.4,
         cost = 50,
         color = { 0.3, 0.8, 0.3, 1 },
         generation = {
-            aspectRatio = 0.5,
-            frequency = {
-                { depth = 0, value = 0.01 },
-            },
-            threshold = {
-                { depth = 0, value = 1 },
-                { depth = 750, value = 0.98  },
-                { depth = 1500, value = 0.96 },
-                { depth = 2000, value = 0.94 },
-                { depth = 2500, value = 0.92 },
-                { depth = 3000, value = 0.9  },
-            },
-            subnoise = {
-                type = "sub",
-                aspectRatio = 1,
-                frequency = {
-                    { depth = 0, value = 0.1 },
-                },
-                threshold = {
-                    { depth = 0, value = 0.7 },
-                },
-            }
-        }
-    },
-    [11] = {
-        id = 11,
-        name = "malachite",
-        density = 0.4,
-        cost = 50,
-        color = { 0.3, 0.8, 0.3, 1 },
-        generation = {
+            from = 7000, to = 10000,
             aspectRatio = 0.5,
             frequency = {
                 { depth = 0, value = 0.01 },
@@ -228,13 +363,14 @@ local Resources = {
             }
         }
     },
-    [12] = {
-        id = 12,
+    [18] = {
+        id = 18,
         name = "oil",
         density = 0.4,
         cost = 0,
         color = { 0.02, 0.02, 0.02, 1 },
         generation = {
+            from = 100, to = 3000,
             aspectRatio = 0.5,
             frequency = {
                 { depth = 0, value = 0.01 },
@@ -248,13 +384,14 @@ local Resources = {
             }
         }
     },
-    [13] = {
-        id = 13,
-        name = "titan",
+    [19] = {
+        id = 19,
+        name = "coal",
         density = 0.4,
         cost = 0,
         color = { 0.7, 0.6, 0.4, 1 },
         generation = {
+            from = 2900, to = 7100,
             aspectRatio = 0.5,
             frequency = {
                 { depth = 0, value = 0.01 },
@@ -268,13 +405,14 @@ local Resources = {
             }
         }
     },
-    [6] = {
-        id = 6,
-        name = "surface",
+    [20] = {
+        id = 20,
+        name = "uranium",
         density = 0,
         cost = 0,
         color = { 0, 0, 0, 0 },
         generation = {
+            from = 6500, to = 10000,
             frequency = {
                 { depth = 0, value = 1 },
             },
@@ -283,13 +421,14 @@ local Resources = {
             },
         }
     },
-    [7] = {
-        id = 7,
-        name = "grass",
+    [21] = {
+        id = 21,
+        name = "lava1",
         density = 0.01,
         cost = 0,
         color = { 0.6, 0.9, 0.3, 1 },
         generation = {
+            from = 3000, to = 10000,
             frequency = {
                 { depth = 0, value = 0.5 },
             },
@@ -298,6 +437,125 @@ local Resources = {
                 { depth = -2, value = 0 },
                 { depth = 4, value = 0 },
                 { depth = 5, value = 1 },
+            },
+        }
+    },
+    [22] = {
+        id = 22,
+        name = "lava2",
+        density = 0.01,
+        cost = 0,
+        color = { 0.6, 0.9, 0.3, 1 },
+        generation = {
+            from = 3000, to = 10000,
+            frequency = {
+                { depth = 0, value = 0.5 },
+            },
+            threshold = {
+                { depth = -5, value = 1 },
+                { depth = -2, value = 0 },
+                { depth = 4, value = 0 },
+                { depth = 5, value = 1 },
+            },
+        }
+    },
+    [23] = {
+        id = 23,
+        name = "lava3",
+        density = 0.01,
+        cost = 0,
+        color = { 0.6, 0.9, 0.3, 1 },
+        generation = {
+            from = 3000, to = 10000,
+            frequency = {
+                { depth = 0, value = 0.5 },
+            },
+            threshold = {
+                { depth = -5, value = 1 },
+                { depth = -2, value = 0 },
+                { depth = 4, value = 0 },
+                { depth = 5, value = 1 },
+            },
+        }
+    },
+    [25] = {
+        id = 25,
+        name = "obsidian",
+        density = 0,
+        cost = 0,
+        color = { 0.2, 0.1, 0.0, 1 },
+        generation = {
+            from = 7000, to = 10000,
+            frequency = {
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.008 },
+            },
+            threshold = {
+                { depth = -2, value = 1 },
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.8 },
+                { depth = 1000, value = 0.7 },
+                { depth = 2000, value = 0.9 },
+                { depth = 3000, value = 1 },
+            },
+        }
+    },
+    [26] = {
+        id = 26,
+        name = "bedrock",
+        density = 0,
+        cost = 0,
+        color = { 0.2, 0.1, 0.0, 1 },
+        generation = {
+            from = 10000,
+            frequency = {
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.008 },
+            },
+            threshold = {
+                { depth = -2, value = 1 },
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.8 },
+                { depth = 1000, value = 0.7 },
+                { depth = 2000, value = 0.9 },
+                { depth = 3000, value = 1 },
+            },
+        }
+    },
+    [27] = {
+        id = 27,
+        name = "grass",
+        density = 0,
+        cost = 0,
+        color = { 0.2, 0.1, 0.0, 1 },
+        generation = {
+            from = -10, to = 10,
+            frequency = {
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.008 },
+            },
+            threshold = {
+                { depth = -2, value = 1 },
+                { depth = 0, value = 1 },
+                { depth = 500, value = 0.8 },
+                { depth = 1000, value = 0.7 },
+                { depth = 2000, value = 0.9 },
+                { depth = 3000, value = 1 },
+            },
+        }
+    },
+    [28] = {
+        id = 28,
+        name = "air_fill",
+        density = 0,
+        cost = 0,
+        color = { 0.2, 0.1, 0.0, 1 },
+        generation = {
+            frequency = {
+                { depth = 0, value = 1 },
+            },
+            threshold = {
+                { depth = 0, value = 0 },
             },
         }
     },

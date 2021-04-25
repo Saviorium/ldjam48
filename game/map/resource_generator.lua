@@ -20,6 +20,8 @@ function ResourceGenerator:getResource()
 end
 
 function ResourceGenerator.getNoiseValue(depth, position, noiseParams)
+    if noiseParams.from and depth < noiseParams.from then return 0 end
+    if noiseParams.to and depth > noiseParams.to then return 0 end
     local threshold = ResourceGenerator.mapLinear(depth, noiseParams.threshold)
     if not threshold then
         return 0 -- spawn nothing

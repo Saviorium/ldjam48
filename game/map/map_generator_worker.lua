@@ -11,17 +11,28 @@ local MapGeneratorWorker = Class {
         self.seed = seed or love.timer.getTime()
         self.oreGenerators = {
             ResourceGenerator(Resources.getByName("air"), self.seed),
+            ResourceGenerator(Resources.getByName("oil"), self.seed),
             ResourceGenerator(Resources.getByName("iron"), self.seed),
             ResourceGenerator(Resources.getByName("gold"), self.seed),
-            ResourceGenerator(Resources.getByName("oil"), self.seed),
             ResourceGenerator(Resources.getByName("titan"), self.seed),
             ResourceGenerator(Resources.getByName("malachite"), self.seed),
-            ResourceGenerator(Resources.getByName("stone"), self.seed),
-            ResourceGenerator(Resources.getByName("dirt2"), self.seed),
-            ResourceGenerator(Resources.getByName("dirt3"), self.seed),
+            ResourceGenerator(Resources.getByName("mythril"), self.seed),
+            ResourceGenerator(Resources.getByName("diamond"), self.seed),
+            ResourceGenerator(Resources.getByName("stone_gray"), self.seed),
+            ResourceGenerator(Resources.getByName("limestone"), self.seed),
+            ResourceGenerator(Resources.getByName("sandstone"), self.seed),
+            ResourceGenerator(Resources.getByName("dirt_light"), self.seed),
+            ResourceGenerator(Resources.getByName("dirt_dark"), self.seed),
             ResourceGenerator(Resources.getByName("dirt"), self.seed),
+            ResourceGenerator(Resources.getByName("lava1"), self.seed),
+            ResourceGenerator(Resources.getByName("lava2"), self.seed),
+            ResourceGenerator(Resources.getByName("lava3"), self.seed),
+            ResourceGenerator(Resources.getByName("granite1"), self.seed),
+            ResourceGenerator(Resources.getByName("granite2"), self.seed),
+            ResourceGenerator(Resources.getByName("granite3"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),
+            ResourceGenerator(Resources.getByName("air_fill"), self.seed),
         }
         self.chunkSize = config.map.chunkSize
     end
