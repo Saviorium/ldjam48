@@ -51,9 +51,12 @@ function Surface:draw(drillPos)
                                 -2,
                                 0, 1, 1, img.image:getWidth(), img.image:getHeight())
             if img.x < drillPos.x - love.graphics.getWidth() or img.x > drillPos.x + love.graphics.getWidth()  then
+                local dist = math.random(love.graphics.getWidth()) + drillPos.x + love.graphics.getWidth()/2
                 self.treesObjects[ind] = 
                 {
-                    x = math.random(love.graphics.getWidth()*2 + drillPos.x) - love.graphics.getWidth(),
+                    x = math.random(2) == 1 
+                        and  dist 
+                         or -dist,
                     distance = math.random()/2,
                     image = self.trees[math.random(2)]
                 }
@@ -65,9 +68,12 @@ function Surface:draw(drillPos)
                                 img.x + drillPos.x * img.distance,
                                 -img.y)
             if img.x < drillPos.x - love.graphics.getWidth() or img.x > drillPos.x + love.graphics.getWidth()  then
+                local dist = math.random(love.graphics.getWidth()) + drillPos.x + love.graphics.getWidth()/2
                 self.cloudObjects[ind] = 
                 {
-                    x = math.random(love.graphics.getWidth()*2 + drillPos.x) - love.graphics.getWidth(),
+                    x = math.random(2) == 1 
+                        and  dist 
+                         or -dist,
                     y = math.random(10) + 50,
                     distance = math.random()/2,
                     image = self.clouds[math.random(2)]
