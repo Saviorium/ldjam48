@@ -42,10 +42,10 @@ local Resources = {
         colorGeneration = {
             colors = {
                 { 0.3, 0.18, 0.15, 1 },
-                { 0.37, 0.273, 0.18, 1 },
-                { 0.18, 0.114, 0.09, 1 },
+                { 0.32, 0.253, 0.16, 1 },
+                { 0.16, 0.094, 0.07, 1 },
             },
-            noiseFrequency = 0.07,
+            noiseFrequency = 0.01,
             thresholds = {
                 0.2, 0.7, 1
             }
@@ -229,23 +229,23 @@ local Resources = {
             from = 0, to = 4000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.02 },
+                { depth = 0,   value = 0.005 },
             },
             threshold = {
                 { depth = 1000, value = 1 },
-                { depth = 2000, value = 0.8 },
-                { depth = 3000, value = 0.9 },
+                { depth = 2000, value = 0.98 },
+                { depth = 3000, value = 0.96 },
                 { depth = 4000, value = 1   },
             },
             subnoise = {
                 type = "add",
                 aspectRatio = 0.9,
                 frequency = {
-                    { depth = 0, value = 0.9 },
+                    { depth = 0, value = 0.008 },
                 },
                 threshold = {
                     { depth = 0,    value = 1 },
-                    { depth = 1000, value = 0.1 },
+                    { depth = 1000, value = 0.95 },
                     { depth = 2000, value = 0.9 },
                     { depth = 3000, value = 1   },
                 },
@@ -466,7 +466,7 @@ local Resources = {
         color = { 0.102, 0.1, 0.095, 1 },
         generation = {
             from = 0, to = 3000,
-            aspectRatio = 0.5,
+            aspectRatio = 0.1,
             frequency = {
                 { depth = 0, value = 0.01 },
             },
@@ -478,16 +478,6 @@ local Resources = {
                 { depth = 4000, value = 0.98 },
                 { depth = 5000, value = 1 },
             },
-            -- subnoise = {
-            --     type = "add",
-            --     aspectRatio = 1,
-            --     frequency = {
-            --         { depth = 0, value = 0.1 },
-            --     },
-            --     threshold = {
-            --         { depth = 0, value = 0.7 },
-            --     },
-            -- }
         }
     },
     [19] = {

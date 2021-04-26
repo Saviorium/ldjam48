@@ -19,6 +19,7 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("mythril"), self.seed),
             ResourceGenerator(Resources.getByName("diamond"), self.seed),
             ResourceGenerator(Resources.getByName("lava"), self.seed),
+            ResourceGenerator(Resources.getByName("granite"), self.seed),
             ResourceGenerator(Resources.getByName("stone_dark"), self.seed),
             ResourceGenerator(Resources.getByName("stone_gray"), self.seed),
             ResourceGenerator(Resources.getByName("limestone"), self.seed),
@@ -28,7 +29,6 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("bedrock"), self.seed),
             ResourceGenerator(Resources.getByName("obsidian"), self.seed),
             ResourceGenerator(Resources.getByName("ash"), self.seed),
-            ResourceGenerator(Resources.getByName("granite"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),
         }
