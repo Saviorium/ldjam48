@@ -145,14 +145,14 @@ function Drill:dig( map )
                 self.frameDensity = self.frameDensity + result.density
                 if result.health > 0 and result.density > 0 then
                     self.gold = self.gold + result.money
-                    self.HP   = self.HP   + result.damageToDrill
+                    self.HP   = self.HP   - result.damageToDrill
                     self.damaged = result.damageToDrill > 0 or self.damaged
                     frameDamage = frameDamage - 1
                 end
                 while (result.health > 0 and result.density > 0 and frameDamage > 0) do
                     result = map:digVoxel(pos)
                     self.gold = self.gold + result.money
-                    self.HP   = self.HP   + result.damageToDrill
+                    self.HP   = self.HP   - result.damageToDrill
                     frameDamage = frameDamage - 1
                 end
                 squaresDiggedNum = result.health <= 0 and squaresDiggedNum + 1 or squaresDiggedNum
@@ -164,10 +164,10 @@ function Drill:dig( map )
         end
 
         self.frameDensityAverage = self.frameDensityAverage + (self.frameDensity - self.frameDensityAverage / 30)
-        self.particles:setIntensity("spark", self.frameDensityAverage/10)
+        self.particles:setIntensity("spark", self.frameDensityAverage/5)
         self.particles:setIntensity("dirtChunk", 5)
         if self.damaged then
-            self.particles:setIntensity("smoke", 30)
+            self.particles:setIntensity("smoke", 50)
         else
             self.particles:setIntensity("smoke", 0)
         end
