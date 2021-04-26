@@ -332,7 +332,7 @@ local Resources = {
                 },
                 threshold = {
                     { depth = 6000,    value = 1 },
-                    { depth = 7000, value = 0.90 },
+                    { depth = 7000, value = 0.95 },
                     { depth = 8000, value = 1 },
                 },
                 subnoise = {
@@ -420,14 +420,14 @@ local Resources = {
             from = 300, to = 7100,
             aspectRatio = 1,
             frequency = {
-                { depth = 0, value = 0.001 },
+                { depth = 0, value = 0.0005 }
             },
             threshold = {
                 { depth = 3000, value = 1 },
-                { depth = 4000, value = 0.85 },
-                { depth = 5000, value = 0.7 },
-                { depth = 6000, value = 0.9 },
-                { depth = 8000, value = 1   },
+                { depth = 4000, value = 0.62 },
+                { depth = 5000, value = 0.42 },
+                { depth = 6000, value = 0.15 },
+                { depth = 7500, value = 1   },
             },
             subnoise = {
                 type = "mult",
@@ -590,7 +590,7 @@ local Resources = {
         id = 21,
         name = "lava",
         density = 0.05,
-        damage = 0.05,
+        damage = 0.1,
         cost = 0,
         colorGeneration = {
             colors = {

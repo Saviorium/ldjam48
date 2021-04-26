@@ -26,7 +26,7 @@ local Drill =
         self.maxAngles = 45
         self.startDegree = 60
 
-        self.fuelReduction = 0.005
+        self.fuelReduction = 0.008
         self.launched = false
         self.onAir = true
         self.damaged = false
