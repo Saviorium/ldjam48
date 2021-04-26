@@ -25,13 +25,11 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("sandstone"), self.seed),
             ResourceGenerator(Resources.getByName("malachite"), self.seed),
             ResourceGenerator(Resources.getByName("dirt"), self.seed),
+            ResourceGenerator(Resources.getByName("bedrock"), self.seed),
             ResourceGenerator(Resources.getByName("obsidian"), self.seed),
             ResourceGenerator(Resources.getByName("ash"), self.seed),
-            -- ResourceGenerator(Resources.getByName("dirt_light"), self.seed),
-            -- ResourceGenerator(Resources.getByName("dirt_dark"), self.seed),
             ResourceGenerator(Resources.getByName("granite"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
-            ResourceGenerator(Resources.getByName("bedrock"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),
         }
         self.chunkSize = config.map.chunkSize

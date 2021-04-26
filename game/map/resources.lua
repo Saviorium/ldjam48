@@ -311,16 +311,16 @@ local Resources = {
                     { depth = 7000, value = 0.90 },
                     { depth = 8000, value = 1 },
                 },
+                subnoise = {
+                    type = "sub",
+                    frequency = {
+                        { depth = 0, value = 0.1 },
+                    },
+                    threshold = {
+                        { depth = 0, value = 0.7 },
+                    },
+                }
             },
-            subnoise = {
-                type = "sub",
-                frequency = {
-                    { depth = 0, value = 0.1 },
-                },
-                threshold = {
-                    { depth = 0, value = 0.7 },
-                },
-            }
         }
     },
     [14] = {
@@ -553,8 +553,9 @@ local Resources = {
         },
         generation = {
             from = 3000, to = 10000,
+            aspectRatio = 0.5,
             frequency = {
-                { depth = 0, value = 0.005 },
+                { depth = 0, value = 0.008 },
             },
             threshold = {
                 { depth = 3000, value = 1   },
@@ -576,14 +577,14 @@ local Resources = {
         seed = 1336,
         colorGeneration = {
             colors = {
-                { 0.25, 0.2, 0.25, 1 },
+                { 0.219, 0.141, 0.215, 1 },
                 { 0.4, 0.25, 0.4, 1 },
                 { 0.1, 0.09, 0.1, 1 },
                 { 0.3, 0.2, 0.3, 1 },
             },
             noiseFrequency = 0.09,
             thresholds = {
-                0.2, 0.35, 0.5, 1
+                0.2, 0.35, 0.55, 1
             }
         },
         generation = {
