@@ -1,4 +1,6 @@
 local PlayerController = require "game.player.player_controller"
+local ParticleSystem = require "game.player.drill_particle_system"
+
 local log = require "engine.utils.logger" ("drill")
 
 local Drill =
@@ -31,6 +33,10 @@ local Drill =
         self.damage = 20
         self.width, self.height = 4, 4
 
+        self.particles = ParticleSystem(self)
+        self.particles:setIntensity('spark', 30)
+        self.particles:setIntensity('dirtChunk', 5)
+
         self.lowNoise = 10
         self.mediumNoise = 150
         self.highNoise = 300
@@ -41,6 +47,7 @@ local Drill =
 }
 
 function Drill:update(dt)
+    self.particles:update(dt)
     self.controller:update(dt)
     self.image:update(dt)
     if self.HP <0 then
@@ -49,7 +56,9 @@ function Drill:update(dt)
 end
 
 function Drill:draw()
+    self.particles:drawBehind()
     self.image:draw(self.position.x, self.position.y, self.angle, 1, 1, self.width, self.height)
+    self.particles:drawInFront()
     --love.graphics.draw(self.image, self.position.x, self.position.y, self.angle, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
     self:drawDebug()
 end
