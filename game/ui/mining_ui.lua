@@ -116,7 +116,7 @@ local UI =
                     tag = "Upgrade", height = 64, background = buttonPng, font = font, align = 'center',
                     callback = function()
                         local upgradeCost = drill.damage * drill.upgradeKoef
-                        if drill.gold >= upgradeCost then
+                        if drill.gold <= upgradeCost then
                             drill.blocksInFrame = drill.blocksInFrame + (drill.blocksInFrame == drill.maxSpeed and 0 or drill.speedUpgrade)
                             drill.damage = drill.damage + drill.damageUpgrade
                             drill.gold = drill.gold - upgradeCost
@@ -126,53 +126,6 @@ local UI =
             )
         )
 
-        -- local SpeedUi = UIobject( self, { tag = "Upgrade UI 1", width = 128, height = 64, background = UIPng } )
-        -- self:registerObject( "Upgrade 1", {left = 496, up = -5}, SpeedUi )
-        -- SpeedUi:registerObject(
-        --     "Damage Up",
-        --     { up = 32 },
-        --     Button(
-        --         SpeedUi,
-        --         {
-        --             tag = "Damage Up", height = 64, background = buttonPng, font = font,
-        --             callback = function()
-        --                 drill.damage = drill.damage + 5
-        --             end
-        --         }
-        --     )
-        -- )
-
-        -- local damageUi = UIobject( self, { tag = "Upgrade UI 2", width = 128, height = 64, background = UIPng  } )
-        -- self:registerObject( "Upgrade 2", {left = 752, up = 0}, damageUi )
-        -- SpeedUi:registerObject(
-        --     "Speed Up button",
-        --     { up = 0 },
-        --     Button(
-        --         SpeedUi,
-        --         {
-        --             tag = "Speed Up", height = 64, background = buttonPng, font = font, align = 'center',
-        --             callback = function()
-        --                 drill.blocksInFrame = drill.blocksInFrame + 1
-        --             end
-        --         }
-        --     )
-        -- )
-        -- SpeedUi:registerObject(
-        --     "Damage Up",
-        --     { up = 32 },
-        --     Button(
-        --         SpeedUi,
-        --         {
-        --             tag = "Damage Up", height = 64, background = buttonPng, font = font,
-        --             callback = function()
-        --                 drill.damage = drill.damage + 5
-        --             end
-        --         }
-        --     )
-        -- )
-
-        -- local altitudeUI = UIobject( self, { tag = "Altitude UI", width = 64, height = 16,  } )
-        -- self:registerObject( "Altitude", {left = 624, up = 64}, altitudeUI )
         ParametersUI:registerObject(
             "atitude",
             { up = 64 },
@@ -187,6 +140,52 @@ local UI =
                 }
             )
         )
+        if Debug.drawDrillUIDebug then
+            local SpeedUi = UIobject( self, { tag = "Speed UI", width = 150, height = 165, } )
+            self:registerObject( "Speed", {right = 200, up = 10}, SpeedUi )
+            SpeedUi:registerObject(
+                "blocksInFrame",
+                { },
+                Label(
+                    SpeedUi,
+                    {
+                        tag = "blocksInFrame",
+                        text = "BlocksInFrame = " .. 0,
+                        height = 50,
+                        font = font,
+                        getText = function() return "BlocksInFrame = " .. (drill.blocksInFrame) end,
+                    }
+                )
+            )
+            SpeedUi:registerObject(
+                "last turn speed",
+                { up = 50 },
+                Label(
+                    SpeedUi,
+                    {
+                        tag = "Last turn speed",
+                        text = "Last turn speed = " .. 0,
+                        height = 50,
+                        font = font,
+                        getText = function() return "Last turn speed \n" .. (math.floor(drill.blocksMoved or 0)) end,
+                    }
+                )
+            )
+            SpeedUi:registerObject(
+                "damage",
+                { up = 110 },
+                Label(
+                    SpeedUi,
+                    {
+                        tag = "damage",
+                        text = "Damage = " .. 0,
+                        height = 50,
+                        font = font,
+                        getText = function() return "Damage = " .. (drill.damage) end,
+                    }
+                )
+            )
+        end
 
     end
 }

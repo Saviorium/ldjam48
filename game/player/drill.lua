@@ -144,7 +144,7 @@ function Drill:dig( map )
         self.frameDensity = 0
         self.damaged = false
 
-        while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
+        while ( frameDamage > 0 and (self.blocksMoved + self.blocksInMove) <= self.blocksInFrame ) do
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
             for ind, pos in pairs(digArea) do

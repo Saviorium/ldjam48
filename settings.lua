@@ -28,6 +28,7 @@ Debug = {
     showFps = 0,
     drill = 0,
     drawUiDebug = false,
+    drawDrillUIDebug = true,
     map = 0,
     mapDraw = 0,
     mapGenerator = 0,
