@@ -34,8 +34,7 @@ local Drill =
         self.width, self.height = 4, 4
 
         self.particles = ParticleSystem(self)
-        self.particles:setIntensity('spark', 30)
-        self.particles:setIntensity('dirtChunk', 5)
+        self.frameDensityAverage = 0
 
         self.lowNoise = 10
         self.mediumNoise = 150
@@ -162,6 +161,15 @@ function Drill:dig( map )
                 self:move()
                 self.blocksMoved = self.blocksMoved + self.blocksInMove
             end
+        end
+
+        self.frameDensityAverage = self.frameDensityAverage + (self.frameDensity - self.frameDensityAverage / 30)
+        self.particles:setIntensity("spark", self.frameDensityAverage/10)
+        self.particles:setIntensity("dirtChunk", 5)
+        if self.damaged then
+            self.particles:setIntensity("smoke", 30)
+        else
+            self.particles:setIntensity("smoke", 0)
         end
         self.onAir = frameDamage == self.damage
 
