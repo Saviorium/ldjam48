@@ -14,7 +14,8 @@ local Resources = {
                 { depth = 0, value = 1 },
                 { depth = 3000, value = 0.8 },
                 { depth = 7000, value = 0.7 },
-                { depth = 10000, value = 0.9 },
+                { depth = 9950, value = 0.9 },
+                { depth = 9960, value = 1 },
             },
         }
     },
@@ -549,16 +550,17 @@ local Resources = {
     [26] = {
         id = 26,
         name = "bedrock",
-        density = 0,
+        density = 9999,
         cost = 0,
         color = { 0, 0, 0, 1 },
         generation = {
-            from = 10000,
+            from = 9980,
             frequency = {
-                { depth = 0, value = 1 },
+                { depth = 0, value = 0.1 },
             },
             threshold = {
-                { depth = 9999, value = 1 },
+                { depth = 9980, value = 1 },
+                { depth = 9985, value = 0.4 },
                 { depth = 10000, value = 0 },
             },
         }
