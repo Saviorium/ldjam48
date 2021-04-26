@@ -24,16 +24,16 @@ settings = {
 }
 
 Debug = {
-    LogLevel = 3,
-    showFps = 1,
+    LogLevel = 0,
+    showFps = 0,
     drill = 0,
     drawUiDebug = false,
     map = 0,
     mapDraw = 0,
-    mapGenerator = 3,
+    mapGenerator = 0,
     mapGeneratorDraw = 0,
     chunk = 0,
     chunkDraw = 0,
-    resourceDisplay = 1,
-    teleport = 1,
+    resourceDisplay = 0,
+    teleport = 0,
 }

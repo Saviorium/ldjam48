@@ -22,7 +22,7 @@ local UI =
                 ParametersUI,
                 {
                     tag = "goldCounter",
-                    text = "Money = " .. 0,
+                    text = "Money: " .. 0,
                     width = 100,
                     height = 50,
                     font = font,
@@ -30,7 +30,7 @@ local UI =
                     getText =
                         function()
                             local money = drill.gold > 100000 and math.floor(drill.gold / 1000) or math.floor(drill.gold)
-                            return "Money = " .. (drill.gold > 0 and money or 0)..(drill.gold > 100000 and 'K' or '')
+                            return "Money: " .. (drill.gold > 0 and money or 0)..(drill.gold > 100000 and 'K' or '')
                         end,
                 }
             )
@@ -42,14 +42,14 @@ local UI =
                 ParametersUI,
                 {
                     tag = "currentUpgrades",
-                    text = "Upgrades = " .. 0,
+                    text = "level: " .. 0,
                     width = 100,
                     height = 16,
                     font = font,
                     align = 'left',
                     getText =
                         function()
-                            return "Upgrades\n" .. ((drill.damage - 20)/2 > 0 and (drill.damage - 20)/2 or 0)
+                            return "level: " .. ((drill.damage - 20)/2 > 0 and (drill.damage - 20)/2 or 0)
                         end,
                 }
             )
@@ -61,14 +61,14 @@ local UI =
                 ParametersUI,
                 {
                     tag = "needForUpgrade",
-                    text = "Need for upgrade = " .. 0,
+                    text = "cost:  " .. 0,
                     width = 100,
                     height = 16,
                     font = font,
                     align = 'left',
                     getText =
                         function()
-                            return "Need for upgrade\n " .. (drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0)
+                            return "cost: " .. (drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0)
                         end,
                 }
             )
@@ -180,10 +180,10 @@ local UI =
                 ParametersUI,
                 {
                     tag = "atitude",
-                    text = "Alt = " .. 0,
+                    text = "Alt: " .. 0,
                     height = 16,
                     font = font,
-                    getText = function() return "Alt = " .. (math.floor(drill.position.y)) end,
+                    getText = function() return "Alt: " .. (math.floor(drill.position.y)) end,
                 }
             )
         )
