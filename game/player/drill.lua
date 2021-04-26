@@ -26,7 +26,7 @@ local Drill =
         self.maxAngles = 45
         self.startDegree = 60
 
-        self.fuelReduction = 0.01
+        self.fuelReduction = 0.005
         self.launched = false
         self.onAir = true
         self.damaged = false
@@ -49,6 +49,13 @@ function Drill:update(dt)
     self.particles:update(dt)
     self.controller:update(dt)
     self.image:update(dt)
+
+    if self.fuel > self.maxFuel then
+        self.fuel = self.maxFuel
+    end
+    if self.HP > self.maxHP then
+        self.HP = self.maxHP
+    end
 end
 
 function Drill:draw()
@@ -141,6 +148,7 @@ function Drill:dig( map )
                 local result = map:digVoxel(pos)
                 self.frameDensity = self.frameDensity + result.density
                 if result.health > 0 and result.density > 0 then
+                    self.fuel = self.fuel + result.fuel
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   - result.damageToDrill
                     self.damaged = result.damageToDrill > 0 or self.damaged
@@ -148,6 +156,7 @@ function Drill:dig( map )
                 end
                 while (result.health > 0 and result.density > 0 and frameDamage > 0) do
                     result = map:digVoxel(pos)
+                    self.fuel = self.fuel + result.fuel
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   - result.damageToDrill
                     frameDamage = frameDamage - 1

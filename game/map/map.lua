@@ -87,7 +87,18 @@ function Map:digVoxel(position)
     if voxel.resource.damage then
         damageToDrill = voxel.resource.damage
     end
-    local result = {damage = damageToVoxel, health = HP, density = dens, money = damageToVoxel * voxel.resource.cost, damageToDrill = damageToDrill}
+    local fuel = 0
+    if voxel.resource.fuel then
+        fuel = voxel.resource.fuel
+    end
+    local result = {
+        damage = damageToVoxel,
+        health = HP,
+        density = dens,
+        money = damageToVoxel * voxel.resource.cost,
+        damageToDrill = damageToDrill,
+        fuel = fuel,
+    }
     return result
 end
 

@@ -278,8 +278,8 @@ local Resources = {
         id = 12,
         name = "iron",
         density = 0.8,
-        damage = -0.025,
-        cost = 10,
+        damage = -0.02,
+        cost = 0.2,
         color = { 0.8, 0.5, 0.4, 1 },
         generation = {
             from = 0, to = 3100,
@@ -309,8 +309,8 @@ local Resources = {
         id = 13,
         name = "titan",
         density = 0.8,
-        damage = -0.07,
-        cost = 100,
+        damage = -0.04,
+        cost = 2,
         color = { 0.77, 0.87, 0.9, 1 },
         generation = {
             from = 2800, to = 8000,
@@ -351,8 +351,8 @@ local Resources = {
         id = 14,
         name = "mythril",
         density = 0.8,
-        damage = -0.1,
-        cost = 500,
+        damage = -0.05,
+        cost = 5,
         color = { 0.3, 0.66, 0.48, 1 },
         generation = {
             from = 6000, to = 10000,
@@ -363,7 +363,7 @@ local Resources = {
             threshold = {
                 { depth = 6500, value = 1   },
                 { depth = 7000, value = 0.99 },
-                { depth = 8000, value = 0.95 },
+                { depth = 8000, value = 0.98 },
                 { depth = 9000, value = 0.96 },
                 { depth = 10000, value = 1 },
             },
@@ -382,7 +382,7 @@ local Resources = {
         id = 15,
         name = "malachite",
         density = 0.5,
-        cost = 50,
+        cost = 2,
         color = { 0.27, 0.68, 0.51, 1 },
         generation = {
             from = 500, to = 3000,
@@ -413,7 +413,7 @@ local Resources = {
         id = 16,
         name = "gold",
         density = 0.4,
-        cost = 1000,
+        cost = 10,
         color = { 1, 0.8, 0.3, 1 },
         seed = 1337,
         generation = {
@@ -454,31 +454,35 @@ local Resources = {
     [17] = {
         id = 17,
         name = "diamond",
-        density = 0.4,
+        density = 0.999,
         cost = 50,
         color = { 0.33, 0.93, 0.85, 1 },
         seed = 1336,
         generation = {
-            from = 7000, to = 11000,
-            aspectRatio = 0.5,
+            from = 7000, to = 10000,
             frequency = {
                 { depth = 0, value = 0.0005 },
             },
             threshold = {
-                { depth = 6000, value = 1   },
-                { depth = 7000, value = 0.999 },
-                { depth = 8000, value = 0.995 },
-                { depth = 9000, value = 0.99 },
-                { depth = 10000, value = 1 },
+                { depth = 6500, value = 1 },
+                { depth = 7000, value = 0.96 },
+                { depth = 8000, value = 0.75 },
+                { depth = 9000, value = 0.45 },
+                { depth = 10000, value = 0.9 },
+                { depth = 10500, value = 1 },
             },
             subnoise = {
-                type = "sub",
-                aspectRatio = 1,
+                type = "mult",
                 frequency = {
-                    { depth = 0, value = 0.1 },
+                    { depth = 0, value = 0.02 },
                 },
                 threshold = {
-                    { depth = 0, value = 0.7 },
+                    { depth = 7000, value = 1 },
+                    { depth = 8000, value = 0.999 },
+                    { depth = 8950, value = 0.99 },
+                    { depth = 9000, value = 0.999 },
+                    { depth = 9000, value = 0.999 },
+                    { depth = 10000, value = 0.995 },
                 },
             }
         }
@@ -487,6 +491,7 @@ local Resources = {
         id = 18,
         name = "oil",
         density = 0.4,
+        fuel = 0.02,
         cost = 0,
         color = { 0.102, 0.1, 0.095, 1 },
         generation = {
@@ -509,6 +514,7 @@ local Resources = {
         id = 19,
         name = "coal",
         density = 0.4,
+        fuel = 0.01,
         cost = 0,
         color = { 0.1, 0.1, 0.1, 1 },
         generation = {
@@ -524,28 +530,60 @@ local Resources = {
                 { depth = 6000, value = 0.94 },
                 { depth = 7000, value = 0.96 },
                 { depth = 8000, value = 1   },
-            }
+            },
+            subnoise = {
+                type = "sub",
+                aspectRatio = 0.5,
+                frequency = {
+                    { depth = 0, value = 0.1 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.7 },
+                },
+            },
         }
     },
     [20] = {
         id = 20,
         name = "uranium",
-        density = 0,
+        fuel = 0.03,
+        density = 0.996,
         cost = 0,
         color = { 0.2, 1, 0.25, 1 },
         seed = 1336,
         generation = {
             from = 6500, to = 10000,
             frequency = {
-                { depth = 0, value = 0.005 },
+                { depth = 0, value = 0.0005 },
             },
             threshold = {
-                { depth = 6000, value = 1   },
-                { depth = 7000, value = 0.99 },
-                { depth = 8000, value = 0.98 },
-                { depth = 9000, value = 0.97 },
-                { depth = 10000, value = 1 },
+                { depth = 6500, value = 1 },
+                { depth = 7000, value = 0.96 },
+                { depth = 8000, value = 0.75   },
+                { depth = 9000, value = 0.45 },
+                { depth = 10000, value = 0.9 },
+                { depth = 10500, value = 1 },
             },
+            subnoise = {
+                type = "mult",
+                aspectRatio = 1,
+                frequency = {
+                    { depth = 0, value = 0.009 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.99 },
+                },
+                subnoise = {
+                    type = "sub",
+                    aspectRatio = 1,
+                    frequency = {
+                        { depth = 0, value = 0.6 },
+                    },
+                    threshold = {
+                        { depth = 0, value = 0.01 },
+                    },
+                }
+            }
         }
     },
     [21] = {
@@ -663,7 +701,7 @@ local Resources = {
         id = 26,
         name = "bedrock",
         density = 0.999,
-        damage = 0.1,
+        damage = 0.05,
         cost = 0,
         color = { 0, 0, 0, 1 },
         generation = {
