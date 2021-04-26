@@ -20,7 +20,7 @@ function startScreen:mousereleased(x, y)
 end
 
 function startScreen:keypressed(key)
-    if key == 's' then
+    if key == 'space' then
         love.graphics.setFont(self.defFont)
         StateManager.switch(states.mining, self.world)
     end
@@ -28,10 +28,10 @@ end
 
 function startScreen:draw()
 
-    love.graphics.draw(self.newspaper, -300, -100, 0, 1.5, 1.5)
+    love.graphics.draw(self.newspaper, 0, 0, 0, 1, 1)
 
     local x, y = love.graphics:getWidth()/2, love.graphics:getHeight()/2
-    self.drill:draw(x - 120 , y - 225, math.pi/2, 8, 8, 4, 4)
+    self.drill:draw(x - 150 , y - 225, math.pi/2, 8, 8, 4, 4)
 
 end
 
