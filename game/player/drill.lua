@@ -49,9 +49,6 @@ function Drill:update(dt)
     self.particles:update(dt)
     self.controller:update(dt)
     self.image:update(dt)
-    if self.HP <0 then
-        StateManager.switch(states.end_state)
-    end
 end
 
 function Drill:draw()
@@ -92,7 +89,7 @@ function Drill:turn( direction )
     if self.launched then
         local angle = self.angle*180/math.pi
         local degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
-        if not self.onAir then
+        if not self.onAir and self.fuel > 0 then
             self.fuel = self.fuel - self.fuelReduction
             self.angle = self.angle + self.rotationSpeed * direction
         end

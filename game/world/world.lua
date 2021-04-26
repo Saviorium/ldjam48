@@ -25,6 +25,10 @@ function World:update(dt)
     self.drill:update(dt)
     self.drill:dig(self.map)
     self.surface:update(dt, self.drill.position)
+
+    if self.drill.HP < 0 then
+        StateManager.switch(states.end_screen, self)
+    end
 end
 
 function World:draw()

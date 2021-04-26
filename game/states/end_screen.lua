@@ -2,7 +2,7 @@ local endScreen = {}
 
 function endScreen:enter(prev_state, world)
     self.world = world
-    self.highScore = 0
+    self.highScore = self.world.drill.gold
     self.font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
 end
 

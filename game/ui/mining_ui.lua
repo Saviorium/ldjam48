@@ -71,7 +71,7 @@ local UI =
                     width = 100,
                     height = 50,
                     font = font,
-                    getText = function() return "Health = " .. (drill.HP > 0 and drill.HP or 0) end,
+                    getText = function() return "Health = " .. (drill.HP > 0 and math.floor(drill.HP) or 0) end,
                 }
             )
         )
