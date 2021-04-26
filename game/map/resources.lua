@@ -113,7 +113,7 @@ local Resources = {
         cost = 0,
         colorGeneration = {
             colors = {
-                { 0.92, 0.85, 0.76, 1 },
+                { 0.90, 0.87, 0.78, 1 },
                 { 0.94, 0.87, 0.78, 1 },
                 { 0.90, 0.83, 0.74, 1 },
             },
@@ -123,7 +123,7 @@ local Resources = {
             }
         },
         generation = {
-            from = 2500, to = 7000,
+            from = 2500, to = 8000,
             aspectRatio = 1,
             frequency = {
                 { depth = 0,   value = 0.0001 },
@@ -141,20 +141,41 @@ local Resources = {
         name = "stone_dark",
         density = 0.95,
         cost = 0,
-        color = { 0.4, 0.3, 0.3, 1 },
+        colorGeneration = {
+            colors = {
+                { 0.22, 0.2, 0.2, 1 },
+                { 0.25, 0.23, 0.23, 1 },
+                { 0.35, 0.3, 0.3, 1 },
+                { 0.4, 0.3, 0.3, 1 },
+            },
+            noiseFrequency = 0.07,
+            thresholds = {
+                0.2, 0.5, 0.6, 1
+            }
+        },
         seed = 1337,
         generation = {
-            from = 3000, to = 7000,
+            from = 3000, to = 8000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.001 }
+                { depth = 0,   value = 0.0005 }
             },
             threshold = {
                 { depth = 3000, value = 1 },
-                { depth = 4000, value = 0.8 },
-                { depth = 5000, value = 0.6 },
+                { depth = 4000, value = 0.6 },
+                { depth = 5000, value = 0.4 },
                 { depth = 6000, value = 0.1 },
-                { depth = 8000, value = 1   },
+                { depth = 7500, value = 1   },
+            },
+            subnoise = {
+                type = "sub",
+                aspectRatio = 1,
+                frequency = {
+                    { depth = 0, value = 0.01 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.7 },
+                },
             },
         }
     },
@@ -166,7 +187,7 @@ local Resources = {
         colorGeneration = {
             colors = {
                 { 0.75, 0.60, 0.49, 1 },
-                { 0.7, 0.55, 0.44, 1 },
+                { 0.74, 0.56, 0.47, 1 },
                 { 0.7, 0.55, 0.44, 1 },
             },
             noiseFrequency = 0.05,
@@ -175,7 +196,7 @@ local Resources = {
             }
         },
         generation = {
-            from = 0, to = 3000,
+            from = 0, to = 4000,
             aspectRatio = 1,
             frequency = {
                 { depth = 0,   value = 0.01 },
@@ -268,7 +289,7 @@ local Resources = {
         cost = 100,
         color = { 0.77, 0.87, 0.9, 1 },
         generation = {
-            from = 2800, to = 7100,
+            from = 2800, to = 8000,
             aspectRatio = 1,
             frequency = {
                 { depth = 0,   value = 0.01 },
@@ -290,6 +311,15 @@ local Resources = {
                     { depth = 7000, value = 0.90 },
                     { depth = 8000, value = 1 },
                 },
+            },
+            subnoise = {
+                type = "sub",
+                frequency = {
+                    { depth = 0, value = 0.1 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.7 },
+                },
             }
         }
     },
@@ -300,17 +330,26 @@ local Resources = {
         cost = 500,
         color = { 0.3, 0.66, 0.48, 1 },
         generation = {
-            from = 7000, to = 10000,
+            from = 6000, to = 10000,
             aspectRatio = 1,
             frequency = {
-                { depth = 0,   value = 0.8 },
+                { depth = 0,   value = 0.01 },
             },
             threshold = {
-                { depth = 6000, value = 1   },
-                { depth = 7000, value = 0.96 },
-                { depth = 8000, value = 0.92 },
-                { depth = 9000, value = 0.94 },
+                { depth = 6500, value = 1   },
+                { depth = 7000, value = 0.99 },
+                { depth = 8000, value = 0.95 },
+                { depth = 9000, value = 0.96 },
                 { depth = 10000, value = 1 },
+            },
+            subnoise = {
+                type = "sub",
+                frequency = {
+                    { depth = 0, value = 0.08 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.6 },
+                },
             },
         }
     },
@@ -393,17 +432,18 @@ local Resources = {
         density = 0.4,
         cost = 50,
         color = { 0.33, 0.93, 0.85, 1 },
+        seed = 1336,
         generation = {
-            from = 7000, to = 10000,
+            from = 7000, to = 11000,
             aspectRatio = 0.5,
             frequency = {
-                { depth = 0, value = 0.95 },
+                { depth = 0, value = 0.0005 },
             },
             threshold = {
                 { depth = 6000, value = 1   },
-                { depth = 7000, value = 0.96 },
-                { depth = 8000, value = 0.92 },
-                { depth = 9000, value = 0.94 },
+                { depth = 7000, value = 0.999 },
+                { depth = 8000, value = 0.995 },
+                { depth = 9000, value = 0.99 },
                 { depth = 10000, value = 1 },
             },
             subnoise = {
@@ -478,16 +518,17 @@ local Resources = {
         density = 0,
         cost = 0,
         color = { 0.2, 1, 0.25, 1 },
+        seed = 1336,
         generation = {
             from = 6500, to = 10000,
             frequency = {
-                { depth = 0, value = 0.95 },
+                { depth = 0, value = 0.005 },
             },
             threshold = {
                 { depth = 6000, value = 1   },
-                { depth = 7000, value = 0.96 },
-                { depth = 8000, value = 0.92 },
-                { depth = 9000, value = 0.94 },
+                { depth = 7000, value = 0.99 },
+                { depth = 8000, value = 0.98 },
+                { depth = 9000, value = 0.97 },
                 { depth = 10000, value = 1 },
             },
         }
@@ -513,7 +554,7 @@ local Resources = {
         generation = {
             from = 3000, to = 10000,
             frequency = {
-                { depth = 0, value = 0.98 },
+                { depth = 0, value = 0.005 },
             },
             threshold = {
                 { depth = 3000, value = 1   },
@@ -530,19 +571,74 @@ local Resources = {
     [25] = {
         id = 25,
         name = "obsidian",
-        density = 0,
+        density = 0.995,
         cost = 0,
-        color = { 0.3, 0.2, 0.3, 1 },
+        seed = 1336,
+        colorGeneration = {
+            colors = {
+                { 0.25, 0.2, 0.25, 1 },
+                { 0.4, 0.25, 0.4, 1 },
+                { 0.1, 0.09, 0.1, 1 },
+                { 0.3, 0.2, 0.3, 1 },
+            },
+            noiseFrequency = 0.09,
+            thresholds = {
+                0.2, 0.35, 0.5, 1
+            }
+        },
         generation = {
-            from = 7000, to = 10000,
+            from = 6000, to = 11000,
             frequency = {
-                { depth = 0, value = 0.08 },
+                { depth = 0, value = 0.0005 },
             },
             threshold = {
-                { depth = 7000, value = 1 },
+                { depth = 6500, value = 1 },
+                { depth = 7000, value = 0.95 },
                 { depth = 8000, value = 0.7   },
-                { depth = 9000, value = 0.94 },
-                { depth = 10000, value = 1 },
+                { depth = 9000, value = 0.4 },
+                { depth = 10000, value = 0.9 },
+                { depth = 10500, value = 1 },
+            },
+            subnoise = {
+                type = "sub",
+                aspectRatio = 1,
+                frequency = {
+                    { depth = 0, value = 0.01 },
+                },
+                threshold = {
+                    { depth = 0, value = 0.7 },
+                },
+            },
+        }
+    },
+    [30] = {
+        id = 30,
+        name = "ash",
+        density = 0.5,
+        cost = 0,
+        colorGeneration = {
+            colors = {
+                { 0.4, 0.4, 0.4, 1 },
+                { 0.3, 0.3, 0.3, 1 },
+                { 0.2, 0.2, 0.2, 1 },
+                { 0.1, 0.1, 0.1, 1 },
+            },
+            noiseFrequency = 0.09,
+            thresholds = {
+                0.2, 0.35, 0.5, 1
+            }
+        },
+        generation = {
+            from = 6000, to = 11000,
+            aspectRatio = 1,
+            frequency = {
+                { depth = 0,   value = 0.0001 },
+            },
+            threshold = {
+                { depth = 6500, value = 1 },
+                { depth = 7000, value = 0 },
+                { depth = 9999, value = 0 },
+                { depth = 10500, value = 1 },
             },
         }
     },
@@ -577,11 +673,8 @@ local Resources = {
             },
             threshold = {
                 { depth = -2, value = 1 },
-                { depth = 0, value = 1 },
-                { depth = 500, value = 0.8 },
-                { depth = 1000, value = 0.7 },
-                { depth = 2000, value = 0.9 },
-                { depth = 3000, value = 1 },
+                { depth = 0, value = 0 },
+                { depth = 10, value = 1 },
             },
         }
     },

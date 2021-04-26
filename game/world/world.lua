@@ -9,7 +9,7 @@ local World =
     Class {
     init = function(self)
         self.map = Map()
-        self.drill = Drill(0, 3000, AssetManager:getAnimation("drill"))
+        self.drill = Drill(0, 0, AssetManager:getAnimation("drill"))
         self.veiwScale = 4
         self.UI = MiningUI(self.drill)
         self.target = self.drill

@@ -121,7 +121,7 @@ function Drill:dig( map )
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
-                if result.health > 0 then
+                if result.health > 0 and result.density > 0 then
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   + result.damageToDrill
                     frameDamage = frameDamage - 1
