@@ -148,8 +148,8 @@ end
 
 function MapGenerator:update(dt)
     self:getOneChunkFromWorker()
-    self:getOneChunkFromWorker()
-    self:getOneChunkFromWorker()
+    --self:getOneChunkFromWorker()
+    --self:getOneChunkFromWorker()
 end
 
 return MapGenerator

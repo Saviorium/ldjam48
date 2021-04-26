@@ -1,7 +1,8 @@
 local ResourceGenerator = Class {
     init = function(self, resource, seed)
         self.resource = resource
-        self.seed = seed + resource.id
+        local seedSalt = resource.seed or resource.id
+        self.seed = seed + seedSalt
         self.random = love.math.newRandomGenerator(self.seed)
         self.noiseStart = {
             x = self.random:random(999999),
