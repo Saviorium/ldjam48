@@ -29,6 +29,10 @@ local Drill =
         self.onAir = true
         self.damage = 20
         self.width, self.height = 4, 4
+        
+        self.lowNoise = 10
+        self.mediumNoise = 50
+        self.highNoise = 100
     end
 }
 
@@ -119,8 +123,10 @@ function Drill:dig( map )
         while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
+            local frameDensity = 0
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
+                frameDensity = frameDensity + result.density
                 if result.health > 0 and result.density > 0 then
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   + result.damageToDrill
@@ -140,6 +146,14 @@ function Drill:dig( map )
             end
         end
         self.onAir = frameDamage == self.damage
+
+        if frameDensity < self.lowNoise then
+            --SoundManager:play(soundName, options)
+        elseif frameDensity < self.mediumNoise then
+            --SoundManager:play(soundName, options)
+        elseif frameDensity < self.highNoise then
+            --SoundManager:play(soundName, options)
+        end
 
         log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)
         log(3, "Drill density multiplier is " .. (1 - sumDensity / squaresCollidedNum))

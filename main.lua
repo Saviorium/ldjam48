@@ -12,6 +12,9 @@ AssetManager = require "engine.utils.asset_manager"
 
 UserInputManager = require "engine.controls.user_input_manager" (config.inputs)
 
+local SoundData = require "engine.sound.sound_data"
+SoundManager = require "engine.sound.sound_manager" (SoundData)
+
 states = {
     game = require "game.states.game",
     mining = require "game.states.mining"
