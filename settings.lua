@@ -31,6 +31,7 @@ Debug = {
     map = 0,
     mapDraw = 0,
     mapGenerator = 3,
+    mapGeneratorDraw = 0,
     chunk = 0,
     chunkDraw = 0,
     resourceDisplay = 1,

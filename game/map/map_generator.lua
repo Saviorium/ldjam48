@@ -12,12 +12,16 @@ local MapGenerator = Class { -- FIXME: do not instance it more than once
     init = function(self, seed)
         self.seed = seed or love.timer.getTime()
         self.generatedCache = {}
+        self.chunkSize = config.map.chunkSize
     end
 }
 
 function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
     local state = self:getChunkState(chunkPosition)
-    if state == "generating" or state == "done" then
+    if state == "done" then
+        return false
+    end
+    if state == "generating" then
         if priority ~= nil then
             self:setPriority(chunkPosition, priority)
         end
@@ -115,7 +119,7 @@ end
 function MapGenerator:cleanOutsideRadius(chunkPosition, radius)
     for i, row in pairs(self.generatedCache) do
         for j, chunk in pairs(row) do
-            if math.abs(self.centerChunk.x - i) > radius or math.abs(self.centerChunk.y - j) > radius then
+            if math.abs(chunkPosition.x - i) > radius or math.abs(chunkPosition.y - j) > radius then
                 self:destroyChunk(Vector(i, j))
             end
         end
@@ -143,13 +147,40 @@ end
 
 function MapGenerator:destroyChunk(chunkPosition)
     local chunk = self:removeChunk(chunkPosition)
-    chunk:destroy()
+    -- chunk.chunk:destroy()
 end
 
 function MapGenerator:update(dt)
     self:getOneChunkFromWorker()
     --self:getOneChunkFromWorker()
     --self:getOneChunkFromWorker()
+end
+
+function MapGenerator:draw()
+    self:debugDraw()
+end
+
+function MapGenerator:debugDraw()
+    if not Debug or Debug.mapGeneratorDraw < 1 then
+        return
+    end
+    local r = 10
+    love.graphics.setLineWidth(0.1)
+    for i, row in pairs(self.generatedCache) do
+        for j, chunk in pairs(row) do
+            love.graphics.push()
+            love.graphics.translate(i * self.chunkSize, j * self.chunkSize)
+            if chunk.state == "generating" then
+                love.graphics.setColor(1,0.7,0)
+            elseif chunk.state == "done" then
+                love.graphics.setColor(0.2,0.9,0.3)
+            end
+            love.graphics.circle('fill', self.chunkSize/2, self.chunkSize/2, self.chunkSize/2-r)
+            love.graphics.pop()
+        end
+    end
+    love.graphics.setColor(1,1,1)
+    love.graphics.setLineWidth(1)
 end
 
 return MapGenerator

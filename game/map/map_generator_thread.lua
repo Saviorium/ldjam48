@@ -51,7 +51,7 @@ end
 
 local function popNextTask()
     for priority, tasks in pairs(priorityQueue) do
-        log(5, "Check priority " .. priority)
+        log(4, "Check priority " .. priority)
         for i, task in pairs(tasks) do
             tasks[i] = nil
             return task

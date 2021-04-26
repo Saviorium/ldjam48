@@ -46,33 +46,42 @@ end
 function ResourceGenerator.getNoiseValue(depth, position, noiseParams)
     if noiseParams.from and depth < noiseParams.from then return 0 end
     if noiseParams.to and depth > noiseParams.to then return 0 end
+
+    local subnoise, value
+    if noiseParams.subnoise then
+        subnoise = ResourceGenerator.getNoiseValue(depth, position*2, noiseParams.subnoise)
+    end
+
     local threshold = ResourceGenerator.mapLinear(depth, noiseParams.threshold)
     if not threshold then
         return 0 -- spawn nothing
     end
-    threshold = math.clamp(0, threshold, 1)
+    if threshold <= 0 then
+        value = 1
+    elseif threshold >= 1 then
+        value = 0
+    else
+        local frequency = ResourceGenerator.mapGetLast(depth, noiseParams.frequency)
+        if not frequency then
+            frequency = 1
+        end
+        local frequencyX = noiseParams.aspectRatio and frequency*noiseParams.aspectRatio or frequency
 
-    local frequency = ResourceGenerator.mapGetLast(depth, noiseParams.frequency)
-    if not frequency then
-        frequency = 1
+        value = ResourceGenerator.getRawNoise(
+            position.x,
+            position.y,
+            frequencyX,
+            frequency,
+            threshold
+        )
     end
-    local frequencyX = noiseParams.aspectRatio and frequency*noiseParams.aspectRatio or frequency
-
-    local value = ResourceGenerator.getRawNoise(
-        position.x,
-        position.y,
-        frequencyX,
-        frequency,
-        threshold
-    )
-    math.clamp(0, value, 1)
-    if noiseParams.subnoise then
+    if subnoise then
         if noiseParams.subnoise.type == "add" then
-            value = value + ResourceGenerator.getNoiseValue(depth, position*2, noiseParams.subnoise)
+            value = value + subnoise
         elseif noiseParams.subnoise.type == "sub" then
-            value = value - ResourceGenerator.getNoiseValue(depth, position*2, noiseParams.subnoise)
+            value = value - subnoise
         elseif noiseParams.subnoise.type == "mult" then
-            value = value * ResourceGenerator.getNoiseValue(depth, position*2, noiseParams.subnoise)
+            value = value * subnoise
         end
         math.clamp(0, value, 1)
     end
@@ -94,6 +103,7 @@ function ResourceGenerator.mapLinear(depth, depthTable)
     if not endPoint then
         return
     end
+    if startPoint.value == endPoint.value then return endPoint.value end
     depth = math.clamp(startPoint.depth, depth, endPoint.depth)
     local pointPlace
     if endPoint.depth == startPoint.depth then
@@ -116,8 +126,6 @@ function ResourceGenerator.mapGetLast(depth, depthTable)
 end
 
 function ResourceGenerator.getRawNoise(x, y, freqX, freqY, threshold)
-    if threshold >= 1 then return 0 end
-    if threshold < 0 then return 1 end
     return math.max(0, love.math.noise(x * freqX, y * freqY) - threshold ) / (1 - threshold)
 end
 

@@ -49,6 +49,7 @@ function Map:setCenter(center)
             end
         )
     end
+    self.mapGenerator:cleanOutsideRadius(self.centerChunk, self.unloadRadius)
     for i, row in pairs(self.chunkCache) do
         for j, chunk in pairs(row) do
             if math.abs(self.centerChunk.x - i) > self.unloadRadius or math.abs(self.centerChunk.y - j) > self.unloadRadius then
@@ -75,7 +76,7 @@ function Map:digVoxel(position)
     end
     local voxel = chunk:getVoxel(self:getLocalChunkCoords(position))
     local damageToVoxel = math.clamp(0, 1 - voxel.resource.density, 1)
-    
+
     local HP = voxel.health
     local dens = voxel.resource.density
 
@@ -140,24 +141,24 @@ function Map:loopAroundCoords(position, radius, func, args)
         func(position, args)
     end
     local currentPos = position:clone()
-    currentPos.y = position.y - radius
-    for i = position.x - radius, position.x + radius - 1, 1 do
+    currentPos.y = position.y + radius
+    for i = position.x - radius, position.x + radius - 1, 1 do -- down ->
         currentPos.x = i
         func(currentPos, args)
     end
     currentPos.x = position.x + radius
-    for i = position.y - radius, position.y + radius - 1, 1 do
+    for i = position.y + radius, position.y - (radius - 1), -1 do -- right ^
         currentPos.y = i
-        func(currentPos, args)
-    end
-    currentPos.y = position.y + radius
-    for i = position.x + radius, position.x - (radius - 1), -1 do
-        currentPos.x = i
         func(currentPos, args)
     end
     currentPos.x = position.x - radius
-    for i = position.y + radius, position.y - (radius - 1), -1 do
+    for i = position.y + radius - 1, position.y - (radius - 1), -1 do -- left ^
         currentPos.y = i
+        func(currentPos, args)
+    end
+    currentPos.y = position.y - radius
+    for i = position.x - radius, position.x + radius, 1 do -- up ->
+        currentPos.x = i
         func(currentPos, args)
     end
 end
@@ -177,7 +178,7 @@ function Map:draw() -- pass world origin at (0, 0)
             love.graphics.pop()
         end
     end
-
+    self.mapGenerator:draw()
     self:debugDraw()
 end
 
