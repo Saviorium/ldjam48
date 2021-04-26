@@ -238,13 +238,13 @@ local Resources = {
         cost = 0,
         colorGeneration = {
             colors = {
-                { 0.89, 0.83, 0.80, 1 },
                 { 0.47, 0.22, 0.19, 1 },
+                { 0.68, 0.62, 0.6, 1 },
                 { 0.23, 0.21, 0.2, 1 },
             },
-            noiseFrequency = 1,
+            noiseFrequency = 0.2,
             thresholds = {
-                0.4, 0.7, 1
+                0.4, 0.6, 1
             }
         },
         generation = {
