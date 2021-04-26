@@ -466,7 +466,7 @@ local Resources = {
         color = { 0.102, 0.1, 0.095, 1 },
         generation = {
             from = 0, to = 3000,
-            aspectRatio = 0.1,
+            aspectRatio = 0.5,
             frequency = {
                 { depth = 0, value = 0.01 },
             },
