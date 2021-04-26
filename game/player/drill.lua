@@ -37,8 +37,8 @@ local Drill =
         self.frameDensityAverage = 0
 
         self.lowNoise = 10
-        self.mediumNoise = 150
-        self.highNoise = 300
+        self.mediumNoise = 250
+        self.highNoise = 500
 
 
         self.frameDensity = 0
@@ -173,11 +173,11 @@ function Drill:dig( map )
         end
         self.onAir = frameDamage == self.damage
 
-        if self.frameDensity < self.lowNoise and self.frameDensity > 0 then
+        if self.frameDensityAverage < self.lowNoise and self.frameDensityAverage > 0 then
             SoundManager:play('digLow')
-        elseif self.frameDensity < self.mediumNoise then
+        elseif self.frameDensityAverage < self.mediumNoise then
             SoundManager:play('digMedium')
-        elseif self.frameDensity < self.highNoise then
+        elseif self.frameDensityAverage < self.highNoise then
             SoundManager:play('digHigh')
         end
 
