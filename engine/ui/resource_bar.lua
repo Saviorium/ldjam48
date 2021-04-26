@@ -16,6 +16,7 @@ Class {
         self.max = parameters.max
         self.getValue = parameters.getValue
         self.borders = parameters.borders or 3
+        self.textColor = parameters.textColor or {1, 1, 1}
     end
 }
 
@@ -27,6 +28,8 @@ function ResourceBar:draw()
     love.graphics.rectangle("fill", self.x, self.y, self.height , self.width)
     love.graphics.setColor(self.bgColor)
     love.graphics.rectangle("fill", self.x + (self.height - (resultheight > 0 and resultheight or 0)) +self.borders, self.y + 3, resultheight > 0 and resultheight - self.borders*2 or 0 , self.width - self.borders*2)
+    love.graphics.setColor(self.textColor)
+    love.graphics.printf(self.tag, self.x + 3, self.y-5, self.height, 'center')
     love.graphics.setColor(1, 1, 1)
 
 end

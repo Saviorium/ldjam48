@@ -8,7 +8,6 @@ local UI =
     __includes = UIobject,
     init = function(self, drill)
         local font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
-        local smolFont = love.graphics.newFont(fonts.smolPixelated.file, fonts.smolPixelated.size)
         local buttonPng = AssetManager:getImage('button')
         local UIPng = AssetManager:getImage('UI')
         UIobject.init(self, nil, {tag = "UI of mining state"})
@@ -37,15 +36,54 @@ local UI =
             )
         )
         ParametersUI:registerObject(
+            "currentUpgrades",
+            {left = -65, up = -40},
+            Label(
+                ParametersUI,
+                {
+                    tag = "currentUpgrades",
+                    text = "Upgrades = " .. 0,
+                    width = 100,
+                    height = 16,
+                    font = font,
+                    align = 'left',
+                    getText =
+                        function()
+                            return "Upgrades\n" .. ((drill.damage - 20)/2 > 0 and (drill.damage - 20)/2 or 0)
+                        end,
+                }
+            )
+        )
+        ParametersUI:registerObject(
+            "needForUpgrade",
+            {left = 130, up = -40},
+            Label(
+                ParametersUI,
+                {
+                    tag = "needForUpgrade",
+                    text = "Need for upgrade = " .. 0,
+                    width = 100,
+                    height = 16,
+                    font = font,
+                    align = 'left',
+                    getText =
+                        function()
+                            return "Need for upgrade\n " .. (drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0)
+                        end,
+                }
+            )
+        )
+        ParametersUI:registerObject(
             "fuelBar",
             {left = 0, up = 0},
             ResourceBar(
                 ParametersUI,
                 {
-                    tag = "fuelBar",
+                    tag = "Fuel",
                     max = drill.maxFuel,
                     color = {0, 1, 1},
                     bgColor = {1, 1, 1},
+                    textColor = {0, 0, 0},
                     getValue = function()
                         return drill.fuel > 0 and drill.fuel or 0
                     end
@@ -58,10 +96,11 @@ local UI =
             ResourceBar(
                 ParametersUI,
                 {
-                    tag = "healthBar",
+                    tag = "Health",
                     max = drill.maxHP,
                     color = {1, 0, 0},
                     bgColor = {1, 1, 1},
+                    textColor = {0, 0, 0},
                     getValue = function()
                         return drill.HP > 0 and drill.HP or 0
                     end
@@ -77,7 +116,7 @@ local UI =
                     tag = "Upgrade", height = 64, background = buttonPng, font = font, align = 'center',
                     callback = function()
                         local upgradeCost = drill.damage * drill.upgradeKoef
-                        if drill.gold >= upgradeCost then
+                        if drill.gold <= upgradeCost then
                             drill.blocksInFrame = drill.blocksInFrame + (drill.blocksInFrame == drill.maxSpeed and 0 or drill.speedUpgrade)
                             drill.damage = drill.damage + drill.damageUpgrade
                             drill.gold = drill.gold - upgradeCost
