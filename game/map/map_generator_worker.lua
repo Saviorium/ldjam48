@@ -12,6 +12,7 @@ local MapGeneratorWorker = Class {
         self.oreGenerators = {
             ResourceGenerator(Resources.getByName("air"), self.seed),
             ResourceGenerator(Resources.getByName("oil"), self.seed),
+            ResourceGenerator(Resources.getByName("coal"), self.seed),
             ResourceGenerator(Resources.getByName("iron"), self.seed),
             ResourceGenerator(Resources.getByName("gold"), self.seed),
             ResourceGenerator(Resources.getByName("titan"), self.seed),
@@ -23,8 +24,8 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("sandstone"), self.seed),
             ResourceGenerator(Resources.getByName("malachite"), self.seed),
             ResourceGenerator(Resources.getByName("dirt"), self.seed),
-            ResourceGenerator(Resources.getByName("dirt_light"), self.seed),
-            ResourceGenerator(Resources.getByName("dirt_dark"), self.seed),
+            -- ResourceGenerator(Resources.getByName("dirt_light"), self.seed),
+            -- ResourceGenerator(Resources.getByName("dirt_dark"), self.seed),
             ResourceGenerator(Resources.getByName("lava"), self.seed),
             ResourceGenerator(Resources.getByName("granite"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
