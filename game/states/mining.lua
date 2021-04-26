@@ -2,7 +2,7 @@ local World = require "game.world.world"
 
 local Mining = {}
 
-function Mining:enter( lastState, world )
+function Mining:enter( prev_state, world )
     self.world = world and world or World()
 end
 

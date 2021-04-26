@@ -11,13 +11,9 @@ function startScreen:enter()
     self.drill:play()
     self.newspaper = AssetManager:getImage("newspaper_full")
     self.world = World()
+    self.load = false
 end
 
-function startScreen:mousepressed(x, y)
-end
-
-function startScreen:mousereleased(x, y)
-end
 
 function startScreen:keypressed(key)
     if key == 'space' then
@@ -37,6 +33,11 @@ end
 
 function startScreen:update(dt)
     self.drill:update(dt)
+    if not self.load then
+        self.load = not self.load
+    else
+        self.world.map:setCenter(self.world.drill:getPosition())
+    end
 end
 
 return startScreen

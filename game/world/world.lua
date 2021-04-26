@@ -8,6 +8,7 @@ local MiningUI = require "game.ui.mining_ui"
 local World =
     Class {
     init = function(self)
+        print('Init')
         self.map = Map()
         self.drill = Drill(0, 0, AssetManager:getAnimation("drill"))
         self.veiwScale = 4
