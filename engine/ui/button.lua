@@ -6,18 +6,26 @@ Button = Class {
     __includes = UIobject,
     init = function(self, parent, parameters)
         UIobject.init(self, parent, parameters)
-        self.clickInteraction['click'] = 
+        self.clickInteraction['click'] =
         {
-            condition = function (object, x, y) 
-                            return object:getCollision(x, y) 
+            condition = function (object, x, y)
+                            return object:getCollision(x, y)
                         end,
             func =  parameters.callback
         }
-        self:registerObject('Label', 
-                               { align = 'center' },
-                               Label(self, {tag = self.tag..' Label', text = self.tag, width = self.width*0.8, height = self.height*0.8 }))
+        self:registerObject('Label',
+                               { up = self.height/4 },
+                               Label(self, {
+                                            align = parameters.align,
+                                            font = parameters.font,
+                                             tag = self.tag..' Label',
+                                             text = self.tag,
+                                             width = self.width*0.8,
+                                             height = self.height*0.8
+                                           }
+                                    )
+                            )
     end
 }
-
 
 return Button

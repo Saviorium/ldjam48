@@ -40,8 +40,11 @@ local Drill =
         self.mediumNoise = 250
         self.highNoise = 500
 
-
         self.frameDensity = 0
+
+        self.damageUpgrade = 5
+        self.speedUpgrade = 0.1
+        self.upgradeKoef = 100
     end
 }
 

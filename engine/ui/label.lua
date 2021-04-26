@@ -8,6 +8,7 @@ local Label = Class {
         self.text = parameters.text
         self.getText = parameters.getText
         self.font = parameters.font
+        self.align = parameters.align or 'center'
     end
 }
 
@@ -18,7 +19,7 @@ function Label:render()
     if self.font then
         love.graphics.setFont(self.font)
     end
-    love.graphics.printf(self.text, 0, 0, self.width, 'center')
+    love.graphics.printf(self.text, 0, 0, 128, self.align)
     if self.font then
         --love.graphics.setFont(love.graphics.newFont(12))
     end
