@@ -11,7 +11,7 @@ local World =
         print('Init')
         self.map = Map()
         self.drill = Drill(0, 0, AssetManager:getAnimation("drill"))
-        self.veiwScale = 4
+        self.veiwScale = 6
         self.UI = MiningUI(self.drill)
         self.target = self.drill
         self.surface = Surface()
