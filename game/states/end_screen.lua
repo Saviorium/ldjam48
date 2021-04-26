@@ -3,6 +3,10 @@ local endScreen = {}
 function endScreen:enter(prev_state, world)
     self.world = world
     self.highScore = self.world.drill.gold
+    for i = self.world.drill.damage, 20 , -2 do
+        self.highScore = self.highScore + i * self.world.drill.upgradeKoef
+    end
+    self.highScore = math.floor(self.highScore)
     self.font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
 end
 

@@ -42,9 +42,9 @@ local Drill =
 
         self.frameDensity = 0
 
-        self.damageUpgrade = 5
-        self.speedUpgrade = 0.1
-        self.upgradeKoef = 100
+        self.damageUpgrade = 2
+        self.speedUpgrade = 0.05
+        self.upgradeKoef = 10
     end
 }
 
