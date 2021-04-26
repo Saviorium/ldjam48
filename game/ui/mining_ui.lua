@@ -116,7 +116,7 @@ local UI =
                     tag = "Upgrade", height = 64, background = buttonPng, font = font, align = 'center',
                     callback = function()
                         local upgradeCost = drill.damage * drill.upgradeKoef
-                        if drill.gold <= upgradeCost then
+                        if Debug.unlockMoney or drill.gold >= upgradeCost then
                             drill.blocksInFrame = drill.blocksInFrame + (drill.blocksInFrame == drill.maxSpeed and 0 or drill.speedUpgrade)
                             drill.damage = drill.damage + drill.damageUpgrade
                             drill.gold = drill.gold - upgradeCost

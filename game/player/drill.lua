@@ -45,6 +45,7 @@ local Drill =
         self.damageUpgrade = 2
         self.speedUpgrade = 0.05
         self.upgradeKoef = 10
+        self.maxSpeed = 1
     end
 }
 

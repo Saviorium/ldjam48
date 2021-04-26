@@ -29,6 +29,7 @@ Debug = {
     drill = 0,
     drawUiDebug = false,
     drawDrillUIDebug = true,
+    unlockMoney = true,
     map = 0,
     mapDraw = 0,
     mapGenerator = 0,
