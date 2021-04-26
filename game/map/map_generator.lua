@@ -47,6 +47,10 @@ function MapGenerator:getChunk(chunkPosition, chunkDiff)
         self:prepareChunk(chunkPosition, chunkDiff, 1)
         log(2, "Waiting for chunk " .. chunkPosition:__tostring())
         chunk = self:waitForChunk(chunkPosition)
+        if not chunk then -- thread died, try to catch error from that thread
+            local err = mapGeneratorThread:getError( )
+            error(err)
+        end
     end
     self:removeChunk(chunkPosition)
     chunk = Chunk.__deserialize(chunk)
@@ -78,9 +82,14 @@ end
 
 function MapGenerator:waitForChunk(chunkCoords)
     local chunk
+    local timeStart = love.timer.getTime()
     while not chunk do
         self:getOneChunkFromWorker()
         chunk = self:getChunkFromCache(chunkCoords)
+        if love.timer.getTime() - timeStart > 3 then
+            log(1, "Chunk generator is dead. Exiting...")
+            break
+        end
     end
     return chunk
 end

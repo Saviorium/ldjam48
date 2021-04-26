@@ -25,12 +25,8 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("dirt"), self.seed),
             ResourceGenerator(Resources.getByName("dirt_light"), self.seed),
             ResourceGenerator(Resources.getByName("dirt_dark"), self.seed),
-            ResourceGenerator(Resources.getByName("lava1"), self.seed),
-            ResourceGenerator(Resources.getByName("lava2"), self.seed),
-            ResourceGenerator(Resources.getByName("lava3"), self.seed),
-            ResourceGenerator(Resources.getByName("granite1"), self.seed),
-            ResourceGenerator(Resources.getByName("granite2"), self.seed),
-            ResourceGenerator(Resources.getByName("granite3"), self.seed),
+            ResourceGenerator(Resources.getByName("lava"), self.seed),
+            ResourceGenerator(Resources.getByName("granite"), self.seed),
             ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),
         }
@@ -67,15 +63,18 @@ function MapGeneratorWorker:getGlobalVoxelCoords(chunkPosition, voxelPosition)
 end
 
 function MapGeneratorWorker:generateVoxel(voxelGlobalPosition)
-    local resource, value
+    local resource, value, colorId
     for _, generator in pairs(self.oreGenerators) do
         value = generator:getValue(voxelGlobalPosition)
         if value > 0 then
             resource = generator:getResource()
+            if resource.colorGeneration then
+                colorId = generator:getColor(voxelGlobalPosition)
+            end
             break
         end
     end
-    return Voxel(resource.id, value)
+    return Voxel(resource.id, value, colorId)
 end
 
 return MapGeneratorWorker

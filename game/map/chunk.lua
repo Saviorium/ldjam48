@@ -60,7 +60,8 @@ function Chunk:generateImage()
         for j = 1, self.chunkSize, 1 do
             local voxelLocalPos = Vector(i, j)
             local voxel = self:getVoxel(voxelLocalPos)
-            imageData:setPixel(i-1, j-1, voxel.resource.color)
+            local color = voxel.resource.color or voxel.resource.colorGeneration.colors[voxel.colorId]
+            imageData:setPixel(i-1, j-1, color)
         end
     end
     local image = love.graphics.newImage(imageData)

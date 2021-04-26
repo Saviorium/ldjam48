@@ -11,8 +11,31 @@ local ResourceGenerator = Class {
 }
 
 function ResourceGenerator:getValue(position)
-    local value = self.getNoiseValue(position.y, self.noiseStart+position, self.resource.generation)
-    return value
+    return self.getNoiseValue(position.y, self.noiseStart+position, self.resource.generation)
+end
+
+function ResourceGenerator:getColor(position)
+    local colorParams = self.resource.colorGeneration
+    local frequency = colorParams.noiseFrequency
+    if not frequency then
+        frequency = 1
+    end
+    local frequencyX = colorParams.aspectRatio and frequency*colorParams.aspectRatio or frequency
+    local value = ResourceGenerator.getRawNoise(
+        self.noiseStart.x+position.x,
+        self.noiseStart.y+position.y,
+        frequencyX,
+        frequency,
+        0
+    )
+    local colorId
+    for i, threshold in pairs(colorParams.thresholds) do
+        if value < threshold then
+            colorId = i
+            break
+        end
+    end
+    return colorId
 end
 
 function ResourceGenerator:getResource()
@@ -93,7 +116,7 @@ end
 
 function ResourceGenerator.getRawNoise(x, y, freqX, freqY, threshold)
     if threshold >= 1 then return 0 end
-    if threshold <= 0 then return 1 end
+    if threshold < 0 then return 1 end
     return math.max(0, love.math.noise(x * freqX, y * freqY) - threshold ) / (1 - threshold)
 end
 

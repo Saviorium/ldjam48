@@ -190,10 +190,20 @@ local Resources = {
     },
     [9] = {
         id = 9,
-        name = "granite1",
+        name = "granite",
         density = 0.9,
         cost = 0,
-        color = { 0.89, 0.83, 0.80, 1 },
+        colorGeneration = {
+            colors = {
+                { 0.89, 0.83, 0.80, 1 },
+                { 0.47, 0.22, 0.19, 1 },
+                { 0.23, 0.21, 0.2, 1 },
+            },
+            noiseFrequency = 1,
+            thresholds = {
+                0.4, 0.7, 1
+            }
+        },
         generation = {
             from = 0, to = 4000,
             aspectRatio = 1,
@@ -219,50 +229,6 @@ local Resources = {
                     { depth = 3000, value = 1   },
                 },
             }
-        }
-    },
-    [10] = {
-        id = 10,
-        name = "granite2",
-        density = 0.8,
-        cost = 0,
-        color = { 0.47, 0.22, 0.19, 1 },
-        generation = {
-            from = 50, to = 4000,
-            aspectRatio = 1,
-            frequency = {
-                { depth = 0,   value = 0 },
-            },
-            threshold = {
-                { depth = 0,    value = 1 },
-                { depth = 1000, value = 0.4 },
-                { depth = 2000, value = 0.3 },
-                { depth = 3000, value = 0.6 },
-                { depth = 4000, value = 0.7 },
-                { depth = 5000, value = 1   },
-            },
-        }
-    },
-    [11] = {
-        id = 11,
-        name = "granite3",
-        density = 0.8,
-        cost = 0,
-        color = { 0.23, 0.21, 0.2, 1 },
-        generation = {
-            from = 50, to = 4000,
-            aspectRatio = 1,
-            frequency = {
-                { depth = 0,   value = 0 },
-            },
-            threshold = {
-                { depth = 0,    value = 1 },
-                { depth = 1000, value = 0.4 },
-                { depth = 2000, value = 0.3 },
-                { depth = 3000, value = 0.6 },
-                { depth = 4000, value = 0.7 },
-                { depth = 5000, value = 1   },
-            },
         }
     },
     [12] = {
@@ -517,56 +483,22 @@ local Resources = {
     },
     [21] = {
         id = 21,
-        name = "lava1",
-        density = 0.01,
+        name = "lava",
+        density = 0.05,
         cost = 0,
-        color = { 0.8, 0.1, 0.0, 1 },
-        generation = {
-            from = 3000, to = 10000,
-            frequency = {
-                { depth = 0, value = 0.2 },
+        colorGeneration = {
+            colors = {
+                { 0.580, 0.019, 0.050, 1 },
+                { 0.788, 0.019, 0.054, 1 },
+                { 0.996, 0.972, 0.180, 1 },
+                { 0.996, 0.796, 0.160, 1 },
+                { 0.719, 0.205, 0, 1 },
             },
-            threshold = {
-                { depth = 3000, value = 1   },
-                { depth = 4000, value = 0.9 },
-                { depth = 5000, value = 0.85 },
-                { depth = 6000, value = 0.9 },
-                { depth = 7000, value = 0.95 },
-                { depth = 8000, value = 0.7   },
-                { depth = 9000, value = 0.94 },
-                { depth = 10000, value = 1 },
-            },
-        }
-    },
-    [22] = {
-        id = 22,
-        name = "lava2",
-        density = 0.01,
-        cost = 0,
-        color = { 0.4, 0.0, 0.05, 1 },
-        generation = {
-            from = 3000, to = 10000,
-            frequency = {
-                { depth = 0, value = 0.96 },
-            },
-            threshold = {
-                { depth = 3000, value = 1   },
-                { depth = 4000, value = 0.9 },
-                { depth = 5000, value = 0.85 },
-                { depth = 6000, value = 0.9 },
-                { depth = 7000, value = 0.95 },
-                { depth = 8000, value = 0.7   },
-                { depth = 9000, value = 0.94 },
-                { depth = 10000, value = 1 },
-            },
-        }
-    },
-    [23] = {
-        id = 23,
-        name = "lava3",
-        density = 0.01,
-        cost = 0,
-        color = { 0.96, 0.75, 0.15, 1 },
+            noiseFrequency = 0.07,
+            thresholds = {
+                0.2, 0.35, 0.5, 0.70, 1
+            }
+        },
         generation = {
             from = 3000, to = 10000,
             frequency = {
