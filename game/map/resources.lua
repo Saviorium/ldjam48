@@ -63,6 +63,27 @@ local Resources = {
             },
         }
     },
+    [31] = {
+        id = 31,
+        name = "surface_dirt",
+        density = 0.01,
+        cost = 0,
+        color = { 0.16, 0.094, 0.07, 1 },
+        generation = {
+            from = 0, to = 70,
+            frequency = {
+                { depth = 0, value = 0.01 },
+                { depth = 20, value = 0.1 },
+            },
+            threshold = {
+                { depth = 0, value = 1 },
+                { depth = 3, value = 0 },
+                { depth = 19, value = 0 },
+                { depth = 20, value = 0 },
+                { depth = 70, value = 1 },
+            },
+        }
+    },
     [6] = {
         id = 6,
         name = "stone_gray",
@@ -660,12 +681,12 @@ local Resources = {
         generation = {
             from = -10, to = 10,
             frequency = {
-                { depth = 0, value = 1 },
+                { depth = 0, value = 0.3 },
             },
             threshold = {
-                { depth = -2, value = 1 },
+                { depth = -3, value = 1 },
                 { depth = 0, value = 0 },
-                { depth = 10, value = 1 },
+                { depth = 10, value = 0 },
             },
         }
     },

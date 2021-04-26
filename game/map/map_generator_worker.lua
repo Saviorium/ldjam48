@@ -12,6 +12,8 @@ local MapGeneratorWorker = Class {
         self.oreGenerators = {
             ResourceGenerator(Resources.getByName("air"), self.seed),
             ResourceGenerator(Resources.getByName("oil"), self.seed),
+            ResourceGenerator(Resources.getByName("surface_dirt"), self.seed),
+            ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("coal"), self.seed),
             ResourceGenerator(Resources.getByName("iron"), self.seed),
             ResourceGenerator(Resources.getByName("gold"), self.seed),
@@ -29,7 +31,6 @@ local MapGeneratorWorker = Class {
             ResourceGenerator(Resources.getByName("bedrock"), self.seed),
             ResourceGenerator(Resources.getByName("obsidian"), self.seed),
             ResourceGenerator(Resources.getByName("ash"), self.seed),
-            ResourceGenerator(Resources.getByName("grass"), self.seed),
             ResourceGenerator(Resources.getByName("surface"), self.seed),
         }
         self.chunkSize = config.map.chunkSize
