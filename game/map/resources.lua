@@ -159,7 +159,7 @@ local Resources = {
         name = "sandstone",
         density = 0.8,
         cost = 0,
-        color = { 0.84, 0.55, 0.45, 1 },
+        color = { 0.75, 0.60, 0.49, 1 },
         generation = {
             from = 0, to = 500,
             aspectRatio = 1,
@@ -181,7 +181,7 @@ local Resources = {
         name = "granite1",
         density = 0.8,
         cost = 0,
-        color = { 0.90, 0.83, 0.71, 1 },
+        color = { 0.89, 0.83, 0.80, 1 },
         generation = {
             from = 50, to = 4000,
             aspectRatio = 1,

@@ -10,7 +10,6 @@ local World =
     init = function(self)
         self.map = Map()
         self.drill = Drill(0, 0, AssetManager:getAnimation("drill"))
-        self.voxelSize = config.map.voxelSize
         self.veiwScale = 4
         self.UI = MiningUI(self.drill)
         self.target = self.drill
@@ -45,6 +44,24 @@ function World:draw()
 	love.graphics.pop()
 
     self.UI:draw()
+
+    if Debug and Debug.resourceDisplay and Debug.resourceDisplay > 0 then
+        local mouseCoords = self:getWorldCoords(Vector(love.mouse.getPosition()))
+        local voxel = self.map:getVoxel(mouseCoords)
+        if voxel then
+            love.graphics.print(
+                string.format("Resource at (%5d,%-5d) %-10.10s: %d", mouseCoords.x, mouseCoords.y, voxel.resource.name, voxel.health),
+                2,
+                16
+            )
+        end
+    end
+end
+
+function World:getWorldCoords(screenPoint)
+    local unitsPerPixel = 1 / self.veiwScale
+	local screenCenter = Vector(love.graphics.getWidth()/2, love.graphics.getHeight()/2)
+    return self.target.position + (screenPoint - screenCenter) * unitsPerPixel
 end
 
 function World:changeCameraTarget(target)
