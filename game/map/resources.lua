@@ -152,7 +152,8 @@ local Resources = {
         name = "stone_dark",
         density = 0.95,
         cost = 0,
-        color = { 0.6, 0.5, 0.5, 1 },
+        color = { 0.4, 0.3, 0.3, 1 },
+        seed = 1337,
         generation = {
             from = 3000, to = 7000,
             aspectRatio = 1,
@@ -351,29 +352,39 @@ local Resources = {
         density = 0.4,
         cost = 1000,
         color = { 1, 0.8, 0.3, 1 },
+        seed = 1337,
         generation = {
             from = 300, to = 7100,
-            aspectRatio = 0.2,
+            aspectRatio = 1,
             frequency = {
-                { depth = 0, value = 0.95 },
+                { depth = 0, value = 0.001 },
             },
             threshold = {
-                { depth = 3000, value = 1   },
-                { depth = 4000, value = 0.9 },
-                { depth = 5000, value = 0.85 },
+                { depth = 3000, value = 1 },
+                { depth = 4000, value = 0.85 },
+                { depth = 5000, value = 0.7 },
                 { depth = 6000, value = 0.9 },
-                { depth = 7000, value = 0.95 },
                 { depth = 8000, value = 1   },
             },
             subnoise = {
-                type = "sub",
-                aspectRatio = 1,
+                type = "mult",
+                aspectRatio = 0.4,
                 frequency = {
-                    { depth = 0, value = 0.1 },
+                    { depth = 0, value = 0.015 },
                 },
                 threshold = {
-                    { depth = 0, value = 0.2 },
+                    { depth = 0, value = 0.985 },
                 },
+                subnoise = {
+                    type = "sub",
+                    aspectRatio = 1,
+                    frequency = {
+                        { depth = 0, value = 0.07 },
+                    },
+                    threshold = {
+                        { depth = 0, value = 0.5 },
+                    },
+                }
             }
         }
     },
