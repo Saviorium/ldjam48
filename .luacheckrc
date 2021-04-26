@@ -16,6 +16,7 @@ globals = {
   -- engine
   "StateManager",
   "AssetManager",
+  "SoundManager",
   "UserInputManager",
   "states",
   "config",
