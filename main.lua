@@ -16,8 +16,9 @@ local SoundData = require "data.sound.sound_data"
 SoundManager = require "engine.sound.sound_manager" (SoundData)
 
 states = {
-    game = require "game.states.game",
-    mining = require "game.states.mining"
+    mining = require "game.states.mining",
+    start_screen = require "game.states.mining",
+    end_screen = require "game.states.mining",
 }
 
 fonts = {
@@ -28,7 +29,7 @@ fonts = {
 
 function love.load()
     AssetManager:load("data")
-    StateManager.switch(states.mining)
+    StateManager.switch(states.start_screen)
 end
 
 function love.draw()

@@ -41,15 +41,15 @@ function Surface:update(dt, drillPos)
     if self.base.update then
         self.base:update(dt)
     end
-    
+
     if drillPos.y < 100 then
         for ind, img in pairs(self.treesObjects) do
             if img.x < (drillPos.x - love.graphics.getWidth()) or img.x > (drillPos.x + love.graphics.getWidth())  then
                 local dist = math.random(love.graphics.getWidth()) + love.graphics.getWidth()
-                self.treesObjects[ind] = 
+                self.treesObjects[ind] =
                 {
-                    x = math.random(2) == 1 
-                        and  dist + drillPos.x 
+                    x = math.random(2) == 1
+                        and  dist + drillPos.x
                          or -dist + drillPos.x,
                     distance = math.random()/2,
                     image = self.trees[math.random(2)]
@@ -58,14 +58,14 @@ function Surface:update(dt, drillPos)
                 self.treesObjects[ind].x = self.treesObjects[ind].x + (drillPos.x - self.x) * img.distance
             end
         end
-        
+
         for ind, img in pairs(self.cloudObjects) do
             if img.x < (drillPos.x- love.graphics.getWidth()) or img.x > (drillPos.x + love.graphics.getWidth())  then
                 local dist = math.random(love.graphics.getWidth()) + love.graphics.getWidth()
-                self.cloudObjects[ind] = 
+                self.cloudObjects[ind] =
                 {
-                    x = math.random(2) == 1 
-                        and  dist + drillPos.x 
+                    x = math.random(2) == 1
+                        and  dist + drillPos.x
                          or -dist + drillPos.x,
                     y = math.random(50) + 50,
                     distance = math.random()/2,

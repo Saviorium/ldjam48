@@ -27,18 +27,25 @@ local Drill =
         self.fuelReduction = 0.01
         self.launched = false
         self.onAir = true
+        self.damaged = false
         self.damage = 20
         self.width, self.height = 4, 4
-        
+
         self.lowNoise = 10
-        self.mediumNoise = 50
-        self.highNoise = 100
+        self.mediumNoise = 150
+        self.highNoise = 300
+
+
+        self.frameDensity = 0
     end
 }
 
 function Drill:update(dt)
     self.controller:update(dt)
     self.image:update(dt)
+    if self.HP <0 then
+        StateManager.switch(states.end_state)
+    end
 end
 
 function Drill:draw()
@@ -76,7 +83,7 @@ end
 function Drill:turn( direction )
     if self.launched then
         local angle = self.angle*180/math.pi
-        degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
+        local degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
         if not self.onAir then
             self.fuel = self.fuel - self.fuelReduction
             self.angle = self.angle + self.rotationSpeed * direction
@@ -119,17 +126,19 @@ function Drill:dig( map )
         local squaresCollidedNum = 1
         local frameDamage = self.damage
         self.blocksMoved = 0
+        self.frameDensity = 0
+        self.damaged = false
 
         while ( frameDamage > 0 and self.blocksMoved < self.blocksInFrame ) do
             local squaresDiggedNum = 0
             local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
-            local frameDensity = 0
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
-                frameDensity = frameDensity + result.density
+                self.frameDensity = self.frameDensity + result.density
                 if result.health > 0 and result.density > 0 then
                     self.gold = self.gold + result.money
                     self.HP   = self.HP   + result.damageToDrill
+                    self.damaged = result.damageToDrill > 0 or self.damaged
                     frameDamage = frameDamage - 1
                 end
                 while (result.health > 0 and result.density > 0 and frameDamage > 0) do
@@ -147,12 +156,12 @@ function Drill:dig( map )
         end
         self.onAir = frameDamage == self.damage
 
-        if frameDensity < self.lowNoise then
-            --SoundManager:play(soundName, options)
-        elseif frameDensity < self.mediumNoise then
-            --SoundManager:play(soundName, options)
-        elseif frameDensity < self.highNoise then
-            --SoundManager:play(soundName, options)
+        if self.frameDensity < self.lowNoise and self.frameDensity > 0 then
+            SoundManager:play('digLow')
+        elseif self.frameDensity < self.mediumNoise then
+            SoundManager:play('digMedium')
+        elseif self.frameDensity < self.highNoise then
+            SoundManager:play('digHigh')
         end
 
         log(4, "Drill collided with " .. squaresCollidedNum .. " squares, total density is " .. sumDensity)

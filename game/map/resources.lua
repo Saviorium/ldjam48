@@ -39,6 +39,7 @@ local Resources = {
         name = "dirt",
         density = 0.01,
         cost = 0,
+        damage = 1,
         colorGeneration = {
             colors = {
                 { 0.3, 0.18, 0.15, 1 },

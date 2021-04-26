@@ -35,7 +35,7 @@ function World:draw()
 	love.graphics.push()
 	love.graphics.translate(cx,cy)
     love.graphics.scale(self.veiwScale)
-	love.graphics.translate(-self.target.position.x, -self.target.position.y)
+	love.graphics.translate(-self.target.position.x + (self.drill.damaged and (math.random(2) - 1) or 0), -self.target.position.y + (self.drill.damaged and (math.random(2) - 1) or 0))
 
     self.surface:draw(self.drill.position)
     self.map:draw()

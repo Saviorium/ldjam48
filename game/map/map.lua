@@ -76,7 +76,7 @@ function Map:digVoxel(position)
     end
     local voxel = chunk:getVoxel(self:getLocalChunkCoords(position))
     local damageToVoxel = math.clamp(0, 1 - voxel.resource.density, 1)
-
+    print(voxel.damage)
     local HP = voxel.health
     local dens = voxel.resource.density
 

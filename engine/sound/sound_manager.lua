@@ -9,7 +9,7 @@ local SoundEmitter
 
 local SoundManager = {
     soundConfig = nil,
-    globalVolume = 0.5,
+    globalVolume = 0.02,
     listenerPostion = Vector(0, 0),
     listenerVelocity = Vector(0, 0),
     emitters = {},
