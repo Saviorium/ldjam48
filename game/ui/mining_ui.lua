@@ -10,11 +10,15 @@ local UI =
         local font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
 
         UIobject.init(self, nil, {tag = "UI of mining state"})
-        self:registerObject(
+
+        local ParametersUI = UIobject( self, { tag = "Parameters UI", width = 150, height = 165, } )
+        self:registerObject( "Parameters", { }, ParametersUI )
+
+        ParametersUI:registerObject(
             "goldCounter",
             {left = 10, up = 10},
             Label(
-                self,
+                ParametersUI,
                 {
                     tag = "goldCounter",
                     text = "Gold = " .. 0,
@@ -25,11 +29,11 @@ local UI =
                 }
             )
         )
-        self:registerObject(
+        ParametersUI:registerObject(
             "fuelCounter",
             {left = 10, up = 60},
             Label(
-                self,
+                ParametersUI,
                 {
                     tag = "fuelCounter",
                     text = "Fuel = " .. 0,
@@ -40,11 +44,11 @@ local UI =
                 }
             )
         )
-        self:getObjectByIndex("fuelCounter").entity:registerObject(
+        ParametersUI:getObjectByIndex("fuelCounter").entity:registerObject(
             "fuelBar",
             {left = 0, up = 15},
             ResourceBar(
-                self:getObjectByIndex("fuelCounter").entity,
+                ParametersUI:getObjectByIndex("fuelCounter").entity,
                 {
                     tag = "fuelBar",
                     max = drill.maxFuel,
@@ -56,11 +60,11 @@ local UI =
                 }
             )
         )
-        self:registerObject(
+        ParametersUI:registerObject(
             "healthCounter",
             {left = 10, up = 120},
             Label(
-                self,
+                ParametersUI,
                 {
                     tag = "healthCounter",
                     text = "Health = " .. 0,
@@ -72,11 +76,11 @@ local UI =
             )
         )
 
-        self:getObjectByIndex("healthCounter").entity:registerObject(
+        ParametersUI:getObjectByIndex("healthCounter").entity:registerObject(
             "healthBar",
             {left = 0, up = 15},
             ResourceBar(
-                self:getObjectByIndex("healthCounter").entity,
+                ParametersUI:getObjectByIndex("healthCounter").entity,
                 {
                     tag = "healthBar",
                     max = drill.maxHP,
@@ -88,6 +92,7 @@ local UI =
                 }
             )
         )
+
         local SpeedUi = UIobject( self, { tag = "Speed UI", width = 150, height = 165, } )
         self:registerObject( "Speed", {right = 200, up = 10}, SpeedUi )
         SpeedUi:registerObject(

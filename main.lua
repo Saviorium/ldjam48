@@ -17,8 +17,8 @@ SoundManager = require "engine.sound.sound_manager" (SoundData)
 
 states = {
     mining = require "game.states.mining",
-    start_screen = require "game.states.mining",
-    end_screen = require "game.states.mining",
+    start_screen = require "game.states.start_screen",
+    end_screen = require "game.states.end_screen",
 }
 
 fonts = {
