@@ -19,10 +19,10 @@ local World =
 
 function World:update(dt)
     self.UI:update(dt)
-    self.drill:update(dt)
-    self.drill:dig(self.map)
     self.map:update(dt)
     self.map:setCenter(self.drill:getPosition())
+    self.drill:dig(self.map)
+    self.drill:update(dt)
     self.surface:update(dt, self.drill.position)
 end
 
@@ -78,6 +78,14 @@ end
 
 function World:keypressed(key)
     self.UI:keypressed(key)
+    if Debug and Debug.teleport == 1 then
+        if key == "x" then
+            self.drill.position.y = self.drill.position.y + 1000
+        end
+        if key == "z" then
+            self.drill.position.y = self.drill.position.y - 1000
+        end
+    end
 end
 
 

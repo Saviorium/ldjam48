@@ -34,4 +34,5 @@ Debug = {
     chunk = 0,
     chunkDraw = 0,
     resourceDisplay = 1,
+    teleport = 1,
 }
