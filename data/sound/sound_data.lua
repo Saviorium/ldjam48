@@ -24,12 +24,27 @@ return {
     },
     digHigh = {
         files = {
-            -- { name = "dig3-1" },
-            -- { name = "dig3-2" },
-            -- { name = "dig3-3" },
-            -- { name = "dig3-4" },
-            -- { name = "dig3-5" },
             { name = "dig3-6" },
+        },
+        options = {
+            maxSources = 1,
+            volumeVariation = 0.2,
+            pitchVariation = 0.2,
+        }
+    },
+    levelUp = {
+        files = {
+            { name = "level_up" },
+        },
+        options = {
+            maxSources = 1,
+            volumeVariation = 0.2,
+            pitchVariation = 0.2,
+        }
+    },
+    doNotLevelUp = {
+        files = {
+            { name = "do_not_level_up" },
         },
         options = {
             maxSources = 1,

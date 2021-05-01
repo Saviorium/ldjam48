@@ -91,7 +91,22 @@ function World:keypressed(key)
             self.drill.position.y = self.drill.position.y - 1000
         end
     end
+    if key == 'space' then
+        self:upgradeDrill()
+    end
 end
 
+function World:upgradeDrill()
+    local upgradeCost = self.drill.damage * self.drill.upgradeKoef
+    if Debug.unlockMoney or self.drill.gold >= upgradeCost then
+        self.drill.blocksInFrame = self.drill.blocksInFrame + (self.drill.blocksInFrame == self.drill.maxSpeed and 0 or self.drill.speedUpgrade)
+        self.drill.damage = self.drill.damage + self.drill.damageUpgrade
+        self.drill.gold = self.drill.gold - upgradeCost
+        SoundManager:play('levelUp')
+    else
+        print('Lol')
+        SoundManager:play('doNotLevelUp')
+    end
+end
 
 return World

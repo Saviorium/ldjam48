@@ -8,12 +8,11 @@ local UI =
     __includes = UIobject,
     init = function(self, drill)
         local font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
-        local buttonPng = AssetManager:getImage('button')
         local UIPng = AssetManager:getImage('UI')
         UIobject.init(self, nil, {tag = "UI of mining state"})
 
         local ParametersUI = UIobject( self, { tag = "Parameters UI", width = 128, height = 64, background = UIPng } )
-        self:registerObject( "Parameters", { up = 32, left = 624 }, ParametersUI )
+        self:registerObject( "Parameters", { up = 0, left = 624 }, ParametersUI )
 
         ParametersUI:registerObject(
             "goldCounter",
@@ -37,7 +36,7 @@ local UI =
         )
         ParametersUI:registerObject(
             "currentUpgrades",
-            {left = -65, up = -40},
+            {left = -65, up = 0},
             Label(
                 ParametersUI,
                 {
@@ -56,7 +55,7 @@ local UI =
         )
         ParametersUI:registerObject(
             "needForUpgrade",
-            {left = 130, up = -40},
+            {left = 130, up = 0},
             Label(
                 ParametersUI,
                 {
@@ -103,24 +102,6 @@ local UI =
                     textColor = {0, 0, 0},
                     getValue = function()
                         return drill.HP > 0 and drill.HP or 0
-                    end
-                }
-            )
-        )
-        ParametersUI:registerObject(
-            "Speed Up button",
-            { up = -48 },
-            Button(
-                ParametersUI,
-                {
-                    tag = "Upgrade", height = 64, background = buttonPng, font = font, align = 'center',
-                    callback = function()
-                        local upgradeCost = drill.damage * drill.upgradeKoef
-                        if Debug.unlockMoney or drill.gold >= upgradeCost then
-                            drill.blocksInFrame = drill.blocksInFrame + (drill.blocksInFrame == drill.maxSpeed and 0 or drill.speedUpgrade)
-                            drill.damage = drill.damage + drill.damageUpgrade
-                            drill.gold = drill.gold - upgradeCost
-                        end
                     end
                 }
             )
