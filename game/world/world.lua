@@ -80,6 +80,9 @@ function World:changeCameraTarget(target)
 end
 
 function World:mousepressed(x, y)
+    local x, y = love.mouse.getPosition()
+    local ps = self.UI:getObjectGlobalPos('goldCounter')
+    print(ps, x, y)
     self.UI:mousepressed(x, y)
 end
 

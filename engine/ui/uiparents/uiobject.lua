@@ -129,6 +129,26 @@ function UIobject:getObjectByIndex(index)
     return result
 end
 
+function UIobject:getObjectGlobalPos(index, pos)
+    local lPos = pos or Vector(0,0)
+    local result
+    for ind, obj in pairs(self.objects) do
+        if ind == index then
+            result = lPos + Vector(obj.position.x, obj.position.y)
+            print('1',self.tag, obj.entity.tag, lPos)
+        else
+            local Pos = lPos + Vector(obj.position.x - ( obj.position.align and obj.entity.width/2 or 0),
+            obj.position.y - ( obj.position.align and obj.entity.height/2 or 0))
+
+            print('2',self.tag, obj.entity.tag, Pos)
+            if obj.entity.getObjectGlobalPos then
+                result = obj.entity:getObjectGlobalPos(index, Pos) or result
+            end
+        end
+    end
+    return result
+end
+
 -- Указан отдельный объект чтобы логика указанная в Draw была сквозной, а опциональная была в render
 function UIobject:changePosition(x, y)
     self.x, self.y = x, y
@@ -142,8 +162,8 @@ end
 
 function UIobject:calculateRelationalPosition(position, x, y)
     if position.left or position.right or position.up or position.down then
-        x = x + (position.left or 0) + (self.width - (position.right or self.width))
-        y = y + (position.up or 0) + (self.height - (position.down or self.height))
+        x = x + (position.left or 0) - (position.right or 0)
+        y = y + (position.up or 0) - (position.down or 0)
     end
     return x, y
 end
@@ -282,7 +302,6 @@ end
 function UIobject:mousereleased(x, y)
     local gx, gy = x, y
     for ind, object in pairs(self.objects) do
-
         local targetObject = object.entity
         local lx,ly = object.position.x - ( object.position.align and object.entity.width/2 or 0),
                       object.position.y - ( object.position.align and object.entity.height/2 or 0)
