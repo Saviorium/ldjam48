@@ -37,6 +37,10 @@ function love.draw()
     if Debug and Debug.showFps == 1 then
         love.graphics.print(""..tostring(love.timer.getFPS( )), 2, 2)
     end
+    if Debug and Debug.mousePos == 1 then
+        local x, y = love.mouse.getPosition()
+        love.graphics.print(""..tostring(x)..","..tostring(y), 2, 32)
+    end
 end
 
 function love.update(dt)

@@ -1,5 +1,6 @@
 local PlayerController = require "game.player.player_controller"
-local ParticleSystem = require "game.player.drill_particle_system"
+local ParticleSystem = require "game.particle_system.particle_system"
+local ParticleTypes = require "game.player.drill_particles"
 
 local log = require "engine.utils.logger" ("drill")
 
@@ -33,7 +34,10 @@ local Drill =
         self.damage = 20
         self.width, self.height = 4, 4
 
-        self.particles = ParticleSystem(self)
+        self.particles = ParticleSystem(
+            ParticleTypes,
+            function() return self:getPosition() end,
+            function() return self:getAngle() end )
         self.frameDensityAverage = 0
 
         self.lowNoise = 10
@@ -63,10 +67,9 @@ function Drill:update(dt)
 end
 
 function Drill:draw()
-    self.particles:drawBehind()
+    self.particles:draw("behind")
     self.image:draw(self.position.x, self.position.y, self.angle, 1, 1, self.width, self.height)
-    self.particles:drawInFront()
-    --love.graphics.draw(self.image, self.position.x, self.position.y, self.angle, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+    self.particles:draw("front")
     self:drawDebug()
 end
 
@@ -118,6 +121,10 @@ function Drill:getPosition()
     return self.position
 end
 
+function Drill:getAngle()
+    return self.angle
+end
+
 function Drill:getCollisionSquares(searchRadius, searchCellsRadius, minRadius, sideDegrees )
     local result = {}
     local x, y = self.position.x, self.position.y
@@ -141,6 +148,7 @@ function Drill:dig( map )
         local sumDensity = 0
         local squaresCollidedNum = 1
         local frameDamage = self.damage
+        local moneyCollected = 0
         self.blocksMoved = 0
         self.frameDensity = 0
         self.damaged = false
@@ -153,7 +161,7 @@ function Drill:dig( map )
                 self.frameDensity = self.frameDensity + result.density
                 if result.health > 0 and result.density > 0 then
                     self.fuel = self.fuel + result.fuel
-                    self.gold = self.gold + result.money
+                    moneyCollected = moneyCollected + result.money
                     self.HP   = self.HP   - result.damageToDrill
                     self.damaged = result.damageToDrill > 0 or self.damaged
                     frameDamage = frameDamage - 1
@@ -161,7 +169,7 @@ function Drill:dig( map )
                 while (result.health > 0 and result.density > 0 and frameDamage > 0) do
                     result = map:digVoxel(pos)
                     self.fuel = self.fuel + result.fuel
-                    self.gold = self.gold + result.money
+                    moneyCollected = moneyCollected + result.money
                     self.HP   = self.HP   - result.damageToDrill
                     frameDamage = frameDamage - 1
                 end
@@ -171,6 +179,11 @@ function Drill:dig( map )
                 self:move()
                 self.blocksMoved = self.blocksMoved + self.blocksInMove
             end
+        end
+
+        self.gold = self.gold + moneyCollected
+        if moneyCollected > 0 then
+            -- EventManager:send("moneyCollected", moneyCollected)
         end
 
         self.frameDensityAverage = self.frameDensityAverage + (self.frameDensity - self.frameDensityAverage / 30)
