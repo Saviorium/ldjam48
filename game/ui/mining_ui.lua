@@ -3,37 +3,55 @@ local Label = require "engine.ui.label"
 local ResourceBar = require "engine.ui.resource_bar"
 local Button = require "engine.ui.button"
 
+local ParticleSystem = require "game.particle_system.particle_system"
+local ParticleTypes = require "game.ui.ui_particles"
+
 local UI =
     Class {
     __includes = UIobject,
     init = function(self, drill)
         local font = love.graphics.newFont(fonts.bigPixelated.file, fonts.bigPixelated.size)
         local UIPng = AssetManager:getImage('UI')
+
+        self.particles = ParticleSystem(ParticleTypes)
+
         UIobject.init(self, nil, {tag = "UI of mining state"})
 
         local ParametersUI = UIobject( self, { tag = "Parameters UI", width = 128, height = 64, background = UIPng } )
         self:registerObject( "Parameters", { up = 0, left = 624 }, ParametersUI )
 
+        local goldCounter = Label(
+            ParametersUI,
+            {
+                tag = "goldCounter",
+                text = "Money: " .. 0,
+                width = 100,
+                height = 50,
+                font = font,
+                align = 'left',
+                getText =
+                    function()
+                        local money = drill.gold > 100000 and math.floor(drill.gold / 1000) or math.floor(drill.gold)
+                        return "Money: " .. (drill.gold > 0 and money or 0)..(drill.gold > 100000 and 'K' or '')
+                    end,
+            }
+        )
+        goldCounter.render =
+        function()
+            Label.render(goldCounter)
+            self.particles:draw("goldCounter")
+        end
         ParametersUI:registerObject(
             "goldCounter",
             {left = 5, up = 35},
-            Label(
-                ParametersUI,
-                {
-                    tag = "goldCounter",
-                    text = "Money: " .. 0,
-                    width = 100,
-                    height = 50,
-                    font = font,
-                    align = 'left',
-                    getText =
-                        function()
-                            local money = drill.gold > 100000 and math.floor(drill.gold / 1000) or math.floor(drill.gold)
-                            return "Money: " .. (drill.gold > 0 and money or 0)..(drill.gold > 100000 and 'K' or '')
-                        end,
-                }
-            )
+            goldCounter
         )
+        ParametersUI:registerObject(
+            "particleSystem",
+            {},
+            self.particles
+        )
+
         ParametersUI:registerObject(
             "currentUpgrades",
             {left = -65, up = 0},

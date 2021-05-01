@@ -9,11 +9,7 @@ local ParticleSystem = Class {
         self.getPositionFunc = getPositionFunc or function() return Vector(0, 0) end
         self.getAngleFunc = getAngleFunc or function() return 0 end
         self.particles = {}
-        self.drawCache = {
-            behind = {},
-            front = {},
-            global= {},
-        }
+        self.drawCache = {}
         for type, particleParams in pairs(particleTypes) do
             self.particles[type] = {
                 type = particleParams,
@@ -22,9 +18,9 @@ local ParticleSystem = Class {
                 intensity = 0,
                 spawn = 0,
             }
+            self.drawCache[particleParams.spawnType] = {}
             self.drawCache[particleParams.spawnType][type] = self.particles[type].particles
         end
-        vardump(self)
     end
 }
 
@@ -76,6 +72,9 @@ function ParticleSystem:update(dt)
 end
 
 function ParticleSystem:draw(spawnType)
+    if not spawnType or not self.drawCache[spawnType] then
+        return
+    end
     for type, particlesOfType in pairs(self.drawCache[spawnType]) do
         for i, particle in pairs(particlesOfType) do
             if particle.alive then

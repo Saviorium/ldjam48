@@ -1,12 +1,12 @@
 return {
     money = {
-        spawnType = "global",
+        spawnType = "goldCounter",
         drawType = "circle",
         color = { 0.9, 0.8, 0.1, 1 },
         size = 5,
         gravity = 0.5,
         friction = 0.998,
-        translate = Vector(697, 50),
+        translate = Vector(70, 15),
         angle = -90,
         speed = 5,
         timeToLive = 0.5,

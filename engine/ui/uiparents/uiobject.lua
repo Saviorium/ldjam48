@@ -288,12 +288,14 @@ function UIobject:mousepressed(x, y)
     local gx, gy = x, y
     for ind, object in pairs(self.objects) do
         local targetObject = object.entity
-        local lx,ly = object.position.x - ( object.position.align and object.entity.width/2 or 0),
-                      object.position.y - ( object.position.align and object.entity.height/2 or 0)
-        for funcName, callback in pairs(targetObject.clickInteraction) do
-            x, y = gx - lx, gy - ly
-            if callback.condition(targetObject, gx, gy) then
-                callback.func(targetObject, x, y)
+        if targetObject.clickInteraction then
+            local lx,ly = object.position.x - ( object.position.align and object.entity.width/2 or 0),
+                        object.position.y - ( object.position.align and object.entity.height/2 or 0)
+            for funcName, callback in pairs(targetObject.clickInteraction) do
+                x, y = gx - lx, gy - ly
+                if callback.condition(targetObject, gx, gy) then
+                    callback.func(targetObject, x, y)
+                end
             end
         end
     end
@@ -303,12 +305,14 @@ function UIobject:mousereleased(x, y)
     local gx, gy = x, y
     for ind, object in pairs(self.objects) do
         local targetObject = object.entity
-        local lx,ly = object.position.x - ( object.position.align and object.entity.width/2 or 0),
-                      object.position.y - ( object.position.align and object.entity.height/2 or 0)
-        for funcName, callback in pairs(targetObject.releaseInteraction) do
-            if callback.condition(targetObject, x, y) then
-                x, y = gx - lx, gy - ly
-                callback.func(targetObject, x, y)
+        if targetObject.releaseInteraction then
+            local lx,ly = object.position.x - ( object.position.align and object.entity.width/2 or 0),
+                        object.position.y - ( object.position.align and object.entity.height/2 or 0)
+            for funcName, callback in pairs(targetObject.releaseInteraction) do
+                if callback.condition(targetObject, x, y) then
+                    x, y = gx - lx, gy - ly
+                    callback.func(targetObject, x, y)
+                end
             end
         end
     end
@@ -317,9 +321,11 @@ end
 function UIobject:wheelmoved(x, y)
     for ind, object in pairs(self.objects) do
         local targetObject = object.entity
-        for funcName, callback in pairs(targetObject.wheelInteraction) do
-            if callback.condition(targetObject, x, y) then
-                callback.func(targetObject, x, y)
+        if targetObject.wheelInteraction then
+            for funcName, callback in pairs(targetObject.wheelInteraction) do
+                if callback.condition(targetObject, x, y) then
+                    callback.func(targetObject, x, y)
+                end
             end
         end
     end
@@ -328,9 +334,11 @@ end
 function UIobject:keypressed(key)
     for ind, object in pairs(self.objects) do
         local targetObject = object.entity
-        for funcName, callback in pairs(targetObject.keyInteraction) do
-            if callback.condition(targetObject, key) then
-                callback.func(targetObject, key)
+        if targetObject.keyInteraction then
+            for funcName, callback in pairs(targetObject.keyInteraction) do
+                if callback.condition(targetObject, key) then
+                    callback.func(targetObject, key)
+                end
             end
         end
     end

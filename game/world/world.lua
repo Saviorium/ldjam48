@@ -5,9 +5,6 @@ local Surface = require "game.surface.surface"
 
 local MiningUI = require "game.ui.mining_ui"
 
-local ParticleSystem = require "game.particle_system.particle_system"
-local ParticleTypes = require "game.world.global_particles"
-
 local World =
     Class {
     init = function(self)
@@ -18,12 +15,10 @@ local World =
         self.UI = MiningUI(self.drill)
         self.target = self.drill
         self.surface = Surface()
-        self.particles = ParticleSystem(ParticleTypes)
     end
 }
 
 function World:update(dt)
-    self.particles:update(dt)
     self.UI:update(dt)
     self.map:update(dt)
     self.map:setCenter(self.drill:getPosition())
@@ -54,7 +49,6 @@ function World:draw()
 	love.graphics.pop()
 
     self.UI:draw()
-    self.particles:draw("global")
 
     if Debug and Debug.resourceDisplay and Debug.resourceDisplay > 0 then
         local mouseCoords = self:getWorldCoords(Vector(love.mouse.getPosition()))
