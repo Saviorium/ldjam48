@@ -1,6 +1,6 @@
 local Chunk = require "game.map.chunk"
 local ChunkData = require "game.map.chunk_data"
-local Voxel = require "game.map.voxel"
+local Resources = require "game.map.resources"
 
 local ResourceGenerator = require "game.map.resource_generator"
 
@@ -47,18 +47,19 @@ function MapGeneratorWorker:generateChunk(chunkPosition, chunkDiff)
         chunkDiff = ChunkData()
     end
     local chunk = Chunk()
-    for i = 1, self.chunkSize, 1 do
-        for j = 1, self.chunkSize, 1 do
+    for i = 0, self.chunkSize-1, 1 do
+        for j = 0, self.chunkSize-1, 1 do
             local voxelLocalPos = Vector(i, j)
             local savedVoxel = chunkDiff:getVoxel(voxelLocalPos)
             if savedVoxel == nil then
                 chunk:setVoxel(voxelLocalPos, self:generateVoxel(self:getGlobalVoxelCoords(chunkPosition, voxelLocalPos)))
             else
-                chunk:setVoxel(voxelLocalPos, Voxel(savedVoxel.resource.id, savedVoxel.health))
+                chunk:setVoxel(voxelLocalPos, savedVoxel.resourceId, savedVoxel.health)
             end
         end
     end
     log(3, "Done generating " .. chunkPosition:__tostring())
+    chunk:generateImageData()
     return chunk
 end
 
@@ -78,7 +79,8 @@ function MapGeneratorWorker:generateVoxel(voxelGlobalPosition)
             break
         end
     end
-    return Voxel(resource.id, value, colorId)
+    log(5, "Voxel generated: ", resource.id, value, colorId)
+    return resource.id, value, colorId
 end
 
 return MapGeneratorWorker

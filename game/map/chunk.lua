@@ -1,9 +1,11 @@
 local ChunkData = require "game.map.chunk_data"
+local Resources = require "game.map.resources"
 
 local log = require "engine.utils.logger"("chunk")
 
 local Chunk = Class {
     init = function(self)
+        self.imageData = nil
         self.image = nil
         self.data = ChunkData()
         self.chunkSize = config.map.chunkSize
@@ -12,19 +14,25 @@ local Chunk = Class {
     end
 }
 
-function Chunk:setVoxel(position, voxel)
-    self.data:setVoxel(position, voxel)
+function Chunk:setVoxel(position, resourceId, health, colorId)
+    self.data:setVoxel(position, resourceId, health, colorId)
 end
 
-function Chunk:changeVoxel(position, voxel)
-    self.changed:setVoxel(position, voxel)
+function Chunk:changeVoxel(position, resourceId, health, colorId)
+    self.changed:setVoxel(position, resourceId, health, colorId)
+end
+
+function Chunk:__serialize()
+    self.data = self.data:__serialize()
+    self.changed = self.changed:__serialize()
+    return self
 end
 
 function Chunk.__deserialize(chunkSerialized)
     log(4, "Chunk finalized")
     log(5, chunkSerialized)
     local chunk = Chunk()
-    chunk.image = chunkSerialized.image
+    chunk.imageData = chunkSerialized.imageData
     chunk.data = ChunkData.__deserialize(chunkSerialized.data)
     chunk.chunkSize = chunkSerialized.chunkSize
     chunk.changed = ChunkData.__deserialize(chunkSerialized.changed)
@@ -33,16 +41,12 @@ function Chunk.__deserialize(chunkSerialized)
         vardump(chunk)
         error("trying to double finalize chunk")
     end
-    for i = 1, chunk.chunkSize, 1 do
-        for j = 1, chunk.chunkSize, 1 do
-            local voxelLocalPos = Vector(i, j)
-            local voxel = chunk:getVoxel(voxelLocalPos)
-            voxel.resource = Resources[voxel.resource]
-        end
-    end
-    chunk.image = chunk:generateImage()
-    chunk.finalized = true
     return chunk
+end
+
+function Chunk:finalize()
+    self.image = self:generateImage()
+    self.finalized = true
 end
 
 function Chunk:save()
@@ -53,18 +57,27 @@ function Chunk:getVoxel(position)
     return self.changed:getVoxel(position) or self.data:getVoxel(position)
 end
 
-function Chunk:generateImage()
-    log(4, "start generating image".. love.timer.getTime( ))
+function Chunk:generateImageData()
+    log(4, "start generating imageData".. love.timer.getTime( ))
     local imageData = love.image.newImageData(self.chunkSize, self.chunkSize)
-    for i = 1, self.chunkSize, 1 do
-        for j = 1, self.chunkSize, 1 do
+    for i = 0, self.chunkSize-1, 1 do
+        for j = 0, self.chunkSize-1, 1 do
             local voxelLocalPos = Vector(i, j)
             local voxel = self:getVoxel(voxelLocalPos)
-            local color = voxel.resource.color or voxel.resource.colorGeneration.colors[voxel.colorId]
-            imageData:setPixel(i-1, j-1, color)
+            local resource = Resources[voxel.resourceId]
+            local color = resource.color or resource.colorGeneration.colors[voxel.colorId]
+            imageData:setPixel(i, j, color)
         end
     end
-    local image = love.graphics.newImage(imageData)
+    log(4, "finish generating imageData".. love.timer.getTime( ))
+    self.imageData = imageData
+    return imageData
+end
+
+
+function Chunk:generateImage()
+    log(4, "start generating image".. love.timer.getTime( ))
+    local image = love.graphics.newImage(self.imageData)
     image:setFilter("nearest", "nearest")
     log(4, "finish generating image".. love.timer.getTime( ))
     return image
@@ -82,7 +95,8 @@ function Chunk:draw()
     love.graphics.draw(self.image)
     self.changed:iterateOverVoxels(
         function(x, y, voxel)
-            love.graphics.setColor(voxel.resource.color)
+            local resource = Resources[voxel.resourceId]
+            love.graphics.setColor(resource.color)
             love.graphics.rectangle('fill', x-1, y-1, 1, 1)
         end
     )

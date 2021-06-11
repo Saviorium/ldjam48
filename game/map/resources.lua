@@ -1,4 +1,5 @@
 local Resources = {
+    -- [0] is a special value for nil voxel, don't use that
     [1] = {
         id = 1,
         name = "air",

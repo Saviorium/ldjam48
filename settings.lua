@@ -12,10 +12,11 @@ config = {
         },
     },
     map = {
-        chunkSize = 26,
-        renderRadius = 5, -- in chunks
-        unloadChunksRadius = 10,
-        loadChunksRadius = 6,
+        viewScale = 3,
+        chunkSize = 32,
+        renderRadius = 8, -- in chunks
+        loadChunksRadius = 9,
+        unloadChunksRadius = 15,
     }
 }
 
@@ -25,7 +26,7 @@ settings = {
 
 Debug = {
     LogLevel = 0,
-    showFps = 0,
+    showFps = 1,
     drill = 0,
     drawUiDebug = false,
     drawDrillUIDebug = false,

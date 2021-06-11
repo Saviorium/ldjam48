@@ -1,4 +1,4 @@
-Resources = require "game.map.resources" -- yes, global
+local Resources = require "game.map.resources"
 local Drill = require "game.player.drill"
 local Map = require "game.map.map"
 local Surface = require "game.surface.surface"
@@ -11,7 +11,7 @@ local World =
         print('Init')
         self.map = Map()
         self.drill = Drill(0, 0, AssetManager:getAnimation("drill"))
-        self.veiwScale = 6
+        self.viewScale = config.map.viewScale
         self.UI = MiningUI(self.drill)
         self.target = self.drill
         self.surface = Surface()
@@ -39,7 +39,7 @@ function World:draw()
 
 	love.graphics.push()
 	love.graphics.translate(cx,cy)
-    love.graphics.scale(self.veiwScale)
+    love.graphics.scale(self.viewScale)
 	love.graphics.translate(-self.target.position.x + (self.drill.damaged and (math.random(2) - 1) or 0), -self.target.position.y + (self.drill.damaged and (math.random(2) - 1) or 0))
 
     self.surface:draw(self.drill.position)
@@ -53,9 +53,10 @@ function World:draw()
     if Debug and Debug.resourceDisplay and Debug.resourceDisplay > 0 then
         local mouseCoords = self:getWorldCoords(Vector(love.mouse.getPosition()))
         local voxel = self.map:getVoxel(mouseCoords)
+        local resource = Resources[voxel.resourceId]
         if voxel then
             love.graphics.print(
-                string.format("Resource at (%5d,%-5d) %-10.10s: %d", mouseCoords.x, mouseCoords.y, voxel.resource.name, voxel.health),
+                string.format("Resource at (%5d,%-5d) %-10.10s: %d", mouseCoords.x, mouseCoords.y, resource.name, voxel.health),
                 2,
                 16
             )
@@ -64,7 +65,7 @@ function World:draw()
 end
 
 function World:getWorldCoords(screenPoint)
-    local unitsPerPixel = 1 / self.veiwScale
+    local unitsPerPixel = 1 / self.viewScale
 	local screenCenter = Vector(love.graphics.getWidth()/2, love.graphics.getHeight()/2)
     return self.target.position + (screenPoint - screenCenter) * unitsPerPixel
 end

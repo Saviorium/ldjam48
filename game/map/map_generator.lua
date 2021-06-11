@@ -53,11 +53,16 @@ function MapGenerator:getChunk(chunkPosition, chunkDiff)
         chunk = self:waitForChunk(chunkPosition)
         if not chunk then -- thread died, try to catch error from that thread
             local err = mapGeneratorThread:getError( )
-            error(err)
+            if err then
+                error(err)
+            else
+                error("Got nil chunk from thread")
+            end
         end
     end
     self:removeChunk(chunkPosition)
     chunk = Chunk.__deserialize(chunk)
+    chunk:finalize()
     return chunk
 end
 

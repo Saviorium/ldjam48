@@ -5,6 +5,7 @@ Class = require "lib.hump.class"
 Utils = require "engine.utils.utils"
 Resources = require "game.map.resources"
 require 'love.timer'
+require 'love.image'
 require 'engine.utils.debug'
 serpent = require "lib.serpent.serpent"
 require "love.math"
@@ -65,6 +66,7 @@ local function doOneTask()
     if not task then log(5, "No tasks in list") return false end
     log(4, "Starting task", task)
     local chunk = mapGeneratorWorker:generateChunk(task.chunkPosition, task.chunkDiff)
+    chunk:__serialize()
     log(5, "Chunk generated:", chunk)
     outputChannel:push({ type = "chunk", data = { chunk = chunk, position = task.chunkPosition } })
     return true

@@ -32,6 +32,5 @@ globals = {
   },
 
   -- game
-  "Resources",
   "fonts",
 }

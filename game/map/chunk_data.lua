@@ -1,42 +1,62 @@
+local ffi = require("ffi")
+ffi.cdef[[
+typedef struct { char resourceId; float health; char colorId; } voxel;
+]]
+local voxelSizeInBytes = ffi.sizeof(ffi.new("voxel"))
+
 local ChunkData = Class { -- DTO
-    init = function(self)
-        self.voxels = {} -- [x][y] = Voxel()
+    init = function(self, other)
+        if other then
+            self.size = other.size
+            self.voxelsData = other.voxelsData
+        else
+            self.size = { x = config.map.chunkSize, y = config.map.chunkSize }
+            self.voxelsData = love.data.newByteData(self.size.x*self.size.y*voxelSizeInBytes)
+        end
+        self.voxels = ffi.cast("voxel*", self.voxelsData:getFFIPointer())
     end
 }
 
-function ChunkData:setVoxel(position, voxel)
-    if Debug and Debug.chunk > 2 then
-        if position.x < 0 or position.y < 0 or position.x > config.map.chunkSize or position.y > config.map.chunkSize then
-            print("Voxel is outside chunk")
-            vardump(position, voxel)
-        end
+function ChunkData:setVoxel(position, resourceId, health, colorId)
+    if position.x < 0 or position.y < 0 or position.x >= self.size.x or position.y >= self.size.y then
+        vardump(position, resourceId, health, colorId)
+        error("Voxel is outside chunk")
     end
-    if not self.voxels[position.x] then
-        self.voxels[position.x] = {}
-    end
-    self.voxels[position.x][position.y] = voxel
+    local voxel = self.voxels[position.x * self.size.y + position.y]
+    voxel.resourceId = resourceId
+    voxel.health = health
+    voxel.colorId = colorId or 1
 end
 
 function ChunkData:getVoxel(position)
-    if self.voxels[position.x] and self.voxels[position.x][position.y] then
-        return self.voxels[position.x][position.y]
+    if position.x < 0 or position.y < 0 or position.x >= self.size.x or position.y >= self.size.y then
+        vardump(position)
+        error("Voxel is outside chunk")
+    end
+    if self.voxels[position.x * self.size.y + position.y].resourceId ~= 0 then
+        return self.voxels[position.x * self.size.y + position.y]
     else
         return nil
     end
 end
 
 function ChunkData:iterateOverVoxels(func)
-    for i, row in pairs(self.voxels) do
-        for j, voxel in pairs(row) do
-            func(i, j, voxel)
+    for i = 0, self.size.x-1, 1 do
+        for j = 0, self.size.y-1, 1 do
+            local voxel = self:getVoxel(Vector(i, j))
+            if voxel then
+                func(i, j, voxel)
+            end
         end
     end
 end
 
 function ChunkData:isEmpty()
-    for i, row in pairs(self.voxels) do
-        for j, voxel in pairs(row) do
-            return false
+    for i = 0, self.size.x-1, 1 do
+        for j = 0, self.size.y-1, 1 do
+            if self.voxels[i * self.size.y + j].resourceId ~= 0 then
+                return false
+            end
         end
     end
     return true
@@ -46,23 +66,24 @@ function ChunkData:getMerged(newData)
     local mergedData = ChunkData()
     self:iterateOverVoxels(
         function(x, y, voxel)
-            mergedData:setVoxel(Vector(x, y), voxel)
+            mergedData:setVoxel(Vector(x, y), voxel.resourceId, voxel.health, voxel.colorId)
         end
     )
     newData:iterateOverVoxels(
         function(x, y, voxel)
-            mergedData:setVoxel(Vector(x, y), voxel)
+            mergedData:setVoxel(Vector(x, y), voxel.resourceId, voxel.health, voxel.colorId)
         end
     )
     return mergedData
 end
 
+function ChunkData:__serialize()
+    self.voxels = nil
+    return self
+end
+
 function ChunkData.__deserialize(data)
-    local result = ChunkData()
-    if data and data.voxels then
-        result.voxels = data.voxels
-    end
-    return result
+    return ChunkData(data)
 end
 
 return ChunkData

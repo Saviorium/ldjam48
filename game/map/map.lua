@@ -1,5 +1,5 @@
 local MapGenerator = require "game.map.map_generator"
-local Voxel = require "game.map.voxel"
+local Resources = require "game.map.resources"
 
 local log = require "engine.utils.logger"("map")
 
@@ -75,27 +75,28 @@ function Map:digVoxel(position)
         return
     end
     local voxel = chunk:getVoxel(self:getLocalChunkCoords(position))
-    local damageToVoxel = math.clamp(0, 1 - voxel.resource.density, 1)
+    local resource = Resources[voxel.resourceId]
+    local damageToVoxel = math.clamp(0, 1 - resource.density, 1)
     local HP = voxel.health
-    local dens = voxel.resource.density
+    local dens = resource.density
 
     voxel.health = HP - damageToVoxel
-    if voxel.health <= 0 and voxel.resource.density > 0 then
-        chunk:changeVoxel(self:getLocalChunkCoords(position), Voxel(Resources.getByName("air"), 1))
+    if voxel.health <= 0 and resource.density > 0 then
+        chunk:changeVoxel(self:getLocalChunkCoords(position), Resources.getByName("air").id, 1)
     end
     local damageToDrill = 0
-    if voxel.resource.damage then
-        damageToDrill = voxel.resource.damage
+    if resource.damage then
+        damageToDrill = resource.damage
     end
     local fuel = 0
-    if voxel.resource.fuel then
-        fuel = voxel.resource.fuel
+    if resource.fuel then
+        fuel = resource.fuel
     end
     local result = {
         damage = damageToVoxel,
         health = HP,
         density = dens,
-        money = damageToVoxel * voxel.resource.cost,
+        money = damageToVoxel * resource.cost,
         damageToDrill = damageToDrill,
         fuel = fuel,
     }
@@ -147,7 +148,7 @@ function Map:getChunkCoords(worldVoxelCoords)
 end
 
 function Map:getLocalChunkCoords(worldVoxelCoords)
-    return Vector(math.floor(worldVoxelCoords.x % self.chunkSize + 1), math.floor(worldVoxelCoords.y % self.chunkSize + 1))
+    return Vector(math.floor(worldVoxelCoords.x % self.chunkSize), math.floor(worldVoxelCoords.y % self.chunkSize))
 end
 
 function Map:loopAroundCoords(position, radius, func, args)
