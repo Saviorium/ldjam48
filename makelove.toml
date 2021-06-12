@@ -1,0 +1,8 @@
+name = "Deeper and Deeper Mining Operations ltd"
+default_targets = ["win32", "win64", "appimage", "macos"]
+build_directory = "pkg"
+
+love_files = [
+    "::git-ls-tree::",
+    "-*/.*",
+]
