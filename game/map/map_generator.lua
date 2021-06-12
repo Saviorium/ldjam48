@@ -27,6 +27,9 @@ function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
         end
         return false
     end
+    if chunkDiff then
+        chunkDiff:__serialize()
+    end
     controlChannel:push({
         command = "generate",
         priority = priority,
