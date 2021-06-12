@@ -36,17 +36,19 @@ function love.run()
 
         timer = timer + love.timer.getDelta()
 
+        -- Call update and draw
+        if love.update then love.update(love.timer.getDelta()) end -- will pass 0 if love.timer is disabled
+
         if dt >= 1/FixedFPS then
 
             framesCount = framesCount + 1
             if timer >= 1 then
-                print(framesCount, love.timer.getFPS())
                 framesCount = 0
                 timer = 0
             end
 
             -- Call update and draw
-            if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
+            if love.fixedUpdate then love.fixedUpdate(dt) end -- will pass 0 if love.timer is disabled
 
             if love.graphics and love.graphics.isActive() then
                 love.graphics.origin()

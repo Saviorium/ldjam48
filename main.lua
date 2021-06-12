@@ -43,7 +43,7 @@ function love.draw()
     end
 end
 
-function love.update(dt)
+function love.fixedUpdate(dt)
     UserInputManager:update(dt)
     StateManager.update(dt)
 end
