@@ -28,7 +28,7 @@ function MapGenerator:prepareChunk(chunkPosition, chunkDiff, priority)
         return false
     end
     if chunkDiff then
-        chunkDiff:__serialize()
+        chunkDiff = chunkDiff:__serialize()
     end
     controlChannel:push({
         command = "generate",
@@ -159,9 +159,7 @@ function MapGenerator:destroyChunk(chunkPosition)
 end
 
 function MapGenerator:update(dt)
-    self:getOneChunkFromWorker()
-    --self:getOneChunkFromWorker()
-    --self:getOneChunkFromWorker()
+    self:getChunksFromWorker()
 end
 
 function MapGenerator:draw()

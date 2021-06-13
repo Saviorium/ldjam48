@@ -3,7 +3,6 @@ require "settings"
 Vector = require "lib.hump.vector"
 Class = require "lib.hump.class"
 Utils = require "engine.utils.utils"
-Resources = require "game.map.resources"
 require 'love.timer'
 require 'love.image'
 require 'engine.utils.debug'

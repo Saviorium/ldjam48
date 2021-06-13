@@ -97,7 +97,7 @@ function Chunk:draw()
         function(x, y, voxel)
             local resource = Resources[voxel.resourceId]
             love.graphics.setColor(resource.color)
-            love.graphics.rectangle('fill', x-1, y-1, 1, 1)
+            love.graphics.rectangle('fill', x, y, 1, 1)
         end
     )
     love.graphics.setColor(1,1,1)

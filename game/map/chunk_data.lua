@@ -78,8 +78,9 @@ function ChunkData:getMerged(newData)
 end
 
 function ChunkData:__serialize()
-    self.voxels = nil
-    return self
+    local serialized = ChunkData(self)
+    serialized.voxels = nil
+    return serialized
 end
 
 function ChunkData.__deserialize(data)
