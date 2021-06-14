@@ -3,12 +3,11 @@ ignore = {
    "213",  -- Unused loop variable
 }
 
-std = 'lua51+love'
+std = 'luajit+love'
 max_line_length = 160
 
 globals = {
   -- love and libs
-  "love",
   "Class",
   "Vector",
   "serpent", -- todo: include by demand only
