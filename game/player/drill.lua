@@ -8,7 +8,7 @@ local Drill =
     Class {
     init = function(self, x, y)
         self.speed = 0
-        self.circleRange = 3
+        self.circleRange = 5
         self.blocksInFrame = 1
         self.blocksInMove = 1
         self.rotationSpeed = 0.1
