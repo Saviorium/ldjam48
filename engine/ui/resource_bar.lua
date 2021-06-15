@@ -17,6 +17,7 @@ Class {
         self.getValue = parameters.getValue
         self.borders = parameters.borders or 3
         self.textColor = parameters.textColor or {1, 1, 1}
+        self.particles = parameters.particles
     end
 }
 
@@ -31,6 +32,7 @@ function ResourceBar:draw()
     love.graphics.setColor(self.textColor)
     love.graphics.printf(self.tag, self.x + 3, self.y-5, self.height, 'center')
     love.graphics.setColor(1, 1, 1)
+    self.particles:draw(self.tag)
 
 end
 

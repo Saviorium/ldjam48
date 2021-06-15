@@ -37,10 +37,10 @@ local UI =
             }
         )
         goldCounter.render =
-        function()
-            Label.render(goldCounter)
-            self.particles:draw("goldCounter")
-        end
+            function()
+                Label.render(goldCounter)
+                self.particles:draw("goldCounter")
+            end
         ParametersUI:registerObject(
             "goldCounter",
             {left = 5, up = 35},
@@ -101,6 +101,7 @@ local UI =
                     color = {0, 1, 1},
                     bgColor = {1, 1, 1},
                     textColor = {0, 0, 0},
+                    particles = self.particles,
                     getValue = function()
                         return drill.fuel > 0 and drill.fuel or 0
                     end
@@ -118,6 +119,7 @@ local UI =
                     color = {1, 0, 0},
                     bgColor = {1, 1, 1},
                     textColor = {0, 0, 0},
+                    particles = self.particles,
                     getValue = function()
                         return drill.HP > 0 and drill.HP or 0
                     end
@@ -185,7 +187,10 @@ local UI =
                 )
             )
         end
-
+        
+        love.handlers['money'] = function() self.particles:spawn('money', 1) end
+        love.handlers['damaged'] = function() self.particles:spawn('HP', 2) end
+        love.handlers['turn'] = function() self.particles:spawn('fuel', 1) end
     end
 }
 

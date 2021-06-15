@@ -20,5 +20,49 @@ return {
             timeToLive = 0.05,
             intensity = 5,
         }
+    },
+    fuel = {
+        spawnType = "Fuel",
+        drawType = "circle",
+        color = { 0, 1, 1, 1 },
+        size = 2,
+        gravity = 0.01,
+        friction = 0.998,
+        translate = Vector(70, 15),
+        angle = 0,
+        speed = 5,
+        timeToLive = 0.5,
+        maxIntensity = 60,
+        random = {
+            color = 0,
+            size = 0,
+            translate = 10,
+            angle = 10,
+            speed = 2,
+            timeToLive = 0.05,
+            intensity = 5,
+        }
+    },
+    HP = {
+        spawnType = "Health",
+        drawType = "circle",
+        color = { 1, 0, 0, 1 },
+        size = 2,
+        gravity = 0.01,
+        friction = 0.998,
+        translate = Vector(70, 15),
+        angle = 0,
+        speed = 5,
+        timeToLive = 0.5,
+        maxIntensity = 60,
+        random = {
+            color = 0,
+            size = 0,
+            translate = 10,
+            angle = 10,
+            speed = 2,
+            timeToLive = 0.05,
+            intensity = 5,
+        }
     }
 }

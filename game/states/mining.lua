@@ -1,6 +1,5 @@
 local World = require "game.world.world"
 
-local MiningUI = require "game.ui.mining_ui"
 
 local Mining = {}
 

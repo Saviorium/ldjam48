@@ -6,6 +6,7 @@ local Base = {}
 
 function Base:enter( prev_state, world )
     self.world = world and world or World()
+    self.world:startDrilling()
     self.UI = BaseUi(self.world)
 end
 

@@ -101,6 +101,7 @@ end
 
 function Drill:turn( direction )
     if self.launched then
+        love.event.push('turn')
         local angle = self.angle*180/math.pi
         local degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
         if not self.onAir and self.fuel > 0 then
@@ -162,7 +163,7 @@ function Drill:dig( map )
                 if result.health > 0 and result.density > 0 then
                     self.fuel = self.fuel + result.fuel
                     moneyCollected = moneyCollected + result.money
-                    self.HP   = self.HP   - result.damageToDrill
+                    self.HP   = self.HP - result.damageToDrill
                     self.damaged = result.damageToDrill > 0 or self.damaged
                     frameDamage = frameDamage - 1
                 end
@@ -170,7 +171,7 @@ function Drill:dig( map )
                     result = map:digVoxel(pos)
                     self.fuel = self.fuel + result.fuel
                     moneyCollected = moneyCollected + result.money
-                    self.HP   = self.HP   - result.damageToDrill
+                    self.HP   = self.HP - result.damageToDrill
                     frameDamage = frameDamage - 1
                 end
                 squaresDiggedNum = result.health <= 0 and squaresDiggedNum + 1 or squaresDiggedNum
@@ -183,7 +184,7 @@ function Drill:dig( map )
 
         self.gold = self.gold + moneyCollected
         if moneyCollected > 0 then
-            -- EventManager:send("moneyCollected", moneyCollected)
+            love.event.push('money')
         end
 
         self.frameDensityAverage = self.frameDensityAverage + (self.frameDensity - self.frameDensityAverage / 30)
@@ -191,6 +192,7 @@ function Drill:dig( map )
         self.particles:setIntensity("dirtChunk", 5)
         if self.damaged then
             self.particles:setIntensity("smoke", 50)
+            love.event.push('damaged')
         else
             self.particles:setIntensity("smoke", 0)
         end
