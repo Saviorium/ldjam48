@@ -1,7 +1,9 @@
+
+local Base = require "game.surface.base"
+
 local Surface =
     Class {
     init = function(self)
-        self.base = AssetManager:getImage('base')
         self.trees = {AssetManager:getImage('tree1'), AssetManager:getImage('tree2') }
         self.clouds = {AssetManager:getImage('cloud1'), AssetManager:getImage('cloud2') }
         self.treesObjects = {}
@@ -10,6 +12,7 @@ local Surface =
         self.treesOnScreen = 20
         self:generateSurface()
         self.x = 0
+        self.base = Base()
     end
 }
 
@@ -95,9 +98,7 @@ function Surface:draw(drillPos)
         end
 
         if self.base.draw then
-            self.base:draw(0, 0, self.angle, 1, 1, self.base:getWidth(), self.base:getHeight())
-        else
-            love.graphics.draw(self.base, 0, 0, self.angle, 1, 1, self.base:getWidth()/2, self.base:getHeight())
+            self.base:draw()
         end
     end
 end

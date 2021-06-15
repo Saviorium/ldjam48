@@ -3,23 +3,29 @@ local Drill = require "game.player.drill"
 local Map = require "game.map.map"
 local Surface = require "game.surface.surface"
 
-local MiningUI = require "game.ui.mining_ui"
 
 local World =
     Class {
     init = function(self)
-        print('Init')
         self.map = Map()
-        self.drill = Drill(0, 0, AssetManager:getAnimation("drill"))
         self.viewScale = config.map.viewScale
-        self.UI = MiningUI(self.drill)
-        self.target = self.drill
         self.surface = Surface()
+        self.base = self.surface.base
     end
 }
 
+function World:startDrilling()
+    self.drill = Drill(0, 0)
+    self.target = self.drill
+end
+
+function World:backToBase()
+    self.drill = Drill(0, 0)
+    self.target = self.base
+end
+
+
 function World:update(dt)
-    self.UI:update(dt)
     self.map:update(dt)
     self.map:setCenter(self.drill:getPosition())
     self.drill:update(dt)
@@ -48,7 +54,6 @@ function World:draw()
 
 	love.graphics.pop()
 
-    self.UI:draw()
 
     if Debug and Debug.resourceDisplay and Debug.resourceDisplay > 0 then
         local mouseCoords = self:getWorldCoords(Vector(love.mouse.getPosition()))
@@ -75,18 +80,12 @@ function World:changeCameraTarget(target)
 end
 
 function World:mousepressed(x, y)
-    local x, y = love.mouse.getPosition()
-    local ps = self.UI:getObjectGlobalPos('goldCounter')
-    print(ps, x, y)
-    self.UI:mousepressed(x, y)
 end
 
 function World:mousereleased(x, y)
-    self.UI:mousereleased(x, y)
 end
 
 function World:keypressed(key)
-    self.UI:keypressed(key)
     if Debug and Debug.teleport == 1 then
         if key == "x" then
             self.drill.position.y = self.drill.position.y + 1000
@@ -108,7 +107,6 @@ function World:upgradeDrill()
         self.drill.gold = self.drill.gold - upgradeCost
         SoundManager:play('levelUp')
     else
-        print('Lol')
         SoundManager:play('doNotLevelUp')
     end
 end

@@ -11,6 +11,7 @@ function startScreen:enter()
     self.drill:play()
     self.newspaper = AssetManager:getImage("newspaper_full")
     self.world = World()
+    self.world:startDrilling()
     self.load = false
 end
 
@@ -27,7 +28,7 @@ function startScreen:draw()
     love.graphics.draw(self.newspaper, 0, 0, 0, 1, 1)
 
     local x, y = love.graphics:getWidth()/2, love.graphics:getHeight()/2
-    self.drill:draw(x - 150 , y - 225, math.pi/2, 8, 8, 4, 4)
+    self.drill:draw(x - 150 , y - 225, math.pi/2, 8, 8, 8, 8)
 
 end
 

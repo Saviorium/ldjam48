@@ -6,7 +6,7 @@ local log = require "engine.utils.logger" ("drill")
 
 local Drill =
     Class {
-    init = function(self, x, y, image)
+    init = function(self, x, y)
         self.speed = 0
         self.circleRange = 3
         self.blocksInFrame = 1
@@ -14,7 +14,7 @@ local Drill =
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
-        self.image = image
+        self.image = AssetManager:getAnimation("drill")
         self.image:setTag('dig')
         self.image:play()
         self.controller = PlayerController(self, UserInputManager)
@@ -32,7 +32,7 @@ local Drill =
         self.onAir = true
         self.damaged = false
         self.damage = 20
-        self.width, self.height = 4, 4
+        self.width, self.height = 8, 8
 
         self.particles = ParticleSystem(
             ParticleTypes,

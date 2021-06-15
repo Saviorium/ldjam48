@@ -1,20 +1,20 @@
 { "frames": [
    {
-    "filename": "drill 0.aseprite",
-    "frame": { "x": 1, "y": 1, "w": 8, "h": 8 },
+    "filename": "Sprite-0003 0.",
+    "frame": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
-    "sourceSize": { "w": 8, "h": 8 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    {
-    "filename": "drill 1.aseprite",
-    "frame": { "x": 9, "y": 1, "w": 8, "h": 8 },
+    "filename": "Sprite-0003 1.",
+    "frame": { "x": 16, "y": 0, "w": 16, "h": 16 },
     "rotated": false,
     "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
-    "sourceSize": { "w": 8, "h": 8 },
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    }
  ],
@@ -23,7 +23,7 @@
   "version": "1.2.27",
   "image": "drill.png",
   "format": "RGBA8888",
-  "size": { "w": 18, "h": 10 },
+  "size": { "w": 32, "h": 16 },
   "scale": "1",
   "frameTags": [
    { "name": "dig", "from": 0, "to": 1, "direction": "forward" }
