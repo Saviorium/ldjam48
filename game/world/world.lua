@@ -2,6 +2,7 @@ local Resources = require "game.map.resources"
 local Drill = require "game.player.drill"
 local Map = require "game.map.map"
 local Surface = require "game.surface.surface"
+local MiningUI = require "game.ui.mining_ui"
 
 
 local World =
@@ -17,6 +18,7 @@ local World =
 function World:startDrilling()
     self.drill = Drill(0, 0)
     self.target = self.drill
+    self.UI = MiningUI(self.drill)
 end
 
 function World:backToBase()
@@ -26,6 +28,7 @@ end
 
 
 function World:update(dt)
+    self.UI:update(dt)
     self.map:update(dt)
     self.map:setCenter(self.drill:getPosition())
     self.drill:update(dt)
@@ -67,6 +70,7 @@ function World:draw()
             )
         end
     end
+    self.UI:draw()
 end
 
 function World:getWorldCoords(screenPoint)
@@ -80,12 +84,15 @@ function World:changeCameraTarget(target)
 end
 
 function World:mousepressed(x, y)
+    self.UI:mousepressed(x, y)
 end
 
 function World:mousereleased(x, y)
+    self.UI:mousereleased(x, y)
 end
 
 function World:keypressed(key)
+    self.UI:keypressed(key)
     if Debug and Debug.teleport == 1 then
         if key == "x" then
             self.drill.position.y = self.drill.position.y + 1000
