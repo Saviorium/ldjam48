@@ -14,13 +14,18 @@ local Label = Class {
 }
 
 function Label:render()
-    love.graphics.setColor(self.textColor)
     if self.getText then
         self.text = self.getText()
     end
     if self.font then
         love.graphics.setFont(self.font)
     end
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.printf(self.text, 1, 0, 128, self.align)
+    love.graphics.printf(self.text, 0, 1, 128, self.align)
+    love.graphics.printf(self.text, -1, 0, 128, self.align)
+    love.graphics.printf(self.text, 0, -1, 128, self.align)
+    love.graphics.setColor(self.textColor)
     love.graphics.printf(self.text, 0, 0, 128, self.align)
     if self.font then
         --love.graphics.setFont(love.graphics.newFont(12))

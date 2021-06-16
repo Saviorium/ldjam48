@@ -20,32 +20,6 @@ local UI =
         local ParametersUI = UIobject( self, { tag = "Parameters UI", width = 128, height = 64, background = UIPng } )
         self:registerObject( "Parameters", { up = 0, left = 624 }, ParametersUI )
 
-        local goldCounter = Label(
-            ParametersUI,
-            {
-                tag = "goldCounter",
-                text = "Money: " .. 0,
-                width = 100,
-                height = 50,
-                font = font,
-                align = 'left',
-                getText =
-                    function()
-                        local money = drill.gold > 100000 and math.floor(drill.gold / 1000) or math.floor(drill.gold)
-                        return "Money: " .. (drill.gold > 0 and money or 0)..(drill.gold > 100000 and 'K' or '')
-                    end,
-            }
-        )
-        goldCounter.render =
-            function()
-                Label.render(goldCounter)
-                self.particles:draw("goldCounter")
-            end
-        ParametersUI:registerObject(
-            "goldCounter",
-            {left = 5, up = 35},
-            goldCounter
-        )
         ParametersUI:registerObject(
             "particleSystem",
             {},
@@ -53,39 +27,40 @@ local UI =
         )
 
         ParametersUI:registerObject(
-            "currentUpgrades",
-            {left = -65, up = 0},
-            Label(
+            "1goldBar",
+            {left = 0, up = 20},
+            ResourceBar(
                 ParametersUI,
                 {
-                    tag = "currentUpgrades",
-                    text = "level: " .. 0,
-                    width = 100,
-                    height = 16,
-                    font = font,
-                    align = 'left',
-                    getText =
-                        function()
-                            return "level: " .. ((drill.damage - 20)/2 > 0 and (drill.damage - 20)/2 or 0)
-                        end,
+                    tag = "Gold",
+                    max = drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0,
+                    color = { 1, 0.733, 0.133, 1 },
+                    bgColor = {0, 0, 0},
+                    textColor = {1, 1, 1, 0},
+                    particles = self.particles,
+                    width = 22,
+                    getValue = function()
+                        return drill.gold > 0 and drill.gold or 0
+                    end
                 }
             )
         )
         ParametersUI:registerObject(
-            "needForUpgrade",
-            {left = 130, up = 0},
+            "2currentUpgrades",
+            {left = 10, up = 35},
             Label(
                 ParametersUI,
                 {
-                    tag = "needForUpgrade",
-                    text = "cost:  " .. 0,
+                    tag = "currentUpgrades",
+                    text = "Level: " .. 0,
                     width = 100,
                     height = 16,
                     font = font,
                     align = 'left',
+                    textColor = {1, 1, 1, 1},
                     getText =
                         function()
-                            return "cost: " .. (drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0)
+                            return "Level: " .. ((drill.damage - 20)/2 > 0 and (drill.damage - 20)/2 or 0)
                         end,
                 }
             )
@@ -128,12 +103,12 @@ local UI =
         )
 
         ParametersUI:registerObject(
-            "atitude",
+            "altitude",
             { up = 64 },
             Label(
                 ParametersUI,
                 {
-                    tag = "atitude",
+                    tag = "altitude",
                     text = "Alt: " .. 0,
                     height = 16,
                     font = font,
@@ -187,7 +162,7 @@ local UI =
                 )
             )
         end
-        
+
         love.handlers['money'] = function() self.particles:spawn('money', 1) end
         love.handlers['damaged'] = function() self.particles:spawn('HP', 2) end
         love.handlers['turn'] = function() self.particles:spawn('fuel', 1) end
