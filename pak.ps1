@@ -1,5 +1,5 @@
 $appname = "Deeper_and_Deeper_Mining_Operations"
-$love_dir = "..\love-11.3-win64"
+$love_dir = "C:\Program Files\LOVE"
 $build_dir = ".\pkg"
 
 # create ./pkg directory if it not exists

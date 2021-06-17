@@ -83,7 +83,7 @@ function Surface:update(dt, drillPos)
 end
 
 function Surface:draw(drillPos)
-    if drillPos.y < 100 then
+    if drillPos.y < 200 then
         for ind, img in pairs(self.treesObjects) do
             love.graphics.draw( img.image,
                                 img.x,
