@@ -9,7 +9,7 @@ local Drill =
     init = function(self, x, y)
         self.speed = 0
         self.circleRange = 5
-        self.blocksInFrame = 1
+        self.blocksInFrame = 2
         self.blocksInMove = 1
         self.rotationSpeed = 0.1
         self.position = Vector(x,y)
@@ -100,10 +100,12 @@ function Drill:move()
 end
 
 function Drill:turn( direction )
-    if self.launched and direction ~= 0 then
+    if self.launched then
         local angle = self.angle*180/math.pi
-        local degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
-        if not self.onAir and self.fuel > 0 then
+        local startDegree = not self.onAir and self.startDegree or 0
+        local maxAngel = 90 + self.maxAngles
+        local degradationKoef = angle > (90 + startDegree) and (90 - angle)/maxAngel or (angle < (90 - startDegree) and (angle - 90)/maxAngel or 0)
+        if not self.onAir and self.fuel > 0 and direction ~= 0  then
             love.event.push('turn')
             self.fuel = self.fuel - self.fuelReduction
             self.angle = self.angle + self.rotationSpeed * direction
@@ -196,7 +198,8 @@ function Drill:dig( map )
         else
             self.particles:setIntensity("smoke", 0)
         end
-        self.onAir = frameDamage == self.damage
+        self.onAir = self.frameDensity == 0
+        print(self.frameDensity, self.onAir)
 
         if self.frameDensityAverage < self.lowNoise and self.frameDensityAverage > 0 then
             SoundManager:play('digLow')
