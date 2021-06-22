@@ -163,9 +163,10 @@ local UI =
             )
         end
 
-        love.handlers['money'] = function() self.particles:spawn('money', 0.1) end
+        love.handlers['money'] = function(count) self.particles:spawn('money', count) end
         love.handlers['damaged'] = function() self.particles:spawn('HP', 2) end
-        love.handlers['turn'] = function() self.particles:spawn('fuel', 0.1) end
+        love.handlers['turn'] = function() self.particles:spawn('fuel', 0.3) end
+        love.handlers['refuel'] = function(count) self.particles:spawn('fuelAdd', count) end
     end
 }
 

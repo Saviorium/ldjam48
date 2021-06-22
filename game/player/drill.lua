@@ -152,6 +152,7 @@ function Drill:dig( map )
         local squaresCollidedNum = 1
         local frameDamage = self.damage
         local moneyCollected = 0
+        local fuelCollected = 0
         self.blocksMoved = 0
         self.frameDensity = 0
         self.damaged = false
@@ -163,7 +164,7 @@ function Drill:dig( map )
                 local result = map:digVoxel(pos)
                 self.frameDensity = self.frameDensity + result.density
                 if result.health > 0 and result.density > 0 then
-                    self.fuel = self.fuel + result.fuel
+                    fuelCollected = fuelCollected + result.fuel
                     moneyCollected = moneyCollected + result.money
                     self.HP   = self.HP - result.damageToDrill
                     self.damaged = result.damageToDrill > 0 or self.damaged
@@ -184,9 +185,14 @@ function Drill:dig( map )
             end
         end
 
+        self.fuel = self.fuel + fuelCollected
+        if fuelCollected > 0 then
+            love.event.push('refuel', fuelCollected)
+        end
+
         self.gold = self.gold + moneyCollected
         if moneyCollected > 0 then
-            love.event.push('money')
+            love.event.push('money', moneyCollected)
         end
 
         self.frameDensityAverage = self.frameDensityAverage + (self.frameDensity - self.frameDensityAverage / 30)
@@ -199,7 +205,6 @@ function Drill:dig( map )
             self.particles:setIntensity("smoke", 0)
         end
         self.onAir = self.frameDensity == 0
-        print(self.frameDensity, self.onAir)
 
         if self.frameDensityAverage < self.lowNoise and self.frameDensityAverage > 0 then
             SoundManager:play('digLow')
