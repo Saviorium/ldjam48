@@ -100,11 +100,11 @@ function Drill:move()
 end
 
 function Drill:turn( direction )
-    if self.launched then
-        love.event.push('turn')
+    if self.launched and direction ~= 0 then
         local angle = self.angle*180/math.pi
         local degradationKoef = angle > (90 + self.startDegree) and (90 - angle)/(90+self.maxAngles) or (angle < (90 - self.startDegree) and (angle - 90)/(90+self.maxAngles) or 0)
         if not self.onAir and self.fuel > 0 then
+            love.event.push('turn')
             self.fuel = self.fuel - self.fuelReduction
             self.angle = self.angle + self.rotationSpeed * direction
         end
