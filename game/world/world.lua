@@ -14,7 +14,7 @@ local World =
         self.base = self.surface.base
         self.cheatUgradeTimer = 0
         self.levelRised = 0
-        
+
         self.shader = love.graphics.newShader("data/shader/scanlines.fs")
     end
 }
@@ -124,8 +124,8 @@ function World:keypressed(key)
 end
 
 function World:upgradeDrill(upgradeCost)
-    self.drill.blocksInFrame = self.drill.blocksInFrame + (self.drill.blocksInFrame == self.drill.maxSpeed and 0 or self.drill.speedUpgrade)
-    self.drill.damage = self.drill.damage + self.drill.damageUpgrade
+    self.drill.blocksInFrame = self.drill.blocksInFrame + self.drill.damageUpgrade
+    self.drill.blocksInMove = self.drill.blocksInMove + (self.drill.blocksInMove == self.drill.maxSpeed and 0 or self.drill.speedUpgrade)
     self.drill.gold = self.drill.gold - upgradeCost
     SoundManager:play('levelUp')
     self.cheatUgradeTimer = 0

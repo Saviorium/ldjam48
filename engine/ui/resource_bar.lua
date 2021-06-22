@@ -13,7 +13,8 @@ Class {
         self.height = parent.width
         self.color = parameters.color
         self.bgColor = parameters.bgColor
-        self.max = parameters.max
+        self.getMax = parameters.getMax
+        self.max = self.getMax()
         self.getValue = parameters.getValue
         self.borders = parameters.borders or 3
         self.textColor = parameters.textColor or {1, 1, 1}
@@ -23,16 +24,20 @@ Class {
 
 function ResourceBar:draw()
 
-    local leftSpaceInPercents = 1 - (self.getValue() / self.max)
+    local leftSpaceInPercents = (1 - (self.getValue() / self.max)) > 0 and (1 - (self.getValue() / self.max)) or 0
     local resultheight = self.height * leftSpaceInPercents
+    print(self.x, self.height, resultheight > 0 and resultheight or 0, self.borders, self.getValue(), self.max)
     love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", self.x, self.y, self.height , self.width)
     love.graphics.setColor(self.bgColor)
-    love.graphics.rectangle("fill", self.x + (self.height - (resultheight > 0 and resultheight or 0)) +self.borders, self.y + 3, resultheight > 0 and resultheight - self.borders*2 or 0 , self.width - self.borders*2)
+    local height = self.height - (resultheight > 0 and resultheight or 0)
+    local realHeight = height > 0 and height or 0
+    love.graphics.rectangle("fill", self.x + realHeight + self.borders, self.y + 3, resultheight > self.borders*2 and (resultheight - self.borders*2) or 0 , self.width - self.borders*2)
     love.graphics.setColor(self.textColor)
     love.graphics.printf(self.tag, self.x + 3, self.y-5, self.height, 'center')
     love.graphics.setColor(1, 1, 1)
     self.particles:draw(self.tag)
+    self.max = self.getMax()
 
 end
 

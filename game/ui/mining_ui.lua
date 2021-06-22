@@ -33,7 +33,7 @@ local UI =
                 ParametersUI,
                 {
                     tag = "Gold",
-                    max = drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0,
+                    getMax = function () return drill.damage * drill.upgradeKoef > 0 and drill.damage * drill.upgradeKoef or 0 end,
                     color = { 1, 0.733, 0.133, 1 },
                     bgColor = {0, 0, 0},
                     textColor = {1, 1, 1, 0},
@@ -45,6 +45,7 @@ local UI =
                 }
             )
         )
+
         ParametersUI:registerObject(
             "2currentUpgrades",
             {left = 10, up = 35},
@@ -72,7 +73,7 @@ local UI =
                 ParametersUI,
                 {
                     tag = "Fuel",
-                    max = drill.maxFuel,
+                    getMax = function () return drill.maxFuel end,
                     color = config.colors.fuel,
                     bgColor = config.colors.white,
                     textColor = config.colors.black,
@@ -90,7 +91,7 @@ local UI =
                 ParametersUI,
                 {
                     tag = "Health",
-                    max = drill.maxHP,
+                    getMax = function () return drill.maxHP end,
                     color = config.colors.health,
                     bgColor = config.colors.white,
                     textColor = config.colors.black,
