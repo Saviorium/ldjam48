@@ -131,7 +131,6 @@ function World:upgradeDrill(upgradeCost)
     SoundManager:play('levelUp')
     self.cheatUgradeTimer = 0
     self.levelRised = 1
-    print(self.drill.damage, self.drill.blocksInFrame, self.drill.blocksInMove)
 end
 
 return World

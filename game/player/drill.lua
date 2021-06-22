@@ -50,7 +50,7 @@ local Drill =
         self.speedUpgrade = 0.10
         self.upgradeKoef = 10
         self.maxSpeed = 2
-        self.maxBlocksInFrame = 4
+        self.maxBlocksInFrame = 2
     end
 }
 
