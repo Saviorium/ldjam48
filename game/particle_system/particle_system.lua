@@ -18,7 +18,9 @@ local ParticleSystem = Class {
                 intensity = 0,
                 spawn = 0,
             }
-            self.drawCache[particleParams.spawnType] = {}
+            if not self.drawCache[particleParams.spawnType] then
+                self.drawCache[particleParams.spawnType] = {}
+            end
             self.drawCache[particleParams.spawnType][type] = self.particles[type].particles
         end
     end
