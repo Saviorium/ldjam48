@@ -11,7 +11,7 @@ local Drill =
         self.circleRange = 5
         self.blocksInFrame = 2
         self.blocksInMove = 1
-        self.rotationSpeed = 0.1
+        self.rotationSpeed = 0.08
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
         self.image = AssetManager:getAnimation("drill")
@@ -27,7 +27,7 @@ local Drill =
         self.maxAngles = 45
         self.startDegree = 60
 
-        self.fuelReduction = 0.008
+        self.fuelReduction = 0.03
         self.launched = false
         self.onAir = true
         self.damaged = false

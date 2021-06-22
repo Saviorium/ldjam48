@@ -353,7 +353,7 @@ local Resources = {
         name = "mythril",
         density = 0.8,
         damage = -0.05,
-        cost = 5,
+        cost = 3,
         color = { 0.3, 0.66, 0.48, 1 },
         generation = {
             from = 6000, to = 10000,
