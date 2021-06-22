@@ -9,7 +9,7 @@ local Drill =
     init = function(self, x, y)
         self.speed = 0
         self.circleRange = 5
-        self.blocksInFrame = 2
+        self.blocksInFrame = 1
         self.blocksInMove = 1
         self.rotationSpeed = 0.08
         self.position = Vector(x,y)
@@ -49,7 +49,8 @@ local Drill =
         self.damageUpgrade = 2
         self.speedUpgrade = 0.10
         self.upgradeKoef = 10
-        self.maxSpeed = 3
+        self.maxSpeed = 2
+        self.maxBlocksInFrame = 4
     end
 }
 

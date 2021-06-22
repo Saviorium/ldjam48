@@ -26,7 +26,6 @@ function ResourceBar:draw()
 
     local leftSpaceInPercents = (1 - (self.getValue() / self.max)) > 0 and (1 - (self.getValue() / self.max)) or 0
     local resultheight = self.height * leftSpaceInPercents
-    print(self.x, self.height, resultheight > 0 and resultheight or 0, self.borders, self.getValue(), self.max)
     love.graphics.setColor(self.color)
     love.graphics.rectangle("fill", self.x, self.y, self.height , self.width)
     love.graphics.setColor(self.bgColor)
