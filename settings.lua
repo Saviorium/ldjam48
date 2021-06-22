@@ -17,6 +17,13 @@ config = {
         renderRadius = 8, -- in chunks
         loadChunksRadius = 9,
         unloadChunksRadius = 15,
+    },
+    colors = {
+        white = {1,1,1},
+        black = {0,0,0},
+        health = {0.862, 0.125, 0.125},
+        fuel = {0.623, 0.984, 0.984},
+        gold = { 0.9, 0.8, 0.1 }
     }
 }
 

@@ -73,9 +73,9 @@ local UI =
                 {
                     tag = "Fuel",
                     max = drill.maxFuel,
-                    color = {0, 1, 1},
-                    bgColor = {1, 1, 1},
-                    textColor = {0, 0, 0},
+                    color = config.colors.fuel,
+                    bgColor = config.colors.white,
+                    textColor = config.colors.black,
                     particles = self.particles,
                     getValue = function()
                         return drill.fuel > 0 and drill.fuel or 0
@@ -91,9 +91,9 @@ local UI =
                 {
                     tag = "Health",
                     max = drill.maxHP,
-                    color = {1, 0, 0},
-                    bgColor = {1, 1, 1},
-                    textColor = {0, 0, 0},
+                    color = config.colors.health,
+                    bgColor = config.colors.white,
+                    textColor = config.colors.black,
                     particles = self.particles,
                     getValue = function()
                         return drill.HP > 0 and drill.HP or 0
@@ -163,9 +163,9 @@ local UI =
             )
         end
 
-        love.handlers['money'] = function() self.particles:spawn('money', 1) end
+        love.handlers['money'] = function() self.particles:spawn('money', 0.1) end
         love.handlers['damaged'] = function() self.particles:spawn('HP', 2) end
-        love.handlers['turn'] = function() self.particles:spawn('fuel', 1) end
+        love.handlers['turn'] = function() self.particles:spawn('fuel', 0.1) end
     end
 }
 
