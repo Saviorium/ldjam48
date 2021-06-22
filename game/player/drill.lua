@@ -108,7 +108,7 @@ function Drill:turn( direction )
         if not self.onAir and self.fuel > 0 and direction ~= 0  then
             love.event.push('turn')
             self.fuel = self.fuel - self.fuelReduction
-            self.angle = self.angle + self.rotationSpeed * direction
+            self.angle = self.angle + self.rotationSpeed * -direction
         end
         self.angle = self.angle + self.rotationSpeed * degradationKoef * (angle > 90 and 1 or -1)
     else
