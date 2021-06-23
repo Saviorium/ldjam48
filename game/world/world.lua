@@ -3,6 +3,7 @@ local Drill = require "game.player.drill"
 local Map = require "game.map.map"
 local Surface = require "game.surface.surface"
 local MiningUI = require "game.ui.mining_ui"
+local Camera = require "game.world.camera"
 
 
 local World =
@@ -14,6 +15,7 @@ local World =
         self.base = self.surface.base
         self.cheatUgradeTimer = 0
         self.levelRised = 0
+        self.camera = Camera()
 
         self.shader = love.graphics.newShader("data/shader/scanlines.fs")
     end
@@ -21,13 +23,13 @@ local World =
 
 function World:startDrilling()
     self.drill = Drill(0, 0)
-    self.target = self.drill
+    self:changeCameraTarget(self.drill)
     self.UI = MiningUI(self.drill)
 end
 
 function World:backToBase()
     self.drill = Drill(0, 0)
-    self.target = self.base
+    self:changeCameraTarget(self.base)
 end
 
 
@@ -51,6 +53,8 @@ function World:update(dt)
     if self.levelRised > 0 then
         self.levelRised = self.levelRised - dt
     end
+
+    self.camera:update(dt)
 end
 
 function World:draw()
@@ -62,7 +66,10 @@ function World:draw()
 	love.graphics.push()
 	love.graphics.translate(cx,cy)
     love.graphics.scale(self.viewScale)
-	love.graphics.translate(-self.target.position.x + (self.drill.damaged and (math.random(2) - 1) or 0), -self.target.position.y + (self.drill.damaged and (math.random(2) - 1) or 0))
+	self.camera:applyTransform()
+    if self.drill.damaged then
+        love.graphics.translate(math.random(2) - 1, math.random(2) - 1)
+    end
 
     self.surface:draw(self.drill.position)
     self.map:draw()
@@ -96,11 +103,11 @@ end
 function World:getWorldCoords(screenPoint)
     local unitsPerPixel = 1 / self.viewScale
 	local screenCenter = Vector(love.graphics.getWidth()/2, love.graphics.getHeight()/2)
-    return self.target.position + (screenPoint - screenCenter) * unitsPerPixel
+    return self.camera.position + (screenPoint - screenCenter) * unitsPerPixel
 end
 
 function World:changeCameraTarget(target)
-    self.target = target
+    self.camera:setTarget(target)
 end
 
 function World:mousepressed(x, y)
