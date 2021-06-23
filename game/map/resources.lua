@@ -456,7 +456,7 @@ local Resources = {
         id = 17,
         name = "diamond",
         density = 0.999,
-        cost = 200,
+        cost = 250,
         color = { 0.33, 0.93, 0.85, 1 },
         seed = 1336,
         generation = {
@@ -475,14 +475,14 @@ local Resources = {
             subnoise = {
                 type = "mult",
                 frequency = {
-                    { depth = 0, value = 0.02 },
+                    { depth = 0, value = 0.016 },
                 },
                 threshold = {
                     { depth = 7000, value = 1 },
-                    { depth = 8000, value = 0.999 },
-                    { depth = 8950, value = 0.99 },
-                    { depth = 9000, value = 0.999 },
-                    { depth = 9000, value = 0.999 },
+                    { depth = 8000, value = 0.998 },
+                    { depth = 8950, value = 0.984 },
+                    { depth = 9000, value = 0.998 },
+                    { depth = 9000, value = 0.998 },
                     { depth = 10000, value = 0.995 },
                 },
             }
@@ -572,7 +572,12 @@ local Resources = {
                     { depth = 0, value = 0.009 },
                 },
                 threshold = {
-                    { depth = 0, value = 0.99 },
+                    { depth = 6500, value = 1 },
+                    { depth = 7000, value = 0.995 },
+                    { depth = 9400, value = 0.98   },
+                    { depth = 9800, value = 0.96 },
+                    { depth = 10000, value = 0.99 },
+                    { depth = 10500, value = 1 },
                 },
                 subnoise = {
                     type = "sub",
@@ -627,7 +632,7 @@ local Resources = {
     [25] = {
         id = 25,
         name = "obsidian",
-        density = 0.994,
+        density = 0.993,
         cost = 0,
         seed = 1336,
         colorGeneration = {
