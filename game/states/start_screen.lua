@@ -17,10 +17,6 @@ end
 
 
 function startScreen:keypressed(key)
-    if key == 'space' then
-        love.graphics.setFont(self.defFont)
-        StateManager.switch(states.mining, self.world)
-    end
 end
 
 function startScreen:draw()
@@ -38,6 +34,11 @@ function startScreen:update(dt)
         self.load = not self.load
     else
         self.world.map:setCenter(self.world.drill:getPosition())
+    end
+    local inputs = UserInputManager:getInputSnapshot()
+    if inputs.action > 0 then
+        love.graphics.setFont(self.defFont)
+        StateManager.switch(states.mining, self.world)
     end
 end
 

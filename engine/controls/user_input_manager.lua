@@ -8,6 +8,7 @@ local UserInputManager = Class {
     init = function(self, inputConfig)
         InputGenerator.init(self)
         self.inputConfig = inputConfig
+        inputConfig.joystick = love.joystick.getJoysticks()[1]
         self.batonInstance = Baton.new(self.inputConfig)
     end
 }
