@@ -61,7 +61,7 @@ local UI =
                     textColor = {1, 1, 1, 1},
                     getText =
                         function()
-                            return "Level: " .. ((drill.damage - 20)/2 > 0 and (drill.damage - 20)/2 or 0)
+                            return "Level: " .. ((drill.damage - 20)/drill.damageUpgrade > 0 and (drill.damage - 20)/drill.damageUpgrade or 0)
                         end,
                 }
             )

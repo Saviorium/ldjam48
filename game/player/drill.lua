@@ -46,7 +46,7 @@ local Drill =
 
         self.frameDensity = 0
 
-        self.damageUpgrade = 2
+        self.damageUpgrade = 4
         self.speedUpgrade = 0.10
         self.upgradeKoef = 10
         self.maxSpeed = 2
@@ -212,6 +212,8 @@ function Drill:dig( map )
         elseif self.frameDensityAverage < self.mediumNoise then
             SoundManager:play('digMedium')
         elseif self.frameDensityAverage < self.highNoise then
+            SoundManager:play('digHigh')
+        else
             SoundManager:play('digHigh')
         end
 
