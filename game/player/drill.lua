@@ -22,7 +22,7 @@ local Drill =
         self.maxFuel = 100
         self.HP = 80
         self.fuel = 80
-        self.gold = 0
+        self.gold = 80000
 
         self.maxAngles = 45
         self.startDegree = 60
@@ -83,12 +83,12 @@ function Drill:drawDebug()
         love.graphics.setColor(255, 255, 255)
 
         love.graphics.setColor(255, 255, 0)
-        for ind, obj in pairs(self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 90)) do
+        for ind, obj in pairs(self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove-1), 120)) do
             love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
         end
         love.graphics.setColor(255, 255, 255)
         love.graphics.setColor(255, 0, 0)
-        for ind, obj in pairs(self:getCollisionSquares(1, 1)) do
+        for ind, obj in pairs(self:getCollisionSquares(2, 2)) do
             love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
         end
         love.graphics.setColor(255, 255, 255)
@@ -160,7 +160,7 @@ function Drill:dig( map )
 
         while ( frameDamage > 0 and (self.blocksMoved + self.blocksInMove) <= self.blocksInFrame ) do
             local squaresDiggedNum = 0
-            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 90)
+            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 30)
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
                 self.frameDensity = self.frameDensity + result.density

@@ -1,7 +1,7 @@
 local UIobject = require "engine.ui.uiparents.uiobject"
 local utf8 = require "utf8"
 local Label = require "engine.ui.label"
--- Кнопка, умеет нажиматься и писать при этом в лог, все кнопки по хорошему должны наследоваться от этого класса и накидывать кастомные действия и картинки
+
 local InputBox = Class {
     __includes = UIobject,
     init = function(self, parent, parameters)
