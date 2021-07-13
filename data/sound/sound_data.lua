@@ -5,6 +5,7 @@ return {
             --{ name = "dig1-2" },
         },
         options = {
+            volume = 0.3,
             maxSources = 1,
             volumeVariation = 0.1,
             pitchVariation = 0,
@@ -17,6 +18,7 @@ return {
             -- { name = "dig2-4" },
         },
         options = {
+            volume = 0.3,
             maxSources = 1,
             volumeVariation = 0.2,
             pitchVariation = 0.2,
@@ -27,6 +29,7 @@ return {
             { name = "dig3-6" },
         },
         options = {
+            volume = 0.3,
             maxSources = 1,
             volumeVariation = 0.2,
             pitchVariation = 0.2,
@@ -38,8 +41,8 @@ return {
         },
         options = {
             maxSources = 1,
-            volumeVariation = 0.2,
-            pitchVariation = 0.2,
+            volumeVariation = 0,
+            pitchVariation = 0,
         }
     },
     doNotLevelUp = {

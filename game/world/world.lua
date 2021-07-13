@@ -13,11 +13,8 @@ local World =
         self.viewScale = config.map.viewScale
         self.surface = Surface()
         self.base = self.surface.base
-        self.cheatUgradeTimer = 0
-        self.levelRised = 0
+        self.cheatUpgradeTimer = 0
         self.camera = Camera()
-
-        self.shader = love.graphics.newShader("data/shader/scanlines.fs")
     end
 }
 
@@ -45,13 +42,11 @@ function World:update(dt)
         StateManager.switch(states.end_screen, self)
     end
 
-    self.cheatUgradeTimer = self.cheatUgradeTimer + dt
+    self.cheatUpgradeTimer = self.cheatUpgradeTimer + dt
     local upgradeCost = self.drill.damage * self.drill.upgradeKoef
-    if self.drill.gold >= upgradeCost or (self.cheatUgradeTimer > 1 and Debug.unlockMoney) then
+    if self.drill.gold >= upgradeCost or (self.cheatUpgradeTimer > 1 and Debug.unlockMoney) then
         self:upgradeDrill(upgradeCost)
-    end
-    if self.levelRised > 0 then
-        self.levelRised = self.levelRised - dt
+        self.cheatUpgradeTimer = 0
     end
 
     self.camera:update(dt)
@@ -73,17 +68,9 @@ function World:draw()
 
     self.surface:draw(self.drill.position)
     self.map:draw()
-    if self.levelRised > 0 then
-        self.shader:send("time", love.timer.getTime()*10)
-        love.graphics.setShader(self.shader)
-    else
-        love.graphics.setShader()
-    end
     self.drill:draw()
-    love.graphics.setShader()
 
 	love.graphics.pop()
-
 
     if Debug and Debug.resourceDisplay and Debug.resourceDisplay > 0 then
         local mouseCoords = self:getWorldCoords(Vector(love.mouse.getPosition()))
@@ -131,13 +118,7 @@ function World:keypressed(key)
 end
 
 function World:upgradeDrill(upgradeCost)
-    self.drill.damage = self.drill.damage + self.drill.damageUpgrade
-    self.drill.blocksInFrame = self.drill.blocksInFrame + (self.drill.blocksInFrame == self.drill.maxBlocksInFrame and 0 or self.drill.speedUpgrade)
-    self.drill.blocksInMove = self.drill.blocksInMove + (self.drill.blocksInMove == self.drill.maxSpeed and 0 or self.drill.speedUpgrade)
-    self.drill.gold = self.drill.gold - upgradeCost
-    SoundManager:play('levelUp')
-    self.cheatUgradeTimer = 0
-    self.levelRised = 1
+    self.drill:upgrade(upgradeCost)
 end
 
 return World

@@ -60,7 +60,7 @@ local UIobject = Class {
             end
         end
         if parent then
-            print(self.height, self.parent.height, self.parent.tag, self.tag)
+            -- print(self.height, self.parent.height, self.parent.tag, self.tag)
         end
     end
 }

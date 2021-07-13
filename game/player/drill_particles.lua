@@ -73,7 +73,7 @@ return {
         size = 0.4,
         gravity = 1,
         friction = 0.7,
-        translate = Vector(5, 0),
+        translate = Vector(10, 0),
         angle = 0,
         speed = 5,
         timeToLive = 0.1,

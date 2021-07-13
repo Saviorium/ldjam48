@@ -8,21 +8,25 @@ local Drill =
     Class {
     init = function(self, x, y)
         self.speed = 0
-        self.circleRange = 5
-        self.blocksInFrame = 1
-        self.blocksInMove = 1
+        self.circleRange = 8
+        self.blocksInFrame = 1.5
+        self.blocksInMove = 1.5
         self.rotationSpeed = 0.08
         self.position = Vector(x,y)
         self.angle = 90*math.pi/180
         self.image = AssetManager:getAnimation("drill")
         self.image:setTag('dig')
         self.image:play()
+
+        self.imageHighlight = 0
+        self.fadeWhiteShader = love.graphics.newShader("data/shader/fade_white.fs")
+
         self.controller = PlayerController(self, UserInputManager)
         self.maxHP = 100
         self.maxFuel = 100
         self.HP = 80
         self.fuel = 80
-        self.gold = 80000
+        self.gold = 0
 
         self.maxAngles = 45
         self.startDegree = 60
@@ -69,7 +73,15 @@ end
 
 function Drill:draw()
     self.particles:draw("behind")
+
+    if self.imageHighlight > 0 then
+        self.fadeWhiteShader:send("intensity", math.abs(math.sin(self.imageHighlight * 3.14 * 3)))
+        love.graphics.setShader(self.fadeWhiteShader)
+        self.imageHighlight = self.imageHighlight - 0.075
+    end
     self.image:draw(self.position.x, self.position.y, self.angle, 1, 1, self.width, self.height)
+    love.graphics.setShader()
+
     self.particles:draw("front")
     self:drawDebug()
 end
@@ -89,7 +101,7 @@ function Drill:drawDebug()
         love.graphics.setColor(255, 255, 255)
         love.graphics.setColor(255, 0, 0)
         for ind, obj in pairs(self:getCollisionSquares(2, 2)) do
-            love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
+            --love.graphics.rectangle( 'fill', obj.x, obj.y, 1, 1)
         end
         love.graphics.setColor(255, 255, 255)
 
@@ -119,6 +131,15 @@ end
 
 function Drill:start()
     self.launched = true
+end
+
+function Drill:upgrade(upgradeCost)
+    self.damage = self.damage + self.damageUpgrade
+    self.blocksInFrame = self.blocksInFrame + (self.blocksInFrame == self.maxBlocksInFrame and 0 or self.speedUpgrade)
+    self.blocksInMove = self.blocksInMove + (self.blocksInMove == self.maxSpeed and 0 or self.speedUpgrade)
+    self.gold = self.gold - upgradeCost
+    SoundManager:play('levelUp')
+    self.imageHighlight = 1
 end
 
 function Drill:getPosition()
@@ -160,7 +181,7 @@ function Drill:dig( map )
 
         while ( frameDamage > 0 and (self.blocksMoved + self.blocksInMove) <= self.blocksInFrame ) do
             local squaresDiggedNum = 0
-            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 30)
+            local digArea = self:getCollisionSquares(1, 1, self.circleRange-(self.blocksInMove), 120)
             for ind, pos in pairs(digArea) do
                 local result = map:digVoxel(pos)
                 self.frameDensity = self.frameDensity + result.density

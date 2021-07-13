@@ -33,7 +33,7 @@ settings = {
 
 Debug = {
     LogLevel = 0,
-    showFps = 1,
+    showFps = 0,
     drill = 0,
     drawUiDebug = false,
     drawDrillUIDebug = false,
